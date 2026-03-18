@@ -231,7 +231,7 @@ export const projects: ProjectData[] = [
     hasAnimation: true,
     downloadLinks: [
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/ufxJNRdYVVKLBLwN.pdf",
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/PHqaAHNwmAkQIhyD.pdf",
         label: "Graduate Project Report",
         fileType: "PDF",
         fileSize: "1.1 MB",
