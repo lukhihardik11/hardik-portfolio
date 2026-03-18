@@ -35,6 +35,10 @@ export interface ProjectData {
   galleryImages?: { url: string; caption: string }[];
   /** Thumbnail image URL override (for projects without frame animation) */
   thumbnailUrl?: string;
+  /** Downloadable files (reports, presentations, etc.) */
+  downloadLinks?: { url: string; label: string; fileType: string; fileSize: string }[];
+  /** Project gallery images shown below description (actual fabrication/work photos) */
+  projectGallery?: { url: string; caption: string }[];
 }
 
 export const projects: ProjectData[] = [
@@ -252,6 +256,42 @@ export const projects: ProjectData[] = [
     accentColor: "#f59e0b",
     hasAnimation: true,
     animBgColor: "#262626",
+    downloadLinks: [
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/sBOlpHyfyxclTuQo.pptx",
+        label: "Final Presentation",
+        fileType: "PPTX",
+        fileSize: "1.7 MB",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/TKzFAxchitgHnGHO.pdf",
+        label: "Graduate Project Report",
+        fileType: "PDF",
+        fileSize: "1.1 MB",
+      },
+    ],
+    projectGallery: [
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/rOvafSqknwsYdWjo.jpeg",
+        caption: "SolidWorks 3D CAD model — complete C-Press assembly with hydraulic cylinder, C-frame, adjustable stud, and base plate",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/BRbhiDEWXWBQdnvz.jpeg",
+        caption: "FEA stress analysis (von Mises) — peak stress 255 MPa vs. EN8 yield strength 248 MPa, confirming structural adequacy",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/HzgnJznKWrXmysnH.jpeg",
+        caption: "Engineering drawing with dimensions — C-frame cross-section (500×473mm), Section D-D detail, and side profile",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/mZyqyYofgYLlHDnD.jpeg",
+        caption: "Fabricated hydraulic cylinder assembly — machined aluminum body with piston rod, flange mount, and O-ring seal",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/vwxduDRgORsqAvtm.jpeg",
+        caption: "Painted hydraulic cylinder — finished component with white powder coat, ready for assembly into the C-frame",
+      },
+    ],
   },
   {
     id: "octolapse",

@@ -6,7 +6,7 @@
 import { useParams, Link } from "wouter";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ExternalLink, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ExternalLink, ChevronLeft, ChevronRight, X, Download, FileText, Presentation, ZoomIn } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { getFrameUrls } from "@/data/frameUrlsIndex";
 import ProjectExplodedView from "@/components/ProjectExplodedView";
@@ -178,6 +178,59 @@ export default function ProjectPage() {
               {project.longDescription}
             </p>
           </motion.div>
+
+          {/* Download links */}
+          {project.downloadLinks && project.downloadLinks.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              className="mb-16"
+            >
+              <h3 className="text-lg font-semibold mb-4">Downloads</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {project.downloadLinks.map((dl, i) => (
+                  <a
+                    key={i}
+                    href={dl.url}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-xl no-underline transition-all hover:scale-[1.02]"
+                    style={{
+                      background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+                    }}
+                  >
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                      style={{
+                        background: `${project.accentColor}15`,
+                        color: project.accentColor,
+                      }}
+                    >
+                      {dl.fileType === 'PDF' ? <FileText size={20} /> : <Presentation size={20} />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground">{dl.label}</div>
+                      <div className="text-xs text-muted-foreground/60">{dl.fileType} · {dl.fileSize}</div>
+                    </div>
+                    <Download size={16} className="text-muted-foreground/40 shrink-0" />
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Project gallery */}
+          {project.projectGallery && project.projectGallery.length > 0 && (
+            <ProjectInlineGallery
+              images={project.projectGallery}
+              accentColor={project.accentColor}
+              theme={theme}
+            />
+          )}
 
           {/* Component breakdown */}
           <motion.div
@@ -418,6 +471,163 @@ function ProjectGalleryHero({
             <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/60">
               {images[lightboxIndex].caption}
             </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+/** Inline project gallery — shows actual work photos below description */
+function ProjectInlineGallery({
+  images,
+  accentColor,
+  theme,
+}: {
+  images: { url: string; caption: string }[];
+  accentColor: string;
+  theme: string;
+}) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (i: number) => {
+    setLightboxIndex(i);
+    setLightboxOpen(true);
+  };
+
+  const nextLightbox = () =>
+    setLightboxIndex((i) => (i + 1) % images.length);
+  const prevLightbox = () =>
+    setLightboxIndex((i) => (i - 1 + images.length) % images.length);
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        className="mb-16"
+      >
+        <h3 className="text-lg font-semibold mb-6">Project Gallery</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {images.map((img, i) => (
+            <motion.div
+              key={i}
+              className="group relative rounded-xl overflow-hidden cursor-pointer"
+              style={{
+                background:
+                  theme === "dark"
+                    ? "rgba(255,255,255,0.03)"
+                    : "rgba(0,0,0,0.02)",
+                border: `1px solid ${
+                  theme === "dark"
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.06)"
+                }`,
+              }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => openLightbox(i)}
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={img.url}
+                  alt={img.caption}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                <ZoomIn
+                  size={24}
+                  className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
+              {/* Caption */}
+              <div className="p-3">
+                <p className="text-xs text-muted-foreground/70 leading-relaxed">
+                  {img.caption}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <button
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+              onClick={() => setLightboxOpen(false)}
+            >
+              <X size={20} />
+            </button>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prevLightbox();
+                  }}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextLightbox();
+                  }}
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+
+            <img
+              src={images[lightboxIndex].url}
+              alt={images[lightboxIndex].caption}
+              className="max-w-[90vw] max-h-[85vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/60 max-w-lg text-center px-4">
+              {images[lightboxIndex].caption}
+            </p>
+
+            {/* Dot indicators */}
+            <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex gap-1.5">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex(i);
+                  }}
+                  className="w-2 h-2 rounded-full transition-all"
+                  style={{
+                    backgroundColor:
+                      i === lightboxIndex
+                        ? accentColor
+                        : "rgba(255,255,255,0.3)",
+                    transform:
+                      i === lightboxIndex ? "scale(1.3)" : "scale(1)",
+                  }}
+                />
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
