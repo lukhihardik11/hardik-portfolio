@@ -229,6 +229,36 @@ export const projects: ProjectData[] = [
     color: "oklch(0.60 0.18 350)",
     accentColor: "#f472b6",
     hasAnimation: true,
+    downloadLinks: [
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/ufxJNRdYVVKLBLwN.pdf",
+        label: "Graduate Project Report",
+        fileType: "PDF",
+        fileSize: "1.1 MB",
+      },
+    ],
+    projectGallery: [
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/GUAEENAhyDMKIWii.png",
+        caption: "FEM simulation — Delamination of 25 \u03bcm Acrylic coating at varying cohesive stiffness (3D and 2D views)",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/zwweZBlSryfcuYan.png",
+        caption: "FEM simulation — Delamination of 50 \u03bcm Acrylic coating showing progressive interfacial failure",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/UFQyqnJpwEXzZPfV.png",
+        caption: "FEM simulation — Delamination of 25 \u03bcm TiN coating with cohesive zone model results",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/HeGYUlXNXLfZpGDR.png",
+        caption: "Scratch normal load vs. cohesive stiffness — comparison across Acrylic and TiN coatings at 25 \u03bcm and 50 \u03bcm",
+      },
+      {
+        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/vZZtGEVnXHHigcGw.png",
+        caption: "Bar chart comparison — scratch normal load as a function of coating thickness for Acrylic and TiN substrates",
+      },
+    ],
   },
   {
     id: "cpress",
@@ -262,12 +292,6 @@ export const projects: ProjectData[] = [
         label: "Final Presentation",
         fileType: "PPTX",
         fileSize: "1.7 MB",
-      },
-      {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/TKzFAxchitgHnGHO.pdf",
-        label: "Graduate Project Report",
-        fileType: "PDF",
-        fileSize: "1.1 MB",
       },
     ],
     projectGallery: [
