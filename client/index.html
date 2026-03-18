@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Hardik Lukhi — Hardware Engineer</title>
+    <meta name="description" content="Hardware Engineer specializing in EMG wearable technology. 8+ years at Meta, Stryker, Abbott, and Terumo." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <script>
+      // Force light mode on first visit for the warm studio aesthetic
+      (function(){
+        var t = localStorage.getItem('theme');
+        if(t === 'dark') document.documentElement.classList.add('dark');
+        else {
+          document.documentElement.classList.remove('dark');
+          // If no theme stored, ensure light mode
+          if(!t) localStorage.setItem('theme', 'light');
+        }
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script
+      defer
+      src="%VITE_ANALYTICS_ENDPOINT%/umami"
+      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+  </body>
+
+</html>
