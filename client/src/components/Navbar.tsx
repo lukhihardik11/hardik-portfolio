@@ -1,6 +1,6 @@
 /*
  * NAVBAR — Gel/Glass aesthetic with translucent pill nav buttons
- * Batch 2: Removed "DARK"/"Light" text label, adjusted toggle spacing
+ * Batch 2 v3: Unified toggle sizing, both use GelToggle architecture
  */
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,6 +31,10 @@ const GEL_COLORS = [
 
 const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 18, mass: 0.8 };
 const jellyBtnSpring = { type: 'spring' as const, stiffness: 600, damping: 12, mass: 0.4 };
+
+/* Unified toggle size — both toggles use the same size parameter */
+const TOGGLE_SIZE = 36;
+const TOGGLE_SIZE_MOBILE = 30;
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,6 +80,7 @@ export function Navbar() {
   };
 
   const isDark = theme === 'dark';
+  const sz = isMobile ? TOGGLE_SIZE_MOBILE : TOGGLE_SIZE;
 
   return (
     <>
@@ -98,7 +103,7 @@ export function Navbar() {
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
               transition={btnSpring}
-              className="flex items-center gap-2 no-underline shrink-0"
+              className="no-jelly flex items-center gap-2 no-underline shrink-0"
             >
               <div
                 className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-white text-[10px] sm:text-xs font-bold relative overflow-hidden"
@@ -136,7 +141,7 @@ export function Navbar() {
                       : { scale: 0.96 }
                     }
                     transition={jellyMode ? jellyBtnSpring : btnSpring}
-                    className="relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none"
+                    className="no-jelly relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none"
                     style={isActive ? {
                       background: `linear-gradient(145deg, ${gelColor.bg}, oklch(from ${gelColor.bg} calc(l - 0.08) c h))`,
                       color: isDark ? 'oklch(0.98 0 0)' : gelColor.text,
@@ -167,18 +172,18 @@ export function Navbar() {
             </div>
 
             {/* Right side controls — toggles + mail + hamburger */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              {/* Jelly Mode toggle — capsule form, hidden on small mobile */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {/* Jelly Mode toggle — hidden on small mobile */}
               <div className="hidden sm:block">
-                <JellyModeToggle size={isMobile ? 32 : 40} />
+                <JellyModeToggle size={sz} />
               </div>
 
-              {/* Dark/Light toggle — capsule with WebGL blob */}
+              {/* Dark/Light toggle */}
               {toggleTheme && (
                 <JellySwitch
                   checked={theme === 'dark'}
                   onChange={() => toggleTheme()}
-                  size={isMobile ? 36 : 48}
+                  size={sz}
                 />
               )}
 
@@ -189,7 +194,7 @@ export function Navbar() {
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.92 }}
                 transition={btnSpring}
-                className="hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0"
+                className="no-jelly hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0"
                 style={{
                   background: `linear-gradient(145deg, oklch(0.65 0.16 230 / 70%), oklch(0.48 0.22 230 / 75%))`,
                   border: 'none',
@@ -209,7 +214,7 @@ export function Navbar() {
                 whileTap={{ scale: 0.95 }}
                 transition={btnSpring}
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0"
+                className="no-jelly lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={16} /> : <Menu size={16} />}
@@ -257,7 +262,7 @@ export function Navbar() {
                       : { scale: 0.96 }
                     }
                     onClick={() => nav(link.href)}
-                    className="px-6 py-2.5 text-lg font-semibold rounded-full cursor-pointer border-none outline-none"
+                    className="no-jelly px-6 py-2.5 text-lg font-semibold rounded-full cursor-pointer border-none outline-none"
                     style={{
                       background: `linear-gradient(145deg, ${gelColor.bg}, oklch(from ${gelColor.bg} calc(l - 0.08) c h))`,
                       color: isDark ? 'oklch(0.98 0 0)' : gelColor.text,
@@ -277,14 +282,14 @@ export function Navbar() {
               <div className="flex flex-col items-center gap-4 mt-4 pt-4 border-t border-foreground/10">
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-muted-foreground">Jelly Mode</span>
-                  <JellyModeToggle size={32} />
+                  <JellyModeToggle size={30} />
                 </div>
                 <motion.button
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   onClick={() => nav('#contact')}
-                  className="flex items-center justify-center w-11 h-11 rounded-full text-white"
+                  className="no-jelly flex items-center justify-center w-11 h-11 rounded-full text-white"
                   style={{
                     background: `linear-gradient(145deg, oklch(0.65 0.16 230 / 90%), oklch(0.48 0.22 230 / 95%))`,
                     border: '2px solid oklch(1 0 0 / 30%)',
