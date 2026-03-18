@@ -174,7 +174,7 @@ export function Navbar() {
             {/* Right side controls — toggles + mail + hamburger */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {/* Jelly Mode toggle — hidden on small mobile */}
-              <div className="hidden sm:block">
+              <div className="hidden sm:flex items-center">
                 <JellyModeToggle size={sz} />
               </div>
 

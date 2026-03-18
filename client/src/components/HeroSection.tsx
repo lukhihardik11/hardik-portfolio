@@ -114,6 +114,10 @@ export function HeroSection() {
       document.querySelectorAll('#hero canvas').forEach((c) => {
         (c as HTMLCanvasElement).style.background = 'transparent';
       });
+      /* Disable Spline watermark overlay (free-tier logo pass) */
+      if (splineApp?._renderer?.pipeline?.logoOverlayPass) {
+        splineApp._renderer.pipeline.logoOverlayPass.enabled = false;
+      }
     } catch (e) {
       console.warn('Could not set Spline transparent bg:', e);
     }
@@ -193,7 +197,7 @@ export function HeroSection() {
               <p className="text-lg sm:text-xl font-semibold text-foreground/80 leading-relaxed tracking-[-0.01em]">
                 Project Manager | Senior Mechanical Engineer
               </p>
-              <p className="text-[11px] sm:text-xs font-medium text-foreground/50 tracking-wide mb-1">
+              <p className="text-[11px] sm:text-xs font-medium text-foreground/70 tracking-wide mb-1">
                 Hardware Sustainment & Test Engineering
               </p>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-lg">
@@ -255,7 +259,7 @@ export function HeroSection() {
                 <span
                   key={c.name}
                   className={`text-[10px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl cursor-default ${
-                    c.active ? 'jelly-badge-teal' : 'glass-pill text-foreground/60'
+                    c.active ? 'jelly-badge-teal' : 'glass-pill text-foreground/80'
                   }`}
                 >
                   {c.name}
