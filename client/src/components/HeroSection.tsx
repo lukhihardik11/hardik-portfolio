@@ -151,7 +151,7 @@ export function HeroSection() {
 
       <motion.div
         style={{ opacity, y, skewX: springSkew, scaleX: springSX, scaleY: springSY }}
-        className="container relative z-10 pt-32 pb-28"
+        className="container relative z-10 pt-24 pb-20"
       >
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 items-center min-h-[65vh]">
           {/* Left column — text content */}

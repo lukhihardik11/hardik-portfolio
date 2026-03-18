@@ -1,13 +1,35 @@
 /**
  * JellyBackground — SVG Gooey Metaball Background + Jelly Cursor
  *
- * The cursor blobs now use theme-aware jelly colors (amber + teal)
- * that adapt to dark/light mode, matching the overall jelly design system.
+ * Improvements:
+ *   - Proper touch device detection (iPad, tablets, phones)
+ *   - Cursor blob only on desktop with mouse (not touch)
+ *   - Reduced opacity and size for less intrusive feel
+ *   - Theme-aware jelly colors (amber + teal)
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 import { useJellyMode } from '@/contexts/JellyModeContext';
 import { useTheme } from '@/contexts/ThemeContext';
+
+/**
+ * Detect if the device is primarily touch-based.
+ * This catches iPads, tablets, and phones — even iPads that report as desktop.
+ */
+function isTouchDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  // Check for touch support
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  // Check for coarse pointer (touch screens)
+  const hasCoarsePointer = window.matchMedia?.('(pointer: coarse)')?.matches;
+  // Check for hover support (touch devices typically don't have hover)
+  const hasNoHover = window.matchMedia?.('(hover: none)')?.matches;
+  // iPad detection (iPadOS reports as Mac)
+  const isIPad = /iPad/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  return isIPad || (hasTouch && (hasCoarsePointer || hasNoHover));
+}
 
 /* ─── Jelly Cursor ─── */
 function JellyCursor() {
@@ -16,12 +38,12 @@ function JellyCursor() {
   const mouseX = useMotionValue(-200);
   const mouseY = useMotionValue(-200);
 
-  const springX  = useSpring(mouseX, { stiffness: 120, damping: 12, mass: 1.0 });
-  const springY  = useSpring(mouseY, { stiffness: 120, damping: 12, mass: 1.0 });
-  const trailX   = useSpring(mouseX, { stiffness: 60,  damping: 18, mass: 1.5 });
-  const trailY   = useSpring(mouseY, { stiffness: 60,  damping: 18, mass: 1.5 });
-  const trail3X  = useSpring(mouseX, { stiffness: 35,  damping: 22, mass: 2.0 });
-  const trail3Y  = useSpring(mouseY, { stiffness: 35,  damping: 22, mass: 2.0 });
+  const springX  = useSpring(mouseX, { stiffness: 100, damping: 14, mass: 1.0 });
+  const springY  = useSpring(mouseY, { stiffness: 100, damping: 14, mass: 1.0 });
+  const trailX   = useSpring(mouseX, { stiffness: 50,  damping: 20, mass: 1.5 });
+  const trailY   = useSpring(mouseY, { stiffness: 50,  damping: 20, mass: 1.5 });
+  const trail3X  = useSpring(mouseX, { stiffness: 30,  damping: 24, mass: 2.0 });
+  const trail3Y  = useSpring(mouseY, { stiffness: 30,  damping: 24, mass: 2.0 });
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => { mouseX.set(e.clientX); mouseY.set(e.clientY); };
@@ -29,22 +51,22 @@ function JellyCursor() {
     return () => window.removeEventListener('mousemove', onMove);
   }, [mouseX, mouseY]);
 
-  /* Theme-aware cursor colors */
+  /* Theme-aware cursor colors — more subtle */
   const colors = isDark
-    ? { main: 'oklch(0.62 0.18 230 / 70%)', trail: 'oklch(0.78 0.15 65 / 55%)', tail: 'oklch(0.55 0.16 230 / 45%)' }
-    : { main: 'oklch(0.72 0.16 65 / 60%)',  trail: 'oklch(0.55 0.18 230 / 45%)', tail: 'oklch(0.75 0.12 65 / 35%)' };
+    ? { main: 'oklch(0.62 0.18 230 / 50%)', trail: 'oklch(0.78 0.15 65 / 35%)', tail: 'oklch(0.55 0.16 230 / 25%)' }
+    : { main: 'oklch(0.72 0.16 65 / 40%)',  trail: 'oklch(0.55 0.18 230 / 30%)', tail: 'oklch(0.75 0.12 65 / 20%)' };
 
   return (
     <div
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 9999, filter: 'url(#gooey-cursor)', opacity: 0.7 }}
+      style={{ zIndex: 9999, filter: 'url(#gooey-cursor)', opacity: 0.5 }}
     >
       {/* Main cursor blob */}
       <motion.div
         className="fixed pointer-events-none rounded-full"
         style={{
           x: springX, y: springY,
-          width: 45, height: 45, marginLeft: -22, marginTop: -22,
+          width: 36, height: 36, marginLeft: -18, marginTop: -18,
           background: colors.main,
           willChange: 'transform',
         }}
@@ -54,7 +76,7 @@ function JellyCursor() {
         className="fixed pointer-events-none rounded-full"
         style={{
           x: trailX, y: trailY,
-          width: 60, height: 60, marginLeft: -30, marginTop: -30,
+          width: 50, height: 50, marginLeft: -25, marginTop: -25,
           background: colors.trail,
           willChange: 'transform',
         }}
@@ -64,7 +86,7 @@ function JellyCursor() {
         className="fixed pointer-events-none rounded-full"
         style={{
           x: trail3X, y: trail3Y,
-          width: 35, height: 35, marginLeft: -17, marginTop: -17,
+          width: 28, height: 28, marginLeft: -14, marginTop: -14,
           background: colors.tail,
           willChange: 'transform',
         }}
@@ -97,7 +119,7 @@ function MetaballBlobs() {
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
       style={{
         filter: 'url(#gooey-bg)',
-        opacity: isDark ? 0.3 : 0.2,
+        opacity: isDark ? 0.25 : 0.15,
         willChange: 'contents',
       }}
     >
@@ -122,11 +144,12 @@ function MetaballBlobs() {
 
 export function JellyBackground() {
   const { jellyMode } = useJellyMode();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
+    setIsTouch(isTouchDevice());
+    // Re-check on resize (orientation change on tablets)
+    const onResize = () => setIsTouch(isTouchDevice());
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -159,7 +182,8 @@ export function JellyBackground() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <MetaballBlobs />
-            {!isMobile && <JellyCursor />}
+            {/* Only show cursor blob on non-touch devices */}
+            {!isTouch && <JellyCursor />}
           </motion.div>
         )}
       </AnimatePresence>

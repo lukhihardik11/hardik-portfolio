@@ -45,15 +45,15 @@
 }
 
 /* ==============================
-   LIGHT MODE
+   LIGHT MODE — warm pearl
    ============================== */
 :root {
   --radius: 1.5rem;
   --exploded-label-bg: rgba(255, 255, 255, 0.85);
   --exploded-label-fg: rgba(20, 25, 35, 0.9);
-  --background: oklch(0.96 0.004 80);
+  --background: oklch(0.965 0.004 80);
   --foreground: oklch(0.15 0.015 60);
-  --card: oklch(1 0 0 / 5%);
+  --card: oklch(0.98 0.003 80 / 60%);
   --card-foreground: oklch(0.15 0.015 60);
   --popover: oklch(0.98 0.003 80 / 90%);
   --popover-foreground: oklch(0.15 0.015 60);
@@ -62,7 +62,7 @@
   --secondary: oklch(0.92 0.004 80 / 80%);
   --secondary-foreground: oklch(0.30 0.015 60);
   --muted: oklch(0.92 0.004 80);
-  --muted-foreground: oklch(0.50 0.010 60);
+  --muted-foreground: oklch(0.45 0.012 60);
   --accent: oklch(0.75 0.15 65);
   --accent-foreground: oklch(0.18 0.03 60);
   --destructive: oklch(0.55 0.24 27);
@@ -86,14 +86,14 @@
 
   --jelly-teal: oklch(0.55 0.18 230);
   --jelly-amber: oklch(0.75 0.15 65);
-  --jelly-surface: oklch(1 0 0 / 1%);
-  --jelly-surface-hover: oklch(1 0 0 / 2%);
-  --jelly-border: oklch(1 0 0 / 12%);
-  --jelly-border-hover: oklch(1 0 0 / 18%);
-  --jelly-shadow-ambient: oklch(0.20 0.01 60 / 4%);
-  --jelly-shadow-deep: oklch(0.20 0.01 60 / 8%);
-  --jelly-highlight: oklch(1 0 0 / 18%);
-  --jelly-inner-shadow: oklch(0 0 0 / 2%);
+  --jelly-surface: oklch(0.99 0.002 80 / 55%);
+  --jelly-surface-hover: oklch(0.99 0.002 80 / 70%);
+  --jelly-border: oklch(0 0 0 / 6%);
+  --jelly-border-hover: oklch(0 0 0 / 10%);
+  --jelly-shadow-ambient: oklch(0.20 0.01 60 / 8%);
+  --jelly-shadow-deep: oklch(0.20 0.01 60 / 14%);
+  --jelly-highlight: oklch(1 0 0 / 50%);
+  --jelly-inner-shadow: oklch(0 0 0 / 4%);
   --jelly-caustic-teal: oklch(0.55 0.18 230 / 20%);
   --jelly-caustic-amber: oklch(0.75 0.15 65 / 20%);
   --jelly-glass-thickness: 1px;
@@ -102,20 +102,20 @@
 }
 
 /* ==============================
-   DARK MODE
+   DARK MODE — deep charcoal
    ============================== */
 .dark {
   --exploded-label-bg: rgba(20, 25, 35, 0.8);
   --exploded-label-fg: rgba(255, 255, 255, 0.85);
   --background: oklch(0.14 0.008 60);
   --foreground: oklch(0.93 0.006 80);
-  --card: oklch(1 0 0 / 1%);
+  --card: oklch(1 0 0 / 4%);
   --card-foreground: oklch(0.93 0.006 80);
   --popover: oklch(0.18 0.008 60 / 95%);
   --popover-foreground: oklch(0.93 0.006 80);
   --primary: oklch(0.62 0.18 230);
   --primary-foreground: oklch(0.10 0.005 60);
-  --secondary: oklch(1 0 0 / 1%);
+  --secondary: oklch(1 0 0 / 3%);
   --secondary-foreground: oklch(0.78 0.006 80);
   --muted: oklch(0.22 0.008 60);
   --muted-foreground: oklch(0.55 0.008 80);
@@ -123,8 +123,8 @@
   --accent-foreground: oklch(0.14 0.02 60);
   --destructive: oklch(0.60 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 3%);
-  --input: oklch(1 0 0 / 4%);
+  --border: oklch(1 0 0 / 6%);
+  --input: oklch(1 0 0 / 6%);
   --ring: oklch(0.62 0.18 230);
   --chart-1: oklch(0.62 0.18 230);
   --chart-2: oklch(0.75 0.15 65);
@@ -142,14 +142,14 @@
 
   --jelly-teal: oklch(0.62 0.18 230);
   --jelly-amber: oklch(0.78 0.15 65);
-  --jelly-surface: oklch(1 0 0 / 1%);
-  --jelly-surface-hover: oklch(1 0 0 / 2%);
-  --jelly-border: oklch(1 0 0 / 6%);
-  --jelly-border-hover: oklch(1 0 0 / 10%);
-  --jelly-shadow-ambient: oklch(0 0 0 / 10%);
-  --jelly-shadow-deep: oklch(0 0 0 / 18%);
-  --jelly-highlight: oklch(1 0 0 / 8%);
-  --jelly-inner-shadow: oklch(0 0 0 / 8%);
+  --jelly-surface: oklch(1 0 0 / 3%);
+  --jelly-surface-hover: oklch(1 0 0 / 5%);
+  --jelly-border: oklch(1 0 0 / 8%);
+  --jelly-border-hover: oklch(1 0 0 / 14%);
+  --jelly-shadow-ambient: oklch(0 0 0 / 15%);
+  --jelly-shadow-deep: oklch(0 0 0 / 25%);
+  --jelly-highlight: oklch(1 0 0 / 12%);
+  --jelly-inner-shadow: oklch(0 0 0 / 12%);
   --jelly-caustic-teal: oklch(0.62 0.18 230 / 20%);
   --jelly-caustic-amber: oklch(0.78 0.15 65 / 20%);
   --jelly-glass-thickness: 1px;
@@ -198,7 +198,7 @@
 }
 
 /* ==============================
-   JELLY BACKGROUND — Subtle ambient gradients
+   BODY AMBIENT GRADIENTS
    ============================== */
 body {
   background-image:
@@ -214,52 +214,51 @@ body {
 }
 
 /* ==============================
-   JELLY CARD — 3D glass with NO CSS transform transitions
-   Framer Motion handles all transforms — no fighting, no blinking
+   JELLY CARD — Premium frosted glass with visible depth
+   OFF state: Elegant frosted glass with soft shadows
    ============================== */
 .jelly-card {
-  /* Near-invisible glass — organic soft edges */
   background: var(--jelly-surface);
-  backdrop-filter: blur(6px) saturate(1.05);
-  -webkit-backdrop-filter: blur(6px) saturate(1.05);
-  /* Soft glow border — no hard edges */
-  border: none;
-  border-radius: 1.5rem;
+  backdrop-filter: blur(12px) saturate(1.15);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  border: 1px solid var(--jelly-border);
+  border-radius: 1.25rem;
   box-shadow:
-    /* Soft outer glow — organic edge */
-    0 0 1px var(--jelly-border),
-    0 0 8px oklch(1 0 0 / 3%),
-    /* Faint ambient */
-    0 8px 24px -8px var(--jelly-shadow-ambient);
-  transition: box-shadow 0.4s ease-out, background 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    0 1px 0 var(--jelly-highlight),
+    0 4px 16px -4px var(--jelly-shadow-ambient),
+    0 12px 32px -8px var(--jelly-shadow-deep);
+  transition: box-shadow 0.4s ease-out, background 0.4s ease-out, border-color 0.4s ease-out;
   position: relative;
   will-change: transform;
   transform-style: preserve-3d;
   overflow: hidden;
 }
-/* Specular highlight overlay — very faint top shimmer */
+/* Top specular highlight — convex glass feel */
 .jelly-card::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
   border-radius: inherit;
-  background:
-    radial-gradient(ellipse 50% 30% at 30% 5%, oklch(1 0 0 / 4%) 0%, transparent 70%);
+  background: linear-gradient(180deg, var(--jelly-highlight) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
+  opacity: 0.5;
 }
-/* Bottom edge — removed for organic look */
 .jelly-card::after {
   display: none;
 }
-/* Hover — very subtle glow increase */
+/* Hover — lift and glow */
 .jelly-card:hover {
   background: var(--jelly-surface-hover);
-  transition: box-shadow 0.2s ease-in, background 0.2s ease-in, transform 0.2s ease-in;
+  border-color: var(--jelly-border-hover);
+  transition: box-shadow 0.2s ease-in, background 0.2s ease-in, border-color 0.2s ease-in;
   box-shadow:
-    0 0 2px var(--jelly-border-hover),
-    0 0 12px oklch(1 0 0 / 4%),
-    0 12px 32px -8px var(--jelly-shadow-deep);
+    0 1px 0 var(--jelly-highlight),
+    0 8px 24px -4px var(--jelly-shadow-deep),
+    0 16px 48px -8px var(--jelly-shadow-ambient);
 }
 
 /* ==============================
@@ -301,7 +300,7 @@ body {
 }
 
 /* ==============================
-   JELLY BUTTONS — 3D translucent jelly with subsurface glow
+   JELLY BUTTONS — Premium gel capsules
    ============================== */
 .jelly-btn {
   display: inline-flex;
@@ -316,10 +315,8 @@ body {
   transform-origin: center center;
   position: relative;
   overflow: hidden;
-  /* NO transform transition — Framer Motion handles it */
   transition: box-shadow 0.5s ease-out, background 0.5s ease-out;
 }
-/* Specular highlight on all jelly buttons — very subtle */
 .jelly-btn::before {
   content: '';
   position: absolute;
@@ -329,23 +326,22 @@ body {
   height: 45%;
   border-radius: 0 0 50% 50%;
   background:
-    radial-gradient(ellipse 50% 80% at 30% 20%, oklch(1 0 0 / 20%) 0%, transparent 60%),
-    linear-gradient(180deg, oklch(1 0 0 / 15%) 0%, oklch(1 0 0 / 0%) 100%);
+    radial-gradient(ellipse 50% 80% at 30% 20%, oklch(1 0 0 / 25%) 0%, transparent 60%),
+    linear-gradient(180deg, oklch(1 0 0 / 20%) 0%, oklch(1 0 0 / 0%) 100%);
   pointer-events: none;
   z-index: 1;
 }
-/* Bottom reflection — removed for clean look */
 .jelly-btn::after {
   display: none;
 }
 .jelly-btn-teal {
   background: radial-gradient(ellipse 70% 60% at 30% 25%, oklch(0.78 0.08 230 / 75%), oklch(0.55 0.18 230 / 80%) 50%, oklch(0.48 0.22 230 / 85%) 100%);
   color: oklch(0.99 0 0);
-  border: none;
+  border: 1px solid oklch(1 0 0 / 15%);
   box-shadow:
-    0 0 1px oklch(1 0 0 / 20%),
-    0 6px 20px oklch(0.50 0.20 230 / 35%),
-    0 0 30px oklch(0.55 0.18 230 / 15%);
+    inset 0 1px 2px oklch(1 0 0 / 20%),
+    0 2px 8px oklch(0.50 0.20 230 / 30%),
+    0 0 20px oklch(0.55 0.18 230 / 10%);
 }
 .jelly-btn-teal:hover {
   transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
@@ -356,30 +352,30 @@ body {
     0 0 50px oklch(0.55 0.16 230 / 22%);
 }
 .jelly-btn-ghost {
-  background: oklch(1 0 0 / 1%);
+  background: var(--jelly-surface);
   color: var(--foreground);
-  border: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--jelly-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   box-shadow:
-    0 0 1px var(--jelly-border),
+    0 1px 0 var(--jelly-highlight),
     0 2px 8px var(--jelly-shadow-ambient);
 }
 .jelly-btn-ghost:hover {
-  background: oklch(1 0 0 / 2%);
+  background: var(--jelly-surface-hover);
   transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
   box-shadow:
-    0 0 2px var(--jelly-border-hover),
-    0 4px 12px var(--jelly-shadow-deep);
+    0 1px 0 var(--jelly-highlight),
+    0 4px 16px var(--jelly-shadow-deep);
 }
 .jelly-btn-amber {
   background: radial-gradient(ellipse 70% 60% at 30% 25%, oklch(0.92 0.06 65 / 75%), oklch(0.75 0.14 65 / 80%) 50%, oklch(0.65 0.18 65 / 85%) 100%);
   color: oklch(0.15 0.02 60);
-  border: none;
+  border: 1px solid oklch(1 0 0 / 15%);
   box-shadow:
-    0 0 1px oklch(1 0 0 / 20%),
-    0 6px 20px oklch(0.70 0.16 65 / 30%),
-    0 0 30px oklch(0.75 0.14 65 / 12%);
+    inset 0 1px 2px oklch(1 0 0 / 20%),
+    0 2px 8px oklch(0.70 0.16 65 / 25%),
+    0 0 20px oklch(0.75 0.14 65 / 10%);
 }
 .jelly-btn-amber:hover {
   transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
@@ -394,35 +390,39 @@ body {
    GLASS PILL — Frosted tag
    ============================== */
 .glass-pill {
-  background: oklch(1 0 0 / 1%);
-  border: none;
+  background: var(--jelly-surface);
+  border: 1px solid var(--jelly-border);
   border-radius: 999px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow:
-    0 0 1px var(--jelly-border),
-    0 0 4px oklch(1 0 0 / 2%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 var(--jelly-highlight);
 }
 
 /* ==============================
    JELLY BADGE — Colored translucent tag
    ============================== */
 .jelly-badge-teal {
-  background: oklch(0.55 0.18 230 / 5%);
-  border: none;
-  color: oklch(0.55 0.18 230);
-  box-shadow: 0 0 1px oklch(0.55 0.18 230 / 10%);
+  background: oklch(0.55 0.18 230 / 8%);
+  border: 1px solid oklch(0.55 0.18 230 / 12%);
+  color: oklch(0.45 0.16 230);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 600;
 }
 .dark .jelly-badge-teal {
-  background: oklch(0.62 0.18 230 / 5%);
+  background: oklch(0.62 0.18 230 / 8%);
+  border-color: oklch(0.62 0.18 230 / 12%);
   color: oklch(0.72 0.14 230);
-  box-shadow: 0 0 1px oklch(0.62 0.18 230 / 10%);
 }
 .jelly-badge-amber {
-  background: oklch(0.75 0.15 65 / 5%);
-  border: none;
-  color: oklch(0.65 0.15 65);
-  box-shadow: 0 0 1px oklch(0.75 0.15 65 / 10%);
+  background: oklch(0.75 0.15 65 / 8%);
+  border: 1px solid oklch(0.75 0.15 65 / 12%);
+  color: oklch(0.55 0.15 65);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 600;
 }
 
 /* ==============================
@@ -431,7 +431,7 @@ body {
 .jelly-divider {
   position: relative;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 4%) 20%, oklch(1 0 0 / 6%) 50%, oklch(1 0 0 / 4%) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, oklch(0.50 0.005 80 / 8%) 20%, oklch(0.50 0.005 80 / 12%) 50%, oklch(0.50 0.005 80 / 8%) 80%, transparent 100%);
   border-radius: 999px;
   overflow: visible;
 }
@@ -506,29 +506,32 @@ body {
 }
 
 /* ==============================
-   JELLY ICON BOX — 3D translucent icon container
+   JELLY ICON BOX — Frosted icon container
    ============================== */
 .jelly-icon-box {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.75rem;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  border: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--jelly-border);
   transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 .jelly-icon-box-teal {
-  background: oklch(0.55 0.18 230 / 2%);
-  border: none;
-  color: oklch(0.55 0.18 230);
-  box-shadow: 0 0 1px oklch(0.55 0.18 230 / 8%);
+  background: oklch(0.55 0.18 230 / 6%);
+  border-color: oklch(0.55 0.18 230 / 12%);
+  color: oklch(0.50 0.18 230);
+  box-shadow: 0 1px 4px oklch(0.55 0.18 230 / 8%);
+}
+.dark .jelly-icon-box-teal {
+  color: oklch(0.65 0.18 230);
 }
 .jelly-icon-box-amber {
-  background: oklch(0.75 0.15 65 / 2%);
-  border: none;
-  color: oklch(0.75 0.15 65);
-  box-shadow: 0 0 1px oklch(0.75 0.15 65 / 8%);
+  background: oklch(0.75 0.15 65 / 6%);
+  border-color: oklch(0.75 0.15 65 / 12%);
+  color: oklch(0.65 0.15 65);
+  box-shadow: 0 1px 4px oklch(0.75 0.15 65 / 8%);
 }
 
 /* ==============================
@@ -537,16 +540,15 @@ body {
 .jelly-stat-panel {
   padding: 1rem;
   border-radius: 0.75rem;
-  background: oklch(1 0 0 / 1%);
-  border: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 0 1px var(--jelly-border), 0 2px 8px var(--jelly-shadow-ambient);
+  background: var(--jelly-surface);
+  border: 1px solid var(--jelly-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 var(--jelly-highlight), 0 2px 8px var(--jelly-shadow-ambient);
 }
 
 /* ==============================
    JELLY CAUSTIC — Animated glow beneath elements
-   NO transform transition — only opacity
    ============================== */
 .jelly-caustic {
   position: absolute;
@@ -557,7 +559,7 @@ body {
   pointer-events: none;
 }
 .group:hover > .jelly-caustic {
-  opacity: 0.2;
+  opacity: 0.25;
   transition: opacity 0.3s ease-in;
 }
 .jelly-caustic-teal {
@@ -568,24 +570,24 @@ body {
 }
 
 /* ==============================
-   JELLY GLASS NAVBAR
+   JELLY GLASS NAVBAR — Premium frosted glass
    ============================== */
 .jelly-navbar {
-  background: oklch(1 0 0 / 1%);
-  backdrop-filter: blur(8px) saturate(1.05);
-  -webkit-backdrop-filter: blur(8px) saturate(1.05);
-  border: none;
+  background: var(--jelly-surface);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid var(--jelly-border);
   box-shadow:
-    0 0 1px oklch(1 0 0 / 8%),
-    0 4px 16px oklch(0.20 0.01 60 / 3%);
+    0 1px 0 var(--jelly-highlight),
+    0 4px 16px var(--jelly-shadow-ambient);
   border-radius: 1.5rem;
 }
 .dark .jelly-navbar {
-  background: oklch(0.14 0.008 60 / 2%);
-  border: none;
+  background: oklch(0.16 0.008 60 / 60%);
+  border-color: oklch(1 0 0 / 6%);
   box-shadow:
-    0 0 1px oklch(1 0 0 / 4%),
-    0 4px 16px oklch(0 0 0 / 8%);
+    0 1px 0 oklch(1 0 0 / 4%),
+    0 4px 16px oklch(0 0 0 / 12%);
 }
 
 /* ==============================
@@ -643,9 +645,9 @@ section[id] { scroll-margin-top: 5rem; }
   100% { background-position: 0% 50%; }
 }
 
-.animate-jelly-pulse { /* disabled for perf */ }
-.animate-jelly-float { /* disabled for perf */ }
-.animate-jelly-glow { /* disabled for perf */ }
+.animate-jelly-pulse { /* disabled for perf in OFF mode */ }
+.animate-jelly-float { /* disabled for perf in OFF mode */ }
+.animate-jelly-glow { /* disabled for perf in OFF mode */ }
 
 /* ==============================
    JELLY WOBBLE — Organic elastic deformation
@@ -671,9 +673,7 @@ section[id] { scroll-margin-top: 5rem; }
   50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; transform: rotate(-2deg) scale(0.96); }
   75% { border-radius: 60% 40% 60% 30% / 40% 50% 60% 50%; transform: rotate(3deg) scale(1.02); }
 }
-.jelly-blob {
-  /* disabled for perf — static shape */
-}
+.jelly-blob { /* disabled in OFF mode */ }
 
 /* ==============================
    JELLY BOUNCE-IN — Entrance animation
@@ -704,8 +704,8 @@ section[id] { scroll-margin-top: 5rem; }
   50% { transform: translate(25px, 40px) scale(0.94) rotate(5deg); }
   75% { transform: translate(-15px, 15px) scale(1.03) rotate(-3deg); }
 }
-.jelly-float-blob-1 { /* disabled for perf — static position */ }
-.jelly-float-blob-2 { /* disabled for perf — static position */ }
+.jelly-float-blob-1 { /* disabled in OFF mode */ }
+.jelly-float-blob-2 { /* disabled in OFF mode */ }
 
 /* ==============================
    SPLINE 3D — Transparent background
@@ -746,11 +746,11 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 /* ==============================
-   JELLY MODE — Enhanced fluid animations
+   JELLY MODE ON — Enhanced fluid animations
    Only active when html.jelly-mode is set
    ============================== */
 
-/* Jelly mode: Enable all the disabled animations */
+/* Enable all disabled animations */
 .jelly-mode .animate-jelly-pulse {
   animation: jelly-pulse 4s ease-in-out infinite;
 }
@@ -772,24 +772,19 @@ section[id] { scroll-margin-top: 5rem; }
 
 /* Jelly mode: Cards get STRONG 3D glass/gel depth */
 .jelly-mode .jelly-card {
-  background: oklch(1 0 0 / 6%);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  border: 1.5px solid oklch(1 0 0 / 18%);
-  border-top: 2px solid oklch(1 0 0 / 35%);
+  background: oklch(1 0 0 / 8%);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid oklch(1 0 0 / 20%);
+  border-top: 2px solid oklch(1 0 0 / 40%);
   border-bottom: 2px solid oklch(0 0 0 / 12%);
   box-shadow:
-    /* Inner convex highlight — top */
     inset 0 3px 8px oklch(1 0 0 / 30%),
-    /* Inner convex highlight — sides */
     inset 3px 0 6px oklch(1 0 0 / 10%),
     inset -3px 0 6px oklch(1 0 0 / 10%),
-    /* Inner bottom shadow — depth */
     inset 0 -4px 8px oklch(0 0 0 / 15%),
-    /* Thick bottom edge — keycap sitting on surface */
     0 4px 0 oklch(0 0 0 / 8%),
     0 2px 0 oklch(1 0 0 / 12%),
-    /* Ambient shadow */
     0 8px 32px -4px oklch(0 0 0 / 15%),
     0 16px 48px -8px oklch(0 0 0 / 10%);
   transition: box-shadow 0.3s ease, background 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -800,12 +795,11 @@ section[id] { scroll-margin-top: 5rem; }
   inset: 0;
   border-radius: inherit;
   background:
-    /* Strong specular gradient — convex surface */
-    linear-gradient(175deg, oklch(1 0 0 / 28%) 0%, oklch(1 0 0 / 8%) 25%, transparent 50%, oklch(0 0 0 / 6%) 85%, oklch(0 0 0 / 10%) 100%),
-    /* Side highlight */
+    linear-gradient(175deg, oklch(1 0 0 / 30%) 0%, oklch(1 0 0 / 10%) 25%, transparent 50%, oklch(0 0 0 / 6%) 85%, oklch(0 0 0 / 10%) 100%),
     radial-gradient(ellipse 40% 60% at 5% 50%, oklch(1 0 0 / 8%) 0%, transparent 60%);
   pointer-events: none;
   z-index: 1;
+  opacity: 1;
 }
 .jelly-mode .jelly-card:hover {
   animation: jelly-wobble 0.6s ease-in-out;
@@ -820,22 +814,22 @@ section[id] { scroll-margin-top: 5rem; }
     0 20px 60px -8px oklch(0 0 0 / 12%);
 }
 
-/* Jelly mode: Caustic glow is always subtly visible */
+/* Jelly mode: Caustic glow always subtly visible */
 .jelly-mode .jelly-caustic {
-  opacity: 0.08;
+  opacity: 0.1;
   animation: jelly-glow-pulse 4s ease-in-out infinite;
 }
 .jelly-mode .group:hover > .jelly-caustic {
-  opacity: 0.35;
+  opacity: 0.4;
 }
 
 /* Jelly mode: Enhanced navbar with 3D glass depth */
 .jelly-mode .jelly-navbar {
-  background: oklch(1 0 0 / 6%) !important;
-  backdrop-filter: blur(16px) saturate(1.3) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(1.3) !important;
-  border: 1.5px solid oklch(1 0 0 / 18%) !important;
-  border-top: 2px solid oklch(1 0 0 / 30%) !important;
+  background: oklch(1 0 0 / 8%) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  border: 1.5px solid oklch(1 0 0 / 20%) !important;
+  border-top: 2px solid oklch(1 0 0 / 35%) !important;
   border-bottom: 2px solid oklch(0 0 0 / 10%) !important;
   box-shadow:
     inset 0 2px 6px oklch(1 0 0 / 25%),
@@ -845,7 +839,7 @@ section[id] { scroll-margin-top: 5rem; }
   animation: jelly-pulse 6s ease-in-out infinite;
 }
 
-/* Jelly mode: Section titles get a subtle float */
+/* Jelly mode: Section titles get subtle float */
 .jelly-mode .jelly-section-title {
   animation: jelly-float 10s ease-in-out infinite;
 }
@@ -862,7 +856,7 @@ section[id] { scroll-margin-top: 5rem; }
   animation: jelly-pulse 5s ease-in-out infinite;
 }
 
-/* Jelly mode: Stat panels get 3D gel depth + wobble entrance */
+/* Jelly mode: Stat panels get 3D gel depth */
 .jelly-mode .jelly-stat-panel {
   border: 1.5px solid oklch(1 0 0 / 18%) !important;
   border-top: 2px solid oklch(1 0 0 / 30%) !important;
@@ -892,13 +886,13 @@ section[id] { scroll-margin-top: 5rem; }
   animation: caustic-shimmer 15s ease-in-out infinite;
 }
 
-/* Jelly mode: Buttons get a squish effect on active */
+/* Jelly mode: Buttons get squish on active */
 .jelly-mode button:active:not(.no-jelly),
 .jelly-mode a:active:not(.no-jelly) {
   animation: jelly-wobble 0.4s ease-in-out;
 }
 
-/* Jelly mode: Material surfaces get enhanced 3D translucency */
+/* Jelly mode: Material surfaces get enhanced 3D */
 .jelly-mode .jelly-material-teal {
   border: 1.5px solid oklch(0.55 0.18 230 / 25%) !important;
   border-top: 2px solid oklch(1 0 0 / 30%) !important;
@@ -920,7 +914,7 @@ section[id] { scroll-margin-top: 5rem; }
     0 0 40px oklch(0.75 0.15 65 / 15%) !important;
 }
 
-/* Jelly mode: Scrollbar gets a jelly color */
+/* Jelly mode: Scrollbar gets jelly color */
 .jelly-mode ::-webkit-scrollbar-thumb {
   background: oklch(0.55 0.18 230 / 25%);
   border-radius: 3px;
@@ -930,7 +924,7 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 /* ==============================
-   METABALL BLOB ANIMATIONS — Floating jelly blobs
+   METABALL BLOB ANIMATIONS
    ============================== */
 @keyframes metaball-drift-1 {
   0% { transform: translate(5vw, 10vh) scale(1) rotate(0deg); }
@@ -961,24 +955,6 @@ section[id] { scroll-margin-top: 5rem; }
   60% { transform: translate(50vw, 80vh) scale(0.94) rotate(12deg); }
   100% { transform: translate(80vw, 15vh) scale(1) rotate(0deg); }
 }
-
-.jelly-metaball-1 {
-  animation: metaball-drift-1 30s ease-in-out infinite;
-  will-change: transform;
-}
-.jelly-metaball-2 {
-  animation: metaball-drift-2 25s ease-in-out infinite;
-  will-change: transform;
-}
-.jelly-metaball-3 {
-  animation: metaball-drift-3 20s ease-in-out infinite;
-  will-change: transform;
-}
-.jelly-metaball-4 {
-  animation: metaball-drift-4 28s ease-in-out infinite;
-  will-change: transform;
-}
-
 @keyframes metaball-drift-5 {
   0% { transform: translate(50vw, 30vh) scale(1) rotate(0deg); }
   20% { transform: translate(20vw, 60vh) scale(1.1) rotate(10deg); }
@@ -987,10 +963,12 @@ section[id] { scroll-margin-top: 5rem; }
   80% { transform: translate(60vw, 70vh) scale(0.9) rotate(-5deg); }
   100% { transform: translate(50vw, 30vh) scale(1) rotate(0deg); }
 }
-.jelly-metaball-5 {
-  animation: metaball-drift-5 35s ease-in-out infinite;
-  will-change: transform;
-}
+
+.jelly-metaball-1 { animation: metaball-drift-1 30s ease-in-out infinite; will-change: transform; }
+.jelly-metaball-2 { animation: metaball-drift-2 25s ease-in-out infinite; will-change: transform; }
+.jelly-metaball-3 { animation: metaball-drift-3 20s ease-in-out infinite; will-change: transform; }
+.jelly-metaball-4 { animation: metaball-drift-4 28s ease-in-out infinite; will-change: transform; }
+.jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; will-change: transform; }
 
 /* Jelly mode: ALL interactive elements get visible squash & stretch */
 .jelly-mode button:hover:not(.no-jelly),
@@ -1017,7 +995,7 @@ section[id] { scroll-margin-top: 5rem; }
   100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
 }
 
-/* Jelly wobble animation — DRAMATIC squash & stretch */
+/* Jelly wobble — DRAMATIC squash & stretch */
 @keyframes jelly-wobble {
   0% { transform: scale(1, 1); }
   15% { transform: scale(0.85, 1.15); }
@@ -1028,7 +1006,7 @@ section[id] { scroll-margin-top: 5rem; }
   100% { transform: scale(1, 1); }
 }
 
-/* Jelly bounce-in animation for elements entering viewport */
+/* Jelly bounce-in for elements entering viewport */
 @keyframes jelly-bounce-in {
   0% { transform: scale(0.3, 0.3); opacity: 0; }
   20% { transform: scale(1.15, 0.85); opacity: 1; }
@@ -1058,14 +1036,14 @@ section[id] { scroll-margin-top: 5rem; }
 
 /* Jelly mode dark: Adjust 3D depth for dark backgrounds */
 .jelly-mode.dark .jelly-card {
-  background: oklch(1 0 0 / 4%);
-  border: 1.5px solid oklch(1 0 0 / 12%);
-  border-top: 2px solid oklch(1 0 0 / 22%);
+  background: oklch(1 0 0 / 5%);
+  border: 1.5px solid oklch(1 0 0 / 14%);
+  border-top: 2px solid oklch(1 0 0 / 25%);
   border-bottom: 2px solid oklch(0 0 0 / 20%);
   box-shadow:
-    inset 0 3px 8px oklch(1 0 0 / 15%),
-    inset 3px 0 6px oklch(1 0 0 / 5%),
-    inset -3px 0 6px oklch(1 0 0 / 5%),
+    inset 0 3px 8px oklch(1 0 0 / 18%),
+    inset 3px 0 6px oklch(1 0 0 / 6%),
+    inset -3px 0 6px oklch(1 0 0 / 6%),
     inset 0 -4px 8px oklch(0 0 0 / 25%),
     0 4px 0 oklch(0 0 0 / 15%),
     0 2px 0 oklch(1 0 0 / 6%),
@@ -1073,12 +1051,12 @@ section[id] { scroll-margin-top: 5rem; }
     0 16px 48px -8px oklch(0 0 0 / 18%);
 }
 .jelly-mode.dark .jelly-navbar {
-  background: oklch(1 0 0 / 4%) !important;
-  border: 1.5px solid oklch(1 0 0 / 10%) !important;
-  border-top: 2px solid oklch(1 0 0 / 18%) !important;
+  background: oklch(1 0 0 / 5%) !important;
+  border: 1.5px solid oklch(1 0 0 / 12%) !important;
+  border-top: 2px solid oklch(1 0 0 / 20%) !important;
   border-bottom: 2px solid oklch(0 0 0 / 18%) !important;
   box-shadow:
-    inset 0 2px 6px oklch(1 0 0 / 12%),
+    inset 0 2px 6px oklch(1 0 0 / 14%),
     inset 0 -2px 4px oklch(0 0 0 / 18%),
     0 4px 0 oklch(0 0 0 / 12%),
     0 8px 32px -4px oklch(0 0 0 / 20%) !important;

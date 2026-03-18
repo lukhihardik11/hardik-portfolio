@@ -84,9 +84,10 @@ export function EducationSection() {
 
   return (
     <motion.section
+      id="education"
       ref={sectionRef}
       style={{ skewX: springSkew, scaleX: springSX, scaleY: springSY }}
-      className="relative py-20 sm:py-32 lg:py-40 overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-32 overflow-hidden"
     >
       <div className="container">
         {/* Section header */}
@@ -96,7 +97,7 @@ export function EducationSection() {
           whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ type: 'spring' as const, stiffness: 120, damping: 10, mass: 1.2 }}
-          className="mb-24"
+          className="mb-14"
         >
           <p className="jelly-section-label">Education</p>
           <h2 className="jelly-section-title max-w-xl">Academic foundation</h2>

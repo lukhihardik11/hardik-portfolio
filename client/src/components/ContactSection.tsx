@@ -64,7 +64,7 @@ export function ContactSection() {
       id="contact"
       ref={sectionRef}
       style={{ skewX: springSkew, scaleX: springSX, scaleY: springSY }}
-      className="relative py-20 sm:py-32 lg:py-40 overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* Floating blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

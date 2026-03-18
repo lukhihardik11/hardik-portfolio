@@ -90,7 +90,7 @@ export function PhilosophySection() {
     <motion.section
       ref={ref}
       style={{ skewX: springSkew, scaleX: springSX, scaleY: springSY }}
-      className="relative py-40 lg:py-56 overflow-hidden"
+      className="relative py-20 lg:py-28 overflow-hidden"
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
