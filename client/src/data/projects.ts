@@ -69,6 +69,8 @@ export const projects: ProjectData[] = [
     hasAnimation: true,
     contentCropX: 0.05,
     animBgColor: "#0a0a0a",
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "emg",
@@ -96,7 +98,7 @@ export const projects: ProjectData[] = [
     accentColor: "#fbbf24",
     hasAnimation: true,
     disclaimer:
-      "This wristband is for demonstration purposes only and is not a real product. While I have worked on EMG products professionally, this render does not represent any proprietary design to protect Intellectual Property (IP).",
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "bon",
@@ -123,6 +125,8 @@ export const projects: ProjectData[] = [
     color: "oklch(0.55 0.18 230)",
     accentColor: "#60a5fa",
     hasAnimation: true,
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "cyl",
@@ -151,6 +155,8 @@ export const projects: ProjectData[] = [
     hasAnimation: true,
     contentCropX: 0.123,
     animBgColor: "#1e2530",
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "mod",
@@ -177,6 +183,8 @@ export const projects: ProjectData[] = [
     color: "oklch(0.65 0.15 30)",
     accentColor: "#fb923c",
     hasAnimation: true,
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "func",
@@ -203,6 +211,8 @@ export const projects: ProjectData[] = [
     color: "oklch(0.55 0.20 280)",
     accentColor: "#a78bfa",
     hasAnimation: true,
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
   },
   {
     id: "abaqus",
