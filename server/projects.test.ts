@@ -120,13 +120,15 @@ describe("EMG project has disclaimer", () => {
     const emg = getProjectById("emg");
     expect(emg).toBeDefined();
     expect(emg!.disclaimer).toBeTruthy();
-    expect(emg!.disclaimer).toContain("demonstration purposes only");
+    expect(emg!.disclaimer).toContain("intellectual property");
   });
 
-  it("other projects do not have disclaimers", () => {
-    const nonEmg = projects.filter((p) => p.id !== "emg" && p.id !== "fpc");
-    for (const p of nonEmg) {
-      expect(p.disclaimer).toBeUndefined();
+  it("work-related projects have IP disclaimers where applicable", () => {
+    const projectsWithDisclaimers = ["emg", "fpc", "bon", "cyl", "mod", "func"];
+    for (const id of projectsWithDisclaimers) {
+      const p = getProjectById(id);
+      expect(p).toBeDefined();
+      expect(p!.disclaimer).toBeTruthy();
     }
   });
 });
@@ -150,7 +152,7 @@ describe("frameUrlsIndex", () => {
     for (const [id, urls] of Object.entries(frameUrlsByProject)) {
       for (const url of urls) {
         expect(url).toMatch(/^https:\/\//);
-        expect(url).toContain("cloudfront.net");
+        expect(url).toMatch(/cloudfront\.net|manuscdn\.com/);
       }
     }
   });
