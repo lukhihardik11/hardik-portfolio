@@ -191,10 +191,10 @@ export default function JellySwitch({ checked, onChange, size = 48 }: Props) {
   });
   const lastT = useRef(0);
 
-  /* ── Sizing ── */
+  /* ── Sizing — generous proportions ── */
   const trackW = Math.round(size * 1.85);
-  const trackH = Math.round(size * 0.92);
-  const pad = Math.round(trackH * 0.12);
+  const trackH = Math.round(size * 0.95);
+  const pad = Math.round(trackH * 0.08);
   const blobD = trackH - pad * 2;
   const travel = trackW - blobD - pad * 2;
   const dpr = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
@@ -336,62 +336,65 @@ export default function JellySwitch({ checked, onChange, size = 48 }: Props) {
   /* ── Track styles — recessed capsule with rim highlights ── */
   const trackStyle: React.CSSProperties = {
     width: trackW,
-    height: trackH,
+    height: trackH + 10, // Extra space for glow beneath
     borderRadius: trackH / 2,
     position: 'relative',
     zIndex: 101,
   };
 
-  /* Track background — recessed machined channel look */
+  /* Track background — deeply recessed metallic channel */
   const trackBgStyle: React.CSSProperties = {
     position: 'absolute',
-    inset: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    height: trackH,
     borderRadius: trackH / 2,
     pointerEvents: 'none' as const,
     background: isDark
-      ? 'linear-gradient(180deg, oklch(0.12 0.015 230) 0%, oklch(0.16 0.02 230) 50%, oklch(0.13 0.015 230) 100%)'
-      : 'linear-gradient(180deg, oklch(0.88 0.005 80) 0%, oklch(0.92 0.003 80) 50%, oklch(0.89 0.005 80) 100%)',
+      ? 'linear-gradient(180deg, oklch(0.08 0.01 230) 0%, oklch(0.13 0.015 230) 40%, oklch(0.10 0.01 230) 100%)'
+      : 'linear-gradient(180deg, oklch(0.82 0.005 80) 0%, oklch(0.87 0.003 80) 40%, oklch(0.84 0.005 80) 100%)',
     boxShadow: isDark
       ? [
-          // Recessed inset shadow (top darker = light from above)
-          'inset 0 2px 4px oklch(0 0 0 / 50%)',
-          // Slight inner rim highlight at bottom
-          'inset 0 -1px 1px oklch(1 0 0 / 6%)',
-          // Thin rim highlight at top
-          'inset 0 1px 0 oklch(1 0 0 / 4%)',
-          // Contact shadow beneath
-          '0 2px 8px oklch(0 0 0 / 30%)',
-          '0 1px 2px oklch(0 0 0 / 20%)',
+          // Deep recess — strong top shadow
+          'inset 0 3px 6px oklch(0 0 0 / 65%)',
+          'inset 0 1px 2px oklch(0 0 0 / 40%)',
+          // Bottom rim highlight — light catching the lower lip
+          'inset 0 -1.5px 1px oklch(1 0 0 / 10%)',
+          // Outer contact shadow
+          '0 2px 8px oklch(0 0 0 / 35%)',
+          '0 1px 3px oklch(0 0 0 / 25%)',
         ].join(', ')
       : [
-          // Recessed inset shadow
-          'inset 0 2px 4px oklch(0 0 0 / 15%)',
-          // Inner rim highlight at bottom
-          'inset 0 -1px 1px oklch(1 0 0 / 60%)',
-          // Thin rim highlight at top
-          'inset 0 1px 0 oklch(1 0 0 / 40%)',
-          // Contact shadow beneath
-          '0 2px 6px oklch(0 0 0 / 10%)',
+          // Deep recess
+          'inset 0 3px 6px oklch(0 0 0 / 22%)',
+          'inset 0 1px 2px oklch(0 0 0 / 12%)',
+          // Bottom rim highlight
+          'inset 0 -1.5px 1px oklch(1 0 0 / 70%)',
+          // Top inner rim
+          'inset 0 1px 0 oklch(1 0 0 / 35%)',
+          // Outer contact shadow
+          '0 2px 6px oklch(0 0 0 / 12%)',
           '0 1px 2px oklch(0 0 0 / 8%)',
         ].join(', '),
     border: isDark
-      ? '1px solid oklch(1 0 0 / 5%)'
-      : '1px solid oklch(0 0 0 / 8%)',
+      ? '1.5px solid oklch(1 0 0 / 6%)'
+      : '1.5px solid oklch(0 0 0 / 10%)',
     transition: 'background 0.5s, box-shadow 0.5s, border-color 0.5s',
   };
 
   /* Glow style — colored light spill beneath blob */
   const glowStyle: React.CSSProperties = {
     position: 'absolute',
-    top: trackH - 2,
+    top: trackH - 1,
     left: 0,
-    width: blobD * 1.4,
-    height: 12,
+    width: blobD * 1.6,
+    height: 14,
     borderRadius: '50%',
     background: isDark
-      ? 'radial-gradient(ellipse, oklch(0.55 0.25 230 / 35%) 0%, transparent 70%)'
-      : 'radial-gradient(ellipse, oklch(0.75 0.18 65 / 30%) 0%, transparent 70%)',
-    filter: 'blur(6px)',
+      ? 'radial-gradient(ellipse, oklch(0.55 0.25 230 / 55%) 0%, oklch(0.50 0.20 230 / 25%) 40%, transparent 70%)'
+      : 'radial-gradient(ellipse, oklch(0.75 0.18 65 / 45%) 0%, oklch(0.70 0.14 65 / 20%) 40%, transparent 70%)',
+    filter: 'blur(5px)',
     pointerEvents: 'none' as const,
     transition: 'background 0.5s',
   };
@@ -417,7 +420,7 @@ export default function JellySwitch({ checked, onChange, size = 48 }: Props) {
           transform: 'none',
         }} />
 
-        {/* CSS blob with material cues */}
+        {/* CSS blob with gel material cues */}
         <div style={{
           position: 'absolute',
           top: pad,
@@ -427,25 +430,46 @@ export default function JellySwitch({ checked, onChange, size = 48 }: Props) {
           borderRadius: '50%',
           transition: 'left 0.5s cubic-bezier(0.34,1.56,0.64,1), background 0.5s, box-shadow 0.5s',
           background: isDark
-            ? 'radial-gradient(ellipse at 35% 28%, oklch(0.82 0.10 230 / 95%), oklch(0.52 0.22 230 / 90%))'
-            : 'radial-gradient(ellipse at 35% 28%, oklch(0.97 0.04 65 / 95%), oklch(0.76 0.14 65 / 90%))',
+            ? 'radial-gradient(ellipse at 30% 25%, oklch(0.82 0.12 230 / 94%) 0%, oklch(0.58 0.24 230 / 90%) 50%, oklch(0.48 0.26 230 / 87%) 100%)'
+            : 'radial-gradient(ellipse at 30% 25%, oklch(0.98 0.04 65 / 96%) 0%, oklch(0.85 0.12 65 / 92%) 50%, oklch(0.76 0.16 65 / 90%) 100%)',
           boxShadow: isDark
             ? [
-                '0 3px 12px oklch(0.52 0.20 230 / 50%)',
-                '0 1px 3px oklch(0 0 0 / 30%)',
-                'inset 0 2px 3px oklch(0.90 0.06 230 / 40%)',
-                'inset 0 -1px 2px oklch(0 0 0 / 20%)',
+                '0 0 14px oklch(0.52 0.24 230 / 50%)',
+                '0 0 6px oklch(0.55 0.22 230 / 35%)',
+                '0 4px 12px oklch(0 0 0 / 35%)',
+                '0 2px 4px oklch(0 0 0 / 25%)',
+                'inset 0 3px 5px oklch(0.90 0.08 230 / 50%)',
+                'inset 0 -2px 4px oklch(0.30 0.15 230 / 35%)',
+                'inset 2px 1px 3px oklch(1 0 0 / 20%)',
               ].join(', ')
             : [
-                '0 3px 12px oklch(0.74 0.14 65 / 40%)',
-                '0 1px 3px oklch(0 0 0 / 15%)',
-                'inset 0 2px 3px oklch(1 0 0 / 55%)',
-                'inset 0 -1px 2px oklch(0 0 0 / 10%)',
+                '0 0 12px oklch(0.74 0.16 65 / 40%)',
+                '0 0 5px oklch(0.78 0.14 65 / 28%)',
+                '0 4px 12px oklch(0 0 0 / 18%)',
+                '0 2px 4px oklch(0 0 0 / 12%)',
+                'inset 0 3px 5px oklch(1 0 0 / 55%)',
+                'inset 0 -2px 4px oklch(0.60 0.10 65 / 25%)',
+                'inset 2px 1px 3px oklch(1 0 0 / 30%)',
               ].join(', '),
+          border: isDark
+            ? '1px solid oklch(0.70 0.10 230 / 25%)'
+            : '1px solid oklch(0 0 0 / 6%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'hidden',
         }}>
+          {/* Caustic highlight */}
+          <div style={{
+            position: 'absolute',
+            top: '8%',
+            left: '15%',
+            right: '15%',
+            height: '35%',
+            borderRadius: '50%',
+            background: 'linear-gradient(180deg, oklch(1 0 0 / 40%) 0%, oklch(1 0 0 / 12%) 50%, oklch(1 0 0 / 0%) 100%)',
+            pointerEvents: 'none',
+          }} />
           <div style={{ color: iconColor, transition: 'color 0.5s' }}>
             {isDark ? <Moon size={iconSize} /> : <Sun size={iconSize} />}
           </div>

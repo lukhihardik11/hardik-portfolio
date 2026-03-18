@@ -170,7 +170,7 @@ export function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               {/* Jelly Mode toggle — capsule form, hidden on small mobile */}
               <div className="hidden sm:block">
-                <JellyModeToggle size={isMobile ? 28 : 36} />
+                <JellyModeToggle size={isMobile ? 32 : 40} />
               </div>
 
               {/* Dark/Light toggle — capsule with WebGL blob */}
@@ -178,7 +178,7 @@ export function Navbar() {
                 <JellySwitch
                   checked={theme === 'dark'}
                   onChange={() => toggleTheme()}
-                  size={isMobile ? 32 : 44}
+                  size={isMobile ? 36 : 48}
                 />
               )}
 

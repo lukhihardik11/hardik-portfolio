@@ -244,8 +244,13 @@ export default function ProjectExplodedView({
 
       if (!animBgColor && i === 0 && !edgeSampled && images[0]?.complete && images[0].naturalWidth > 0) {
         edgeSampled = true;
-        const color = sampleEdgeColor(images[0], cropX > 0);
-        setBgColor(color);
+        try {
+          const color = sampleEdgeColor(images[0], cropX > 0);
+          setBgColor(color);
+        } catch {
+          // Canvas tainted by cross-origin image — use fallback
+          setBgColor("#1e2430");
+        }
       }
 
       if (loadedCount === totalFrames) {
@@ -257,7 +262,7 @@ export default function ProjectExplodedView({
 
     for (let i = 0; i < totalFrames; i++) {
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      // Note: crossOrigin removed to avoid CORS canvas tainting with CDN URLs
       img.onload = onLoad(i);
       img.onerror = onLoad(i);
       img.src = frameUrls[i];
