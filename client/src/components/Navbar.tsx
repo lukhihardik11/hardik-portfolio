@@ -1,7 +1,6 @@
 /*
  * NAVBAR — Gel/Glass aesthetic with translucent pill nav buttons
- * Each nav link is a colored gel capsule with internal glow and specular highlight.
- * The active indicator is a thick glass pill with visible depth.
+ * Batch 2: Removed "DARK"/"Light" text label, adjusted toggle spacing
  */
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,12 +21,12 @@ const navLinks = [
 
 /* Gel pill colors — each nav link gets a unique color */
 const GEL_COLORS = [
-  { bg: 'oklch(0.72 0.14 145)', shadow: 'oklch(0.60 0.16 145 / 40%)', text: 'oklch(0.20 0.06 145)' },  // green
-  { bg: 'oklch(0.68 0.16 25)',  shadow: 'oklch(0.58 0.18 25 / 40%)',  text: 'oklch(0.22 0.06 25)' },   // red/coral
-  { bg: 'oklch(0.75 0.14 65)',  shadow: 'oklch(0.65 0.16 65 / 40%)',  text: 'oklch(0.25 0.06 65)' },   // amber
-  { bg: 'oklch(0.62 0.18 280)', shadow: 'oklch(0.50 0.20 280 / 40%)', text: 'oklch(0.20 0.06 280)' },  // purple
-  { bg: 'oklch(0.60 0.18 230)', shadow: 'oklch(0.48 0.20 230 / 40%)', text: 'oklch(0.18 0.06 230)' },  // blue/teal
-  { bg: 'oklch(0.70 0.12 180)', shadow: 'oklch(0.58 0.14 180 / 40%)', text: 'oklch(0.20 0.06 180)' },  // cyan
+  { bg: 'oklch(0.72 0.14 145)', shadow: 'oklch(0.60 0.16 145 / 40%)', text: 'oklch(0.20 0.06 145)' },
+  { bg: 'oklch(0.68 0.16 25)',  shadow: 'oklch(0.58 0.18 25 / 40%)',  text: 'oklch(0.22 0.06 25)' },
+  { bg: 'oklch(0.75 0.14 65)',  shadow: 'oklch(0.65 0.16 65 / 40%)',  text: 'oklch(0.25 0.06 65)' },
+  { bg: 'oklch(0.62 0.18 280)', shadow: 'oklch(0.50 0.20 280 / 40%)', text: 'oklch(0.20 0.06 280)' },
+  { bg: 'oklch(0.60 0.18 230)', shadow: 'oklch(0.48 0.20 230 / 40%)', text: 'oklch(0.18 0.06 230)' },
+  { bg: 'oklch(0.70 0.12 180)', shadow: 'oklch(0.58 0.14 180 / 40%)', text: 'oklch(0.20 0.06 180)' },
 ];
 
 const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 18, mass: 0.8 };
@@ -139,7 +138,6 @@ export function Navbar() {
                     transition={jellyMode ? jellyBtnSpring : btnSpring}
                     className="relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none"
                     style={isActive ? {
-                      /* Active — soft gel pill, no hard border */
                       background: `linear-gradient(145deg, ${gelColor.bg}, oklch(from ${gelColor.bg} calc(l - 0.08) c h))`,
                       color: isDark ? 'oklch(0.98 0 0)' : gelColor.text,
                       border: 'none',
@@ -148,14 +146,12 @@ export function Navbar() {
                         0 3px 10px ${gelColor.shadow}
                       `,
                     } : {
-                      /* Inactive — nearly invisible */
                       background: 'transparent',
                       color: isDark ? 'oklch(0.65 0 0)' : 'oklch(0.45 0 0)',
                       border: 'none',
                       boxShadow: 'none',
                     }}
                   >
-                    {/* Specular highlight on active pill */}
                     {isActive && (
                       <span
                         className="absolute top-0 left-[15%] right-[15%] h-[45%] rounded-full pointer-events-none"
@@ -170,19 +166,19 @@ export function Navbar() {
               })}
             </div>
 
-            {/* Right side — compact on mobile */}
-            <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
-              {/* Jelly Mode toggle — hidden on mobile, shown in hamburger menu */}
-              <div className="hidden md:block">
-                <JellyModeToggle />
+            {/* Right side controls — toggles + mail + hamburger */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {/* Jelly Mode toggle — capsule form, hidden on small mobile */}
+              <div className="hidden sm:block">
+                <JellyModeToggle size={isMobile ? 28 : 36} />
               </div>
 
-              {/* Dark/Light toggle — much smaller on mobile */}
+              {/* Dark/Light toggle — capsule with WebGL blob */}
               {toggleTheme && (
                 <JellySwitch
                   checked={theme === 'dark'}
                   onChange={() => toggleTheme()}
-                  size={isMobile ? 32 : 48}
+                  size={isMobile ? 32 : 44}
                 />
               )}
 
@@ -281,7 +277,7 @@ export function Navbar() {
               <div className="flex flex-col items-center gap-4 mt-4 pt-4 border-t border-foreground/10">
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-muted-foreground">Jelly Mode</span>
-                  <JellyModeToggle />
+                  <JellyModeToggle size={32} />
                 </div>
                 <motion.button
                   initial={{ opacity: 0, y: 10 }}
