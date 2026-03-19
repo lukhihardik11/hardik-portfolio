@@ -11,15 +11,12 @@ import { ProjectsSection } from '@/components/ProjectsSection';
 import { SkillsSection } from '@/components/SkillsSection';
 import { EducationSection } from '@/components/EducationSection';
 import { ContactSection, Footer } from '@/components/ContactSection';
-import { useAuth } from '@/_core/hooks/useAuth';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
-
   // Initialize GSAP ScrollTrigger defaults
   useEffect(() => {
     ScrollTrigger.defaults({
