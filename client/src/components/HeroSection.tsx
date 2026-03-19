@@ -10,7 +10,8 @@
  * - CTA buttons never orphan on mobile
  */
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import React, { useRef, useEffect, Suspense, lazy, useCallback } from 'react';
+import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from 'react';
+import { useJellyMode } from '../contexts/JellyModeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -40,8 +41,9 @@ class SplineErrorBoundary extends React.Component<
   }
 }
 
-/* Subtle spring for buttons */
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 } as const;
+/* Spring configs for OFF vs ON mode */
+const btnSpringOff = { type: 'spring' as const, stiffness: 300, damping: 25, mass: 0.8 } as const;
+const btnSpringOn  = { type: 'spring' as const, stiffness: 220, damping: 16, mass: 1.0 } as const;
 
 /* Stagger with entrance */
 const stagger = {
@@ -73,6 +75,11 @@ const jellyChild = {
 };
 
 export function HeroSection() {
+  const { jellyMode } = useJellyMode();
+  const btnSpring = useMemo(() => jellyMode ? btnSpringOn : btnSpringOff, [jellyMode]);
+  const hoverScale = jellyMode ? 1.04 : 1.02;
+  const hoverY = jellyMode ? -3 : -2;
+  const tapScale = jellyMode ? 0.95 : 0.97;
   const ref = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const blob1Ref = useRef<HTMLDivElement>(null);
@@ -251,8 +258,8 @@ export function HeroSection() {
                     e.preventDefault();
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: hoverScale, y: hoverY }}
+                  whileTap={{ scale: tapScale }}
                   transition={btnSpring}
                   className="jelly-btn jelly-btn-teal no-underline text-center"
                 >
@@ -265,8 +272,8 @@ export function HeroSection() {
                       e.preventDefault();
                       document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ scale: hoverScale, y: hoverY }}
+                    whileTap={{ scale: tapScale }}
                     transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >
@@ -277,8 +284,8 @@ export function HeroSection() {
                     href="/assets/resume/Hardik_Lukhi_Resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ scale: hoverScale, y: hoverY }}
+                    whileTap={{ scale: tapScale }}
                     transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >

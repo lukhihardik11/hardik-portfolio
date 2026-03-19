@@ -321,58 +321,80 @@ body {
   transform-origin: center center;
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.5s ease-out, background 0.5s ease-out;
+  transition: box-shadow 0.4s ease-out, background 0.4s ease-out, border-color 0.4s ease-out;
 }
 .jelly-btn::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 45%;
+  left: 8%;
+  right: 8%;
+  height: 48%;
   border-radius: 0 0 50% 50%;
   background:
-    radial-gradient(ellipse 50% 80% at 30% 20%, oklch(1 0 0 / 25%) 0%, transparent 60%),
-    linear-gradient(180deg, oklch(1 0 0 / 20%) 0%, oklch(1 0 0 / 0%) 100%);
+    radial-gradient(ellipse 40% 70% at 25% 15%, oklch(1 0 0 / 30%) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 50% at 70% 25%, oklch(1 0 0 / 12%) 0%, transparent 50%),
+    linear-gradient(180deg, oklch(1 0 0 / 22%) 0%, oklch(1 0 0 / 0%) 100%);
   pointer-events: none;
   z-index: 1;
+  transition: opacity 0.3s ease;
 }
 .jelly-btn::after {
   display: none;
 }
 .jelly-btn-teal {
-  background: radial-gradient(ellipse 70% 60% at 30% 25%, oklch(0.78 0.08 230 / 75%), oklch(0.55 0.18 230 / 80%) 50%, oklch(0.48 0.22 230 / 85%) 100%);
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 20%, oklch(0.80 0.06 230 / 70%), transparent 55%),
+    radial-gradient(ellipse 80% 70% at 60% 60%, oklch(0.48 0.22 230 / 90%), transparent 80%),
+    linear-gradient(135deg, oklch(0.58 0.16 230 / 85%) 0%, oklch(0.45 0.22 230 / 90%) 100%);
   color: oklch(0.99 0 0);
-  border: 1px solid oklch(1 0 0 / 15%);
+  border: 1px solid oklch(1 0 0 / 18%);
+  border-top-color: oklch(1 0 0 / 25%);
   box-shadow:
-    inset 0 1px 2px oklch(1 0 0 / 20%),
-    0 2px 8px oklch(0.50 0.20 230 / 30%),
-    0 0 20px oklch(0.55 0.18 230 / 10%);
+    inset 0 1px 3px oklch(1 0 0 / 22%),
+    inset 0 -1px 2px oklch(0.30 0.20 230 / 15%),
+    0 2px 8px oklch(0.50 0.20 230 / 28%),
+    0 0 16px oklch(0.55 0.18 230 / 8%);
 }
 .jelly-btn-teal:hover {
-  transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
   box-shadow:
-    inset 0 2px 6px oklch(0.85 0.06 230 / 50%),
-    inset 0 -3px 8px oklch(0.35 0.20 230 / 22%),
-    0 10px 40px oklch(0.50 0.18 230 / 45%),
-    0 0 50px oklch(0.55 0.16 230 / 22%);
+    inset 0 2px 5px oklch(0.85 0.06 230 / 45%),
+    inset 0 -2px 6px oklch(0.35 0.20 230 / 18%),
+    0 6px 24px oklch(0.50 0.18 230 / 35%),
+    0 0 32px oklch(0.55 0.16 230 / 14%);
+}
+.jelly-btn-teal:active {
+  box-shadow:
+    inset 0 2px 8px oklch(0.40 0.20 230 / 30%),
+    inset 0 -1px 2px oklch(1 0 0 / 10%),
+    0 1px 4px oklch(0.50 0.18 230 / 20%);
 }
 .jelly-btn-ghost {
   background: var(--jelly-surface);
   color: var(--foreground);
   border: 1px solid var(--jelly-border);
+  border-top-color: var(--jelly-highlight);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow:
+    inset 0 1px 2px oklch(1 0 0 / 10%),
+    inset 0 -1px 1px oklch(0 0 0 / 5%),
     0 1px 0 var(--jelly-highlight),
     0 2px 8px var(--jelly-shadow-ambient);
 }
 .jelly-btn-ghost:hover {
   background: var(--jelly-surface-hover);
-  transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
   box-shadow:
+    inset 0 1px 3px oklch(1 0 0 / 14%),
+    inset 0 -1px 2px oklch(0 0 0 / 6%),
     0 1px 0 var(--jelly-highlight),
     0 4px 16px var(--jelly-shadow-deep);
+}
+.jelly-btn-ghost:active {
+  box-shadow:
+    inset 0 2px 6px oklch(0 0 0 / 10%),
+    0 0px 0 var(--jelly-highlight),
+    0 1px 4px var(--jelly-shadow-ambient);
 }
 .jelly-btn-amber {
   background: radial-gradient(ellipse 70% 60% at 30% 25%, oklch(0.92 0.06 65 / 75%), oklch(0.75 0.14 65 / 80%) 50%, oklch(0.65 0.18 65 / 85%) 100%);
@@ -1073,16 +1095,71 @@ section[id] { scroll-margin-top: 5rem; }
   border-radius: 16px;
 }
 
-/* Jelly mode: ALL buttons get 3D gel capsule look */
-.jelly-mode .jelly-btn,
-.jelly-mode .glass-pill,
-.jelly-mode .ghost-btn {
-  border: 1.5px solid oklch(1 0 0 / 15%) !important;
-  border-top: 2px solid oklch(1 0 0 / 28%) !important;
-  border-bottom: 2px solid oklch(0 0 0 / 10%) !important;
+/* ==============================
+   JELLY MODE ON — Stronger realistic jelly for buttons
+   ============================== */
+.jelly-mode .jelly-btn {
+  border: 1.5px solid oklch(1 0 0 / 18%) !important;
+  border-top: 2px solid oklch(1 0 0 / 32%) !important;
+  border-bottom: 2px solid oklch(0 0 0 / 12%) !important;
   box-shadow:
-    inset 0 2px 5px oklch(1 0 0 / 25%),
-    inset 0 -2px 4px oklch(0 0 0 / 12%),
-    0 3px 0 oklch(0 0 0 / 8%),
-    0 4px 16px -4px oklch(0 0 0 / 12%) !important;
+    inset 0 2px 6px oklch(1 0 0 / 28%),
+    inset 0 -2px 5px oklch(0 0 0 / 14%),
+    0 3px 1px oklch(0 0 0 / 8%),
+    0 6px 20px -4px oklch(0 0 0 / 14%) !important;
+}
+.jelly-mode .jelly-btn::before {
+  height: 52%;
+  background:
+    radial-gradient(ellipse 35% 65% at 22% 12%, oklch(1 0 0 / 40%) 0%, transparent 50%),
+    radial-gradient(ellipse 25% 40% at 68% 20%, oklch(1 0 0 / 18%) 0%, transparent 45%),
+    linear-gradient(180deg, oklch(1 0 0 / 28%) 0%, oklch(1 0 0 / 0%) 100%) !important;
+}
+.jelly-mode .jelly-btn-teal {
+  background:
+    radial-gradient(ellipse 55% 45% at 22% 18%, oklch(0.82 0.05 230 / 75%), transparent 50%),
+    radial-gradient(ellipse 75% 65% at 58% 58%, oklch(0.46 0.24 230 / 92%), transparent 75%),
+    linear-gradient(140deg, oklch(0.56 0.18 230 / 88%) 0%, oklch(0.42 0.24 230 / 92%) 100%) !important;
+  box-shadow:
+    inset 0 2px 6px oklch(1 0 0 / 28%),
+    inset 0 -2px 5px oklch(0.30 0.22 230 / 20%),
+    0 3px 1px oklch(0.35 0.20 230 / 12%),
+    0 6px 24px oklch(0.50 0.20 230 / 30%),
+    0 0 20px oklch(0.55 0.18 230 / 12%) !important;
+}
+.jelly-mode .jelly-btn-teal:hover {
+  box-shadow:
+    inset 0 3px 8px oklch(0.88 0.04 230 / 50%),
+    inset 0 -3px 8px oklch(0.30 0.22 230 / 25%),
+    0 4px 2px oklch(0.35 0.20 230 / 10%),
+    0 10px 36px oklch(0.50 0.18 230 / 40%),
+    0 0 40px oklch(0.55 0.16 230 / 18%) !important;
+}
+.jelly-mode .jelly-btn-teal:active {
+  box-shadow:
+    inset 0 3px 10px oklch(0.35 0.22 230 / 35%),
+    inset 0 -1px 3px oklch(1 0 0 / 12%),
+    0 1px 0 oklch(0.35 0.20 230 / 10%),
+    0 2px 8px oklch(0.50 0.18 230 / 18%) !important;
+}
+.jelly-mode .jelly-btn-ghost {
+  box-shadow:
+    inset 0 2px 6px oklch(1 0 0 / 20%),
+    inset 0 -2px 5px oklch(0 0 0 / 10%),
+    0 3px 1px oklch(0 0 0 / 6%),
+    0 6px 20px -4px oklch(0 0 0 / 12%) !important;
+}
+.jelly-mode .jelly-btn-ghost:hover {
+  box-shadow:
+    inset 0 3px 8px oklch(1 0 0 / 26%),
+    inset 0 -3px 6px oklch(0 0 0 / 12%),
+    0 4px 2px oklch(0 0 0 / 6%),
+    0 8px 28px -4px oklch(0 0 0 / 16%) !important;
+}
+.jelly-mode .jelly-btn-ghost:active {
+  box-shadow:
+    inset 0 3px 10px oklch(0 0 0 / 14%),
+    inset 0 -1px 2px oklch(1 0 0 / 8%),
+    0 1px 0 oklch(0 0 0 / 5%),
+    0 2px 6px oklch(0 0 0 / 8%) !important;
 }

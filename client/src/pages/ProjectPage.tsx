@@ -55,7 +55,7 @@ export default function ProjectPage() {
       >
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs font-medium no-underline hover:bg-black/80 transition-colors"
+          className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-4 py-2 text-xs font-medium no-underline"
         >
           <ArrowLeft size={14} />
           Back
@@ -318,7 +318,7 @@ export default function ProjectPage() {
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
+              className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline"
             >
               <ArrowLeft size={14} />
               Back to all projects

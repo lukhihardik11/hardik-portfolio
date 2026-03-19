@@ -3,14 +3,16 @@
  * Subtle hover on interactive elements (buttons, links). No hover on text/icons.
  */
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
+import { useJellyMode } from '../contexts/JellyModeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 import { Mail, Linkedin, Phone, ArrowUpRight, MapPin } from 'lucide-react';
 
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 };
+const btnSpringOff = { type: 'spring' as const, stiffness: 300, damping: 25, mass: 0.8 };
+const btnSpringOn  = { type: 'spring' as const, stiffness: 220, damping: 16, mass: 1.0 };
 
 const contactLinks = [
   { label: 'Email', value: 'lukhihardik11@gmail.com', href: 'mailto:lukhihardik11@gmail.com', icon: Mail, color: 'oklch(0.55 0.18 230)' },
@@ -19,6 +21,11 @@ const contactLinks = [
 ];
 
 export function ContactSection() {
+  const { jellyMode } = useJellyMode();
+  const btnSpring = useMemo(() => jellyMode ? btnSpringOn : btnSpringOff, [jellyMode]);
+  const hoverScale = jellyMode ? 1.04 : 1.02;
+  const hoverY = jellyMode ? -3 : -2;
+  const tapScale = jellyMode ? 0.95 : 0.97;
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -106,8 +113,8 @@ export function ContactSection() {
           >
             <motion.a
               href="mailto:lukhihardik11@gmail.com"
-              whileHover={{ scale: 1.03, y: -3 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: hoverScale, y: hoverY }}
+              whileTap={{ scale: tapScale }}
               transition={btnSpring}
               className="jelly-btn jelly-btn-teal px-8 py-4 text-sm no-underline"
             >
@@ -196,7 +203,7 @@ export function Footer() {
                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  transition={btnSpring}
+                  transition={btnSpringOff}
                   className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground/30 hover:text-foreground/60 transition-colors duration-200 no-underline"
                   aria-label={link.label}
                 >
