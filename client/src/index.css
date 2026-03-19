@@ -256,15 +256,17 @@ body {
 .jelly-card::after {
   display: none;
 }
-/* Hover — lift and glow */
-.jelly-card:hover {
-  background: var(--jelly-surface-hover);
-  border-color: var(--jelly-border-hover);
-  transition: box-shadow 0.2s ease-in, background 0.2s ease-in, border-color 0.2s ease-in;
-  box-shadow:
-    0 1px 0 var(--jelly-highlight),
-    0 8px 24px -4px var(--jelly-shadow-deep),
-    0 16px 48px -8px var(--jelly-shadow-ambient);
+/* Hover — lift and glow (guarded for fine-pointer devices) */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-card:hover {
+    background: var(--jelly-surface-hover);
+    border-color: var(--jelly-border-hover);
+    transition: box-shadow 0.2s ease-in, background 0.2s ease-in, border-color 0.2s ease-in;
+    box-shadow:
+      0 1px 0 var(--jelly-highlight),
+      0 8px 24px -4px var(--jelly-shadow-deep),
+      0 16px 48px -8px var(--jelly-shadow-ambient);
+  }
 }
 
 /* ==============================
@@ -356,12 +358,14 @@ body {
     0 2px 8px oklch(0.50 0.20 230 / 28%),
     0 0 16px oklch(0.55 0.18 230 / 8%);
 }
-.jelly-btn-teal:hover {
-  box-shadow:
-    inset 0 2px 5px oklch(0.85 0.06 230 / 45%),
-    inset 0 -2px 6px oklch(0.35 0.20 230 / 18%),
-    0 6px 24px oklch(0.50 0.18 230 / 35%),
-    0 0 32px oklch(0.55 0.16 230 / 14%);
+@media (hover: hover) and (pointer: fine) {
+  .jelly-btn-teal:hover {
+    box-shadow:
+      inset 0 2px 5px oklch(0.85 0.06 230 / 45%),
+      inset 0 -2px 6px oklch(0.35 0.20 230 / 18%),
+      0 6px 24px oklch(0.50 0.18 230 / 35%),
+      0 0 32px oklch(0.55 0.16 230 / 14%);
+  }
 }
 .jelly-btn-teal:active {
   box-shadow:
@@ -382,13 +386,15 @@ body {
     0 1px 0 var(--jelly-highlight),
     0 2px 8px var(--jelly-shadow-ambient);
 }
-.jelly-btn-ghost:hover {
-  background: var(--jelly-surface-hover);
-  box-shadow:
-    inset 0 1px 3px oklch(1 0 0 / 14%),
-    inset 0 -1px 2px oklch(0 0 0 / 6%),
-    0 1px 0 var(--jelly-highlight),
-    0 4px 16px var(--jelly-shadow-deep);
+@media (hover: hover) and (pointer: fine) {
+  .jelly-btn-ghost:hover {
+    background: var(--jelly-surface-hover);
+    box-shadow:
+      inset 0 1px 3px oklch(1 0 0 / 14%),
+      inset 0 -1px 2px oklch(0 0 0 / 6%),
+      0 1px 0 var(--jelly-highlight),
+      0 4px 16px var(--jelly-shadow-deep);
+  }
 }
 .jelly-btn-ghost:active {
   box-shadow:
@@ -405,13 +411,15 @@ body {
     0 2px 8px oklch(0.70 0.16 65 / 25%),
     0 0 20px oklch(0.75 0.14 65 / 10%);
 }
-.jelly-btn-amber:hover {
-  transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
-  box-shadow:
-    inset 0 2px 6px oklch(0.95 0.04 65 / 50%),
-    inset 0 -3px 8px oklch(0.55 0.18 65 / 20%),
-    0 10px 40px oklch(0.72 0.15 65 / 40%),
-    0 0 50px oklch(0.75 0.12 65 / 22%);
+@media (hover: hover) and (pointer: fine) {
+  .jelly-btn-amber:hover {
+    transition: box-shadow 0.3s ease-in, background 0.3s ease-in;
+    box-shadow:
+      inset 0 2px 6px oklch(0.95 0.04 65 / 50%),
+      inset 0 -3px 8px oklch(0.55 0.18 65 / 20%),
+      0 10px 40px oklch(0.72 0.15 65 / 40%),
+      0 0 50px oklch(0.75 0.12 65 / 22%);
+  }
 }
 
 /* ==============================
@@ -586,9 +594,11 @@ body {
   transition: opacity 0.6s ease-out;
   pointer-events: none;
 }
-.group:hover > .jelly-caustic {
-  opacity: 0.25;
-  transition: opacity 0.3s ease-in;
+@media (hover: hover) and (pointer: fine) {
+  .group:hover > .jelly-caustic {
+    opacity: 0.25;
+    transition: opacity 0.3s ease-in;
+  }
 }
 .jelly-caustic-teal {
   background: radial-gradient(ellipse, oklch(0.55 0.18 230 / 45%) 0%, transparent 70%);
@@ -829,17 +839,19 @@ section[id] { scroll-margin-top: 5rem; }
   z-index: 1;
   opacity: 1;
 }
-.jelly-mode .jelly-card:hover {
-  animation: jelly-wobble 0.6s ease-in-out;
-  box-shadow:
-    inset 0 3px 10px oklch(1 0 0 / 35%),
-    inset 3px 0 8px oklch(1 0 0 / 12%),
-    inset -3px 0 8px oklch(1 0 0 / 12%),
-    inset 0 -4px 10px oklch(0 0 0 / 18%),
-    0 4px 0 oklch(0 0 0 / 10%),
-    0 2px 0 oklch(1 0 0 / 15%),
-    0 12px 40px -4px oklch(0 0 0 / 20%),
-    0 20px 60px -8px oklch(0 0 0 / 12%);
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-card:hover {
+    animation: jelly-wobble 0.6s ease-in-out;
+    box-shadow:
+      inset 0 3px 10px oklch(1 0 0 / 35%),
+      inset 3px 0 8px oklch(1 0 0 / 12%),
+      inset -3px 0 8px oklch(1 0 0 / 12%),
+      inset 0 -4px 10px oklch(0 0 0 / 18%),
+      0 4px 0 oklch(0 0 0 / 10%),
+      0 2px 0 oklch(1 0 0 / 15%),
+      0 12px 40px -4px oklch(0 0 0 / 20%),
+      0 20px 60px -8px oklch(0 0 0 / 12%);
+  }
 }
 
 /* Jelly mode: Caustic glow always subtly visible */
@@ -847,8 +859,10 @@ section[id] { scroll-margin-top: 5rem; }
   opacity: 0.1;
   animation: jelly-glow-pulse 4s ease-in-out infinite;
 }
-.jelly-mode .group:hover > .jelly-caustic {
-  opacity: 0.4;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .group:hover > .jelly-caustic {
+    opacity: 0.4;
+  }
 }
 
 /* Jelly mode: Enhanced navbar with 3D glass depth */
@@ -1000,14 +1014,18 @@ section[id] { scroll-margin-top: 5rem; }
 .jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; will-change: transform; }
 
 /* Jelly mode: ALL interactive elements get visible squash & stretch */
-.jelly-mode button:hover:not(.no-jelly),
-.jelly-mode a:hover:not(.no-jelly) {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode button:hover:not(.no-jelly),
+  .jelly-mode a:hover:not(.no-jelly) {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
 }
 
 /* Jelly mode: Enhanced card hover — visible deformation */
-.jelly-mode [class*="rounded"]:hover {
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode [class*="rounded"]:hover {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  }
 }
 
 /* Jelly mode: Sections get elastic scroll deformation */
@@ -1052,15 +1070,19 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 /* Jelly mode: ALL buttons bounce on hover */
-.jelly-mode button:hover:not(.no-jelly),
-.jelly-mode a:hover:not(.no-jelly) {
-  animation: jelly-wobble 0.6s ease-in-out;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode button:hover:not(.no-jelly),
+  .jelly-mode a:hover:not(.no-jelly) {
+    animation: jelly-wobble 0.6s ease-in-out;
+  }
 }
 
 /* Jelly mode: Cards get dramatic deformation on hover */
-.jelly-mode .jelly-card:hover {
-  transform: scale(1.02, 0.98) !important;
-  animation: jelly-wobble 0.8s ease-in-out !important;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-card:hover {
+    transform: scale(1.02, 0.98) !important;
+    animation: jelly-wobble 0.8s ease-in-out !important;
+  }
 }
 
 /* Jelly mode dark: Adjust 3D depth for dark backgrounds */
@@ -1127,13 +1149,15 @@ section[id] { scroll-margin-top: 5rem; }
     0 6px 24px oklch(0.50 0.20 230 / 30%),
     0 0 20px oklch(0.55 0.18 230 / 12%) !important;
 }
-.jelly-mode .jelly-btn-teal:hover {
-  box-shadow:
-    inset 0 3px 8px oklch(0.88 0.04 230 / 50%),
-    inset 0 -3px 8px oklch(0.30 0.22 230 / 25%),
-    0 4px 2px oklch(0.35 0.20 230 / 10%),
-    0 10px 36px oklch(0.50 0.18 230 / 40%),
-    0 0 40px oklch(0.55 0.16 230 / 18%) !important;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-btn-teal:hover {
+    box-shadow:
+      inset 0 3px 8px oklch(0.88 0.04 230 / 50%),
+      inset 0 -3px 8px oklch(0.30 0.22 230 / 25%),
+      0 4px 2px oklch(0.35 0.20 230 / 10%),
+      0 10px 36px oklch(0.50 0.18 230 / 40%),
+      0 0 40px oklch(0.55 0.16 230 / 18%) !important;
+  }
 }
 .jelly-mode .jelly-btn-teal:active {
   box-shadow:
@@ -1149,12 +1173,14 @@ section[id] { scroll-margin-top: 5rem; }
     0 3px 1px oklch(0 0 0 / 6%),
     0 6px 20px -4px oklch(0 0 0 / 12%) !important;
 }
-.jelly-mode .jelly-btn-ghost:hover {
-  box-shadow:
-    inset 0 3px 8px oklch(1 0 0 / 26%),
-    inset 0 -3px 6px oklch(0 0 0 / 12%),
-    0 4px 2px oklch(0 0 0 / 6%),
-    0 8px 28px -4px oklch(0 0 0 / 16%) !important;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-btn-ghost:hover {
+    box-shadow:
+      inset 0 3px 8px oklch(1 0 0 / 26%),
+      inset 0 -3px 6px oklch(0 0 0 / 12%),
+      0 4px 2px oklch(0 0 0 / 6%),
+      0 8px 28px -4px oklch(0 0 0 / 16%) !important;
+  }
 }
 .jelly-mode .jelly-btn-ghost:active {
   box-shadow:
