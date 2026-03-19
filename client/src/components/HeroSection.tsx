@@ -4,14 +4,15 @@
  * Non-interactive text/badges have no hover effects.
  *
  * Phase 2C: Responsive layout & real-estate optimization
- * - iPad portrait gets stacked layout (xl: breakpoint for side-by-side)
- * - Flexible hero height instead of rigid min-h-screen
- * - Tighter top padding, proper bottom spacing
- * - CTA buttons never orphan on mobile
+ * Phase 2G: Spline dependency risk reduction
+ * - Conditional rendering: Spline only mounts on ≥ 768px viewports
+ * - Loading timeout: graceful fallback after 8 s
+ * - Preconnect hints added in index.html
  */
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from 'react';
 import { useJellyMode } from '../contexts/JellyModeContext';
+import { useSplineGating } from '../hooks/useSplineGating';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -39,6 +40,58 @@ class SplineErrorBoundary extends React.Component<
     if (this.state.hasError) return this.props.fallback;
     return this.props.children;
   }
+}
+
+/* ── Static fallback — stylized ambient blob ──
+   Shown when: mobile (Spline not rendered), timeout, or WebGL error.
+   Designed to look intentional, not broken. */
+function HeroFallbackVisual() {
+  return (
+    <div className="w-full h-full flex items-center justify-center relative">
+      {/* Outer ambient glow */}
+      <motion.div
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.18, 0.28, 0.18],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute w-64 h-64 rounded-full"
+        style={{
+          background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 18%) 0%, oklch(0.65 0.12 200 / 8%) 40%, transparent 70%)',
+          filter: 'blur(20px)',
+        }}
+      />
+      {/* Inner teal core */}
+      <motion.div
+        animate={{
+          scale: [1, 1.15, 1],
+          opacity: [0.25, 0.45, 0.25],
+          borderRadius: ['60% 40% 50% 50%', '50% 60% 40% 60%', '60% 40% 50% 50%'],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="w-36 h-36"
+        style={{
+          background: 'radial-gradient(circle at 40% 35%, oklch(0.60 0.18 200 / 30%) 0%, oklch(0.50 0.15 230 / 15%) 50%, transparent 75%)',
+        }}
+      />
+      {/* Subtle amber accent */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1],
+          x: [0, 10, 0],
+          y: [0, -8, 0],
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        className="absolute w-20 h-20 rounded-full"
+        style={{
+          background: 'radial-gradient(circle, oklch(0.75 0.15 65 / 20%) 0%, transparent 70%)',
+          top: '35%',
+          right: '30%',
+        }}
+      />
+    </div>
+  );
 }
 
 /* Spring configs for OFF vs ON mode */
@@ -76,6 +129,7 @@ const jellyChild = {
 
 export function HeroSection() {
   const { jellyMode } = useJellyMode();
+  const { shouldRender: shouldRenderSpline, hasTimedOut, onSplineReady } = useSplineGating();
   const btnSpring = useMemo(() => jellyMode ? btnSpringOn : btnSpringOff, [jellyMode]);
   const hoverScale = jellyMode ? 1.04 : 1.02;
   const hoverY = jellyMode ? -3 : -2;
@@ -135,6 +189,9 @@ export function HeroSection() {
   }, []);
 
   const onSplineLoad = useCallback((splineApp: any) => {
+    /* Signal the gating hook that Spline is ready — cancels the timeout */
+    onSplineReady();
+
     try {
       if (typeof splineApp?.setBackgroundColor === 'function') {
         splineApp.setBackgroundColor('rgba(0,0,0,0)');
@@ -155,7 +212,55 @@ export function HeroSection() {
     } catch (e) {
       console.warn('Could not set Spline transparent bg:', e);
     }
-  }, []);
+  }, [onSplineReady]);
+
+  /* Determine what to show in the Spline column:
+     - Mobile (<768px): shouldRenderSpline is false → show nothing (column is hidden via CSS anyway)
+     - Timeout: show the stylized fallback blob
+     - Normal: show Spline with Suspense + ErrorBoundary */
+  const splineContent = useMemo(() => {
+    if (!shouldRenderSpline) {
+      // Mobile: don't mount anything — saves ~5.6 MB download
+      return null;
+    }
+
+    if (hasTimedOut) {
+      // Timeout: show intentional-looking fallback
+      return <HeroFallbackVisual />;
+    }
+
+    // Normal path: load Spline with Suspense + ErrorBoundary
+    return (
+      <SplineErrorBoundary fallback={<HeroFallbackVisual />}>
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <motion.div
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.3, 0.7, 0.3],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-24 h-24"
+                style={{
+                  background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 25%) 0%, transparent 70%)',
+                }}
+              />
+            </div>
+          }
+        >
+          <div className="spline-container w-full h-full relative z-10">
+            <Spline
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+              onLoad={onSplineLoad}
+              style={{ background: 'transparent' }}
+            />
+          </div>
+        </Suspense>
+      </SplineErrorBoundary>
+    );
+  }, [shouldRenderSpline, hasTimedOut, onSplineLoad]);
 
   return (
     <section
@@ -316,8 +421,9 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right column — Spline 3D
-              Hidden on phones (<768px).
+          {/* Right column — Spline 3D (or fallback)
+              Hidden on phones (<768px) via CSS.
+              Conditionally rendered via useSplineGating to prevent mobile asset downloads.
               On tablet (768–1279px): shown below text in stacked layout, shorter height.
               On desktop (>=1280px): side-by-side, taller height. */}
           <motion.div
@@ -335,45 +441,7 @@ export function HeroSection() {
                 `,
               }}
             />
-            <SplineErrorBoundary
-              fallback={
-                <div className="w-full h-full flex items-center justify-center">
-                  <div
-                    className="w-32 h-32 rounded-full opacity-20"
-                    style={{
-                      background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 30%) 0%, transparent 70%)',
-                    }}
-                  />
-                </div>
-              }
-            >
-              <Suspense
-                fallback={
-                  <div className="w-full h-full flex items-center justify-center">
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.3, 0.7, 0.3],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="w-24 h-24"
-                      style={{
-                        background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 25%) 0%, transparent 70%)',
-                      }}
-                    />
-                  </div>
-                }
-              >
-                <div className="spline-container w-full h-full relative z-10">
-                  <Spline
-                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                    className="w-full h-full"
-                    onLoad={onSplineLoad}
-                    style={{ background: 'transparent' }}
-                  />
-                </div>
-              </Suspense>
-            </SplineErrorBoundary>
+            {splineContent}
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-20" />
             <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background via-background/50 to-transparent pointer-events-none z-20" />
             <div className="absolute top-0 bottom-0 left-0 w-28 bg-gradient-to-r from-background via-background/50 to-transparent pointer-events-none z-20" />
