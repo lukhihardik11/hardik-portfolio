@@ -1,6 +1,12 @@
 /*
  * NAVBAR — Gel/Glass aesthetic with translucent pill nav buttons
- * Batch 2 v3: Unified toggle sizing, both use GelToggle architecture
+ * Phase 2B: Alignment fix, improved control spacing, minimal mail button update
+ *
+ * Changes:
+ * - Removed -translate-y-[5px] hacks (alignment now handled by GelToggle bounding box fix)
+ * - Increased right-side control gap for better spacing
+ * - Mail button: preserved concept, added subtle family resemblance via inset highlight
+ * - Mail button interaction: OFF = subtle scale, ON = bouncy squash
  */
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -170,8 +176,10 @@ export function Navbar() {
               })}
             </div>
 
-            {/* Right side controls — toggles + mail + hamburger */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Right side controls — toggles + mail + hamburger
+                Alignment: GelToggle bounding box now matches visual center,
+                so all items align naturally via items-center. No offset hacks. */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               {/* Jelly Mode toggle — hidden on small mobile */}
               <div className="hidden sm:flex items-center">
                 <JellyModeToggle size={sz} />
@@ -186,18 +194,29 @@ export function Navbar() {
                 />
               )}
 
-              {/* Contact button — gel orb */}
+              {/* Contact button — gel orb
+                  Minimal change: preserved concept, removed alignment hack,
+                  added subtle inset highlight for family resemblance,
+                  interaction matches OFF/ON paradigm */}
               <motion.a
                 href="#contact"
                 onClick={(e) => { e.preventDefault(); nav('#contact'); }}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.92 }}
-                transition={btnSpring}
-                className="no-jelly hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0 -translate-y-[5px]"
+                whileHover={jellyMode
+                  ? { scale: 1.15, y: -3, rotate: [0, -3, 3, 0] }
+                  : { scale: 1.08, y: -1 }
+                }
+                whileTap={jellyMode
+                  ? { scale: 0.88, scaleX: 1.12, scaleY: 0.88 }
+                  : { scale: 0.94 }
+                }
+                transition={jellyMode ? jellyBtnSpring : btnSpring}
+                className="no-jelly hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0"
                 style={{
                   background: `linear-gradient(145deg, oklch(0.65 0.16 230 / 70%), oklch(0.48 0.22 230 / 75%))`,
                   border: 'none',
                   boxShadow: `
+                    inset 0 2px 4px oklch(1 0 0 / 25%),
+                    inset 0 -1px 3px oklch(0 0 0 / 15%),
                     0 0 1px oklch(1 0 0 / 15%),
                     0 3px 10px oklch(0.55 0.20 230 / 20%)
                   `,
@@ -207,13 +226,13 @@ export function Navbar() {
                 <Mail size={14} />
               </motion.a>
 
-              {/* Hamburger menu button */}
+              {/* Hamburger menu button — alignment hack removed */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={btnSpring}
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="no-jelly lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0 -translate-y-[5px]"
+                className="no-jelly lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={16} /> : <Menu size={16} />}
