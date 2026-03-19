@@ -235,7 +235,7 @@ export function HeroSection() {
                 View Work
               </motion.a>
               <motion.a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/XdtJXnjxMmagBvkJKoy2Gc/Hardik_Lukhi_Resume_8631b7c4.pdf"
+                href="/assets/resume/Hardik_Lukhi_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.03, y: -2 }}
