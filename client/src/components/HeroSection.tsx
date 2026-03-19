@@ -154,7 +154,7 @@ export function HeroSection() {
     <section
       ref={ref}
       id="hero"
-      className="relative flex items-center overflow-hidden min-h-[100svh] xl:min-h-screen"
+      className="relative flex items-center md:items-start xl:items-center overflow-hidden min-h-[100svh] md:min-h-0 xl:min-h-screen"
     >
       {/* Floating blobs — background decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
