@@ -241,7 +241,7 @@ export const projects: ProjectData[] = [
     hasAnimation: true,
     downloadLinks: [
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/PHqaAHNwmAkQIhyD.pdf",
+        url: "/assets/reports/FinalGraduateProjectReport.pdf",
         label: "Graduate Project Report",
         fileType: "PDF",
         fileSize: "1.1 MB",
@@ -249,23 +249,23 @@ export const projects: ProjectData[] = [
     ],
     projectGallery: [
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/GUAEENAhyDMKIWii.png",
+        url: "/assets/gallery/abaqus/01_acrylic_25um.png",
         caption: "FEM simulation — Delamination of 25 \u03bcm Acrylic coating at varying cohesive stiffness (3D and 2D views)",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/zwweZBlSryfcuYan.png",
+        url: "/assets/gallery/abaqus/02_acrylic_50um.png",
         caption: "FEM simulation — Delamination of 50 \u03bcm Acrylic coating showing progressive interfacial failure",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/UFQyqnJpwEXzZPfV.png",
+        url: "/assets/gallery/abaqus/03_tin_25um.png",
         caption: "FEM simulation — Delamination of 25 \u03bcm TiN coating with cohesive zone model results",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/HeGYUlXNXLfZpGDR.png",
+        url: "/assets/gallery/abaqus/04_scratch_normal_load.png",
         caption: "Scratch normal load vs. cohesive stiffness — comparison across Acrylic and TiN coatings at 25 \u03bcm and 50 \u03bcm",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/vZZtGEVnXHHigcGw.png",
+        url: "/assets/gallery/abaqus/05_comparison_chart.png",
         caption: "Bar chart comparison — scratch normal load as a function of coating thickness for Acrylic and TiN substrates",
       },
     ],
@@ -298,7 +298,7 @@ export const projects: ProjectData[] = [
     animBgColor: "#262626",
     downloadLinks: [
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/sBOlpHyfyxclTuQo.pptx",
+        url: "/assets/reports/FinalPresentation.pptx",
         label: "Final Presentation",
         fileType: "PPTX",
         fileSize: "1.7 MB",
@@ -306,23 +306,23 @@ export const projects: ProjectData[] = [
     ],
     projectGallery: [
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/rOvafSqknwsYdWjo.jpeg",
+        url: "/assets/gallery/cpress/01_solidworks_model.jpeg",
         caption: "SolidWorks 3D CAD model — complete C-Press assembly with hydraulic cylinder, C-frame, adjustable stud, and base plate",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/BRbhiDEWXWBQdnvz.jpeg",
+        url: "/assets/gallery/cpress/02_fea_analysis.jpeg",
         caption: "FEA stress analysis (von Mises) — peak stress 255 MPa vs. EN8 yield strength 248 MPa, confirming structural adequacy",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/HzgnJznKWrXmysnH.jpeg",
+        url: "/assets/gallery/cpress/03_engineering_drawing.jpeg",
         caption: "Engineering drawing with dimensions — C-frame cross-section (500×473mm), Section D-D detail, and side profile",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/mZyqyYofgYLlHDnD.jpeg",
+        url: "/assets/gallery/cpress/04_fabricated_cylinder.jpeg",
         caption: "Fabricated hydraulic cylinder assembly — machined aluminum body with piston rod, flange mount, and O-ring seal",
       },
       {
-        url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663369311609/vwxduDRgORsqAvtm.jpeg",
+        url: "/assets/gallery/cpress/05_painted_cylinder.jpeg",
         caption: "Painted hydraulic cylinder — finished component with white powder coat, ready for assembly into the C-frame",
       },
     ],
