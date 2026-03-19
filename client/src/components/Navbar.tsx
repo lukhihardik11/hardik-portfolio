@@ -171,7 +171,7 @@ export function Navbar() {
             </div>
 
             {/* Right side controls — toggles + mail + hamburger */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 mt-[5px]">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {/* Jelly Mode toggle — hidden on small mobile */}
               <div className="hidden sm:flex items-center">
                 <JellyModeToggle size={sz} />
@@ -193,7 +193,7 @@ export function Navbar() {
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.92 }}
                 transition={btnSpring}
-                className="no-jelly hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0"
+                className="no-jelly hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-white no-underline shrink-0 -translate-y-[5px]"
                 style={{
                   background: `linear-gradient(145deg, oklch(0.65 0.16 230 / 70%), oklch(0.48 0.22 230 / 75%))`,
                   border: 'none',
@@ -213,7 +213,7 @@ export function Navbar() {
                 whileTap={{ scale: 0.95 }}
                 transition={btnSpring}
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="no-jelly lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0"
+                className="no-jelly lg:hidden p-1 sm:p-2 rounded-xl text-foreground hover:bg-foreground/[0.04] shrink-0 -translate-y-[5px]"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={16} /> : <Menu size={16} />}
