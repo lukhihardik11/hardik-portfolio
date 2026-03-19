@@ -148,11 +148,11 @@ describe("frameUrlsIndex", () => {
     }
   });
 
-  it("all frame URLs are valid CDN URLs", () => {
+  it("all frame URLs are valid local paths", () => {
     for (const [id, urls] of Object.entries(frameUrlsByProject)) {
       for (const url of urls) {
-        expect(url).toMatch(/^https:\/\//);
-        expect(url).toMatch(/cloudfront\.net|manuscdn\.com/);
+        expect(url).toMatch(/^\/frames\//);
+        expect(url).toMatch(/\.webp$/);
       }
     }
   });
