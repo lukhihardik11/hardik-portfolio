@@ -1,16 +1,13 @@
 /**
  * GelToggle — Unified premium gel capsule toggle component.
  *
- * Inspired by TypeGPU jelly switch reference:
- * - Deeply recessed metallic track (sunken groove)
- * - Oversized translucent gel knob that overflows track vertically
- * - Internal caustic highlights (white streak across top)
- * - Colored glow spill beneath knob
- * - Spring physics for squash/stretch animation
- * - Consistent visual language across all toggle instances
- *
- * Both dark/light toggle and jelly mode toggle use this same component
- * with different color configurations and icons.
+ * Phase 2B: Material quality redesign
+ * - Improved knob-to-track silhouette (knob overflows track more visibly)
+ * - Better internal highlight structure (rim light, deeper caustics)
+ * - Better gel/translucent feel in both OFF and ON modes
+ * - OFF = subtle premium jelly (smooth, restrained, high clarity)
+ * - ON = stronger realistic jelly (TypeGPU-inspired, elastic, expressive)
+ * - Alignment fix: glow spill no longer inflates bounding box
  */
 import { useRef, useCallback, useEffect, type ReactNode } from 'react';
 
@@ -47,6 +44,8 @@ export interface GelToggleColors {
   trackOn: string;
   /** Track inset shadow (dark recess) */
   trackShadow: string;
+  /** Track rim highlight (top edge light) */
+  trackRimLight: string;
   /** Knob radial gradient when OFF */
   knobOff: string;
   /** Knob radial gradient when ON */
@@ -94,34 +93,62 @@ export function GelToggle({
 }: Props) {
   const colors = isDark ? darkColors : lightColors;
 
-  /* ── Sizing — TypeGPU-inspired proportions ── */
-  // Track is the recessed channel
+  /* ── Sizing — improved proportions for better silhouette ── */
   const trackW = Math.round(size * 1.82);
   const trackH = Math.round(size * 0.82);
-  // Knob OVERFLOWS track vertically (TypeGPU key feature)
-  const knobD = Math.round(trackH * 1.15);
+  // Knob overflows track more visibly (1.35x vs old 1.15x)
+  const knobD = Math.round(trackH * 1.35);
   const knobOverflow = (knobD - trackH) / 2;
-  const pad = Math.round(trackH * 0.1);
+  const pad = Math.round(trackH * 0.08);
   const travel = trackW - knobD - pad * 2;
 
-  /* Springs */
-  const springRef = useRef(
-    Object.assign(new Spring(0.6, 280, 16), {
-      value: checked ? 1 : 0,
-      target: checked ? 1 : 0,
-    }),
+  /* ── Spring configs differ between OFF and ON ── */
+  // OFF: stiffer, more damped = smooth and fast
+  // ON: softer, less damped = bouncy and elastic
+  const posSpring = useRef(
+    Object.assign(
+      new Spring(
+        jellyMode ? 0.5 : 0.4,
+        jellyMode ? 220 : 380,
+        jellyMode ? 12 : 22,
+      ),
+      { value: checked ? 1 : 0, target: checked ? 1 : 0 },
+    ),
   );
-  const squashRef = useRef(new Spring(0.3, 700, 10));
+  const squashSpring = useRef(
+    new Spring(
+      jellyMode ? 0.25 : 0.2,
+      jellyMode ? 500 : 900,
+      jellyMode ? 7 : 16,
+    ),
+  );
   const lastT = useRef(0);
   const rafRef = useRef(0);
   const knobRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const causticRef = useRef<HTMLDivElement>(null);
 
+  /* Update spring configs when jellyMode changes */
+  useEffect(() => {
+    const sp = posSpring.current;
+    const sq = squashSpring.current;
+    if (jellyMode) {
+      sp.mass = 0.5; sp.stiffness = 220; sp.damping = 12;
+      sq.mass = 0.25; sq.stiffness = 500; sq.damping = 7;
+    } else {
+      sp.mass = 0.4; sp.stiffness = 380; sp.damping = 22;
+      sq.mass = 0.2; sq.stiffness = 900; sq.damping = 16;
+    }
+  }, [jellyMode]);
+
   /* Update spring target */
   useEffect(() => {
-    springRef.current.target = checked ? 1 : 0;
+    posSpring.current.target = checked ? 1 : 0;
   }, [checked]);
+
+  /* Squash multipliers: OFF is restrained, ON is expressive */
+  const squashScaleX = jellyMode ? 0.28 : 0.10;
+  const squashScaleY = jellyMode ? 0.20 : 0.06;
 
   /* Animation loop */
   useEffect(() => {
@@ -129,8 +156,8 @@ export function GelToggle({
     function frame(ts: number) {
       const dt = Math.min((ts - lastT.current) * 0.001, 0.1);
       lastT.current = ts;
-      const sp = springRef.current;
-      const sq = squashRef.current;
+      const sp = posSpring.current;
+      const sq = squashSpring.current;
       sp.update(dt);
       sq.update(dt);
 
@@ -139,15 +166,15 @@ export function GelToggle({
       const squash = sq.value;
 
       if (knobRef.current) {
-        knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+        knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
       }
       if (glowRef.current) {
-        const glowW = knobD * 1.5;
+        const glowW = knobD * 1.6;
         glowRef.current.style.transform = `translateX(${x + (knobD - glowW) / 2}px)`;
-        glowRef.current.style.opacity = String(0.15 + t * 0.65);
+        glowRef.current.style.opacity = String(0.1 + t * 0.7);
       }
       if (causticRef.current) {
-        causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+        causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
       }
 
       if (!sp.atRest() || !sq.atRest()) {
@@ -156,18 +183,20 @@ export function GelToggle({
     }
     rafRef.current = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [pad, travel, knobD]);
+  }, [pad, travel, knobD, squashScaleX, squashScaleY]);
 
   /* Click handler */
   const handleClick = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const sp = springRef.current;
-      const sq = squashRef.current;
-      const mult = jellyMode ? 1.5 : 1;
-      sp.velocity = (checked ? -4 : 4) * mult;
-      sq.velocity = (checked ? 5 : -5) * mult;
+      const sp = posSpring.current;
+      const sq = squashSpring.current;
+      // OFF: gentle impulse; ON: strong elastic impulse
+      const velMult = jellyMode ? 2.0 : 0.8;
+      const sqMult = jellyMode ? 2.0 : 0.6;
+      sp.velocity = (checked ? -4 : 4) * velMult;
+      sq.velocity = (checked ? 5 : -5) * sqMult;
       onChange(!checked);
       // Restart animation
       lastT.current = performance.now();
@@ -181,17 +210,17 @@ export function GelToggle({
         const x = pad + t * travel;
         const squash = sq.value;
         if (knobRef.current) {
-          knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+          knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
         }
         if (glowRef.current) {
-          const glowW = knobD * 1.5;
+          const glowW = knobD * 1.6;
           glowRef.current.style.transform = `translateX(${x + (knobD - glowW) / 2}px)`;
           glowRef.current.style.opacity = String(
-            0.15 + Math.max(0, Math.min(1, sp.value)) * 0.65,
+            0.1 + Math.max(0, Math.min(1, sp.value)) * 0.7,
           );
         }
         if (causticRef.current) {
-          causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+          causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
         }
         if (!sp.atRest() || !sq.atRest()) {
           rafRef.current = requestAnimationFrame(loop);
@@ -199,45 +228,51 @@ export function GelToggle({
       };
       rafRef.current = requestAnimationFrame(loop);
     },
-    [checked, onChange, jellyMode, pad, travel, knobD],
+    [checked, onChange, jellyMode, pad, travel, knobD, squashScaleX, squashScaleY],
   );
 
   const handleDown = useCallback(() => {
-    const mult = jellyMode ? 1.3 : 1;
-    squashRef.current.velocity = -3.5 * mult;
+    const mult = jellyMode ? 1.8 : 0.5;
+    squashSpring.current.velocity = -3.5 * mult;
     lastT.current = performance.now();
     cancelAnimationFrame(rafRef.current);
     const loop = (ts: number) => {
       const dt = Math.min((ts - lastT.current) * 0.001, 0.1);
       lastT.current = ts;
-      springRef.current.update(dt);
-      squashRef.current.update(dt);
-      const t = Math.max(0, Math.min(1, springRef.current.value));
+      posSpring.current.update(dt);
+      squashSpring.current.update(dt);
+      const t = Math.max(0, Math.min(1, posSpring.current.value));
       const x = pad + t * travel;
-      const squash = squashRef.current.value;
+      const squash = squashSpring.current.value;
       if (knobRef.current) {
-        knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+        knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
       }
       if (glowRef.current) {
-        const glowW = knobD * 1.5;
+        const glowW = knobD * 1.6;
         glowRef.current.style.transform = `translateX(${x + (knobD - glowW) / 2}px)`;
         glowRef.current.style.opacity = String(
-          0.15 +
-            Math.max(0, Math.min(1, springRef.current.value)) * 0.65,
+          0.1 +
+            Math.max(0, Math.min(1, posSpring.current.value)) * 0.7,
         );
       }
       if (causticRef.current) {
-        causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * 0.18}) scaleY(${1 - squash * 0.12})`;
+        causticRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
       }
-      if (!springRef.current.atRest() || !squashRef.current.atRest()) {
+      if (!posSpring.current.atRest() || !squashSpring.current.atRest()) {
         rafRef.current = requestAnimationFrame(loop);
       }
     };
     rafRef.current = requestAnimationFrame(loop);
-  }, [jellyMode, pad, travel, knobD]);
+  }, [jellyMode, pad, travel, knobD, squashScaleX, squashScaleY]);
 
-  /* Total component height includes knob overflow + glow space */
-  const totalH = trackH + knobOverflow * 2 + 10;
+  /*
+   * ALIGNMENT FIX: totalH is now based purely on the knob diameter
+   * (the tallest visual element). The glow spill renders outside
+   * the bounding box via overflow:visible, so it no longer inflates
+   * the button height. This eliminates the 5px offset that forced
+   * siblings to use -translate-y-[5px].
+   */
+  const totalH = knobD;
 
   return (
     <button
@@ -252,13 +287,14 @@ export function GelToggle({
         position: 'relative',
         zIndex: 101,
         padding: 0,
+        overflow: 'visible',
       }}
       aria-label={ariaLabel}
       title={title}
       role="switch"
       aria-checked={checked}
     >
-      {/* ── Recessed capsule track — deeply sunken metallic groove ── */}
+      {/* ── Recessed capsule track — deeply sunken groove ── */}
       <div
         style={{
           position: 'absolute',
@@ -275,6 +311,21 @@ export function GelToggle({
         }}
       />
 
+      {/* ── Track rim highlight — sells the recessed groove ── */}
+      <div
+        style={{
+          position: 'absolute',
+          top: knobOverflow + trackH - 1,
+          left: 4,
+          right: 4,
+          height: 1,
+          borderRadius: 1,
+          pointerEvents: 'none',
+          background: colors.trackRimLight,
+          transition: 'background 0.4s',
+        }}
+      />
+
       {/* ── Track inner fill tint (ON state only) ── */}
       {checked && (
         <div
@@ -287,27 +338,27 @@ export function GelToggle({
             borderRadius: (trackH - 4) / 2,
             pointerEvents: 'none',
             background: isDark
-              ? 'linear-gradient(90deg, oklch(1 0 0 / 3%) 0%, oklch(1 0 0 / 5%) 100%)'
-              : 'linear-gradient(90deg, oklch(0 0 0 / 3%) 0%, oklch(0 0 0 / 5%) 100%)',
+              ? 'linear-gradient(90deg, oklch(1 0 0 / 4%) 0%, oklch(1 0 0 / 7%) 100%)'
+              : 'linear-gradient(90deg, oklch(0 0 0 / 3%) 0%, oklch(0 0 0 / 6%) 100%)',
             transition: 'opacity 0.4s',
           }}
         />
       )}
 
-      {/* ── Colored glow spill beneath knob ── */}
+      {/* ── Colored glow spill beneath knob — outside bounding box ── */}
       <div
         ref={glowRef}
         style={{
           position: 'absolute',
           top: knobOverflow + trackH - 2,
           left: 0,
-          width: knobD * 1.5,
-          height: 12,
+          width: knobD * 1.6,
+          height: jellyMode ? 16 : 10,
           borderRadius: '50%',
           pointerEvents: 'none',
           background: checked ? colors.glowOn : colors.glowOff,
-          filter: 'blur(4px)',
-          transition: 'background 0.4s',
+          filter: `blur(${jellyMode ? 6 : 3}px)`,
+          transition: 'background 0.4s, filter 0.4s',
         }}
       />
 
@@ -326,8 +377,8 @@ export function GelToggle({
           background: checked ? colors.knobOn : colors.knobOff,
           boxShadow: checked ? colors.knobShadowOn : colors.knobShadowOff,
           border: checked
-            ? `1px solid ${isDark ? 'oklch(1 0 0 / 12%)' : 'oklch(1 0 0 / 25%)'}`
-            : `1px solid ${isDark ? 'oklch(1 0 0 / 8%)' : 'oklch(0 0 0 / 6%)'}`,
+            ? `1.5px solid ${isDark ? 'oklch(1 0 0 / 18%)' : 'oklch(1 0 0 / 35%)'}`
+            : `1.5px solid ${isDark ? 'oklch(1 0 0 / 12%)' : 'oklch(1 0 0 / 12%)'}`,
           transition:
             'background 0.4s, box-shadow 0.4s, border-color 0.4s',
           display: 'flex',
@@ -340,12 +391,12 @@ export function GelToggle({
         <div
           style={{
             position: 'absolute',
-            top: '6%',
-            left: '12%',
-            right: '12%',
-            height: '38%',
+            top: '4%',
+            left: '10%',
+            right: '10%',
+            height: '42%',
             borderRadius: '50%',
-            background: `linear-gradient(180deg, oklch(1 0 0 / ${checked ? 50 * colors.causticIntensity : 35 * colors.causticIntensity}%) 0%, oklch(1 0 0 / ${checked ? 18 * colors.causticIntensity : 12 * colors.causticIntensity}%) 45%, oklch(1 0 0 / 0%) 100%)`,
+            background: `linear-gradient(180deg, oklch(1 0 0 / ${checked ? 55 * colors.causticIntensity : 40 * colors.causticIntensity}%) 0%, oklch(1 0 0 / ${checked ? 22 * colors.causticIntensity : 15 * colors.causticIntensity}%) 50%, oklch(1 0 0 / 0%) 100%)`,
             pointerEvents: 'none',
           }}
         />
@@ -354,13 +405,24 @@ export function GelToggle({
         <div
           style={{
             position: 'absolute',
-            top: '10%',
-            left: '18%',
-            width: '28%',
-            height: '22%',
+            top: '8%',
+            left: '15%',
+            width: '32%',
+            height: '26%',
             borderRadius: '50%',
-            background: `radial-gradient(ellipse, oklch(1 0 0 / ${checked ? 38 * colors.causticIntensity : 22 * colors.causticIntensity}%) 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse, oklch(1 0 0 / ${checked ? 42 * colors.causticIntensity : 28 * colors.causticIntensity}%) 0%, transparent 70%)`,
             pointerEvents: 'none',
+          }}
+        />
+
+        {/* ── Rim light — edge highlight for 3D separation ── */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            background: `linear-gradient(135deg, oklch(1 0 0 / ${isDark ? 12 : 18}%) 0%, transparent 40%, transparent 60%, oklch(0 0 0 / ${isDark ? 12 : 6}%) 100%)`,
           }}
         />
 
@@ -369,11 +431,11 @@ export function GelToggle({
           style={{
             position: 'absolute',
             bottom: '0%',
-            left: '10%',
-            right: '10%',
-            height: '30%',
+            left: '8%',
+            right: '8%',
+            height: '35%',
             borderRadius: '50%',
-            background: `linear-gradient(0deg, oklch(0 0 0 / ${isDark ? 15 : 8}%) 0%, transparent 100%)`,
+            background: `linear-gradient(0deg, oklch(0 0 0 / ${isDark ? 20 : 12}%) 0%, transparent 100%)`,
             pointerEvents: 'none',
           }}
         />
@@ -387,7 +449,7 @@ export function GelToggle({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              filter: `drop-shadow(0 1px 2px oklch(0 0 0 / 25%))`,
+              filter: `drop-shadow(0 1px 2px oklch(0 0 0 / 30%))`,
               transition: 'opacity 0.3s',
             }}
           >
@@ -409,7 +471,7 @@ export function GelToggle({
           pointerEvents: 'none',
           transformOrigin: 'center center',
           background: checked
-            ? 'radial-gradient(ellipse at 35% 30%, oklch(1 0 0 / 10%) 0%, transparent 50%)'
+            ? `radial-gradient(ellipse at 35% 30%, oklch(1 0 0 / ${jellyMode ? 15 : 8}%) 0%, transparent 50%)`
             : 'none',
           transition: 'background 0.4s',
         }}
