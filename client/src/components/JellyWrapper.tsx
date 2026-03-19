@@ -1,16 +1,25 @@
 /**
  * JellyWrapper — Wraps any element with real spring-physics jelly behavior.
  *
- * Key behaviors:
+ * Key behaviors (FULL PATH — desktop with fine pointer):
  *   1. REACTIVE RE-TRIGGER: Every tap/click re-fires the wobble, even mid-wobble.
  *   2. PRESS-DURATION INTENSITY: Longer hold = bigger squash.
  *   3. CONTINUOUS REACTION: Sliding finger/mouse across boxes triggers wobble on each.
  *      Uses onPointerEnter (not just onPointerDown) to detect sliding across elements.
  *   4. Spring physics with overshoot — like real gelatin.
+ *
+ * LIGHTER PATH (touch / coarse-pointer devices — iPhone, Android, iPad):
+ *   - No continuous RAF spring loop (eliminates scroll lag)
+ *   - Entrance animations preserved (whileInView bounce-in)
+ *   - Simple whileTap scale for tap feedback
+ *   - No drag-across impulse, no hover wobble
+ *
+ * Phase 2F follow-up: Capability-gated via useFineHover hook.
  */
 import { useRef, useEffect, useCallback, type ReactNode, type CSSProperties } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { useJellyMode } from '@/contexts/JellyModeContext';
+import { useFineHover } from '@/hooks/useFineHover';
 
 /* ─── Spring simulation ─── */
 class Spring {
@@ -60,6 +69,7 @@ export function JellyWrapper({
   tapSquash = 0.15,
 }: JellyWrapperProps) {
   const { jellyMode } = useJellyMode();
+  const fineHover = useFineHover();
   const elRef = useRef<HTMLDivElement>(null);
   const springCfg = SPRING_CONFIGS[intensity];
 
@@ -84,7 +94,7 @@ export function JellyWrapper({
     rotRef.current.mass = cfg.mass;
   }, [intensity]);
 
-  /* ── Animation loop ── */
+  /* ── Animation loop (FULL PATH only) ── */
   const tick = useCallback(() => {
     const now = performance.now();
     const dt = Math.min((now - lastTRef.current) * 0.001, 0.05);
@@ -127,7 +137,7 @@ export function JellyWrapper({
     }
   }, [tick]);
 
-  /* ── Event handlers ── */
+  /* ── Event handlers (FULL PATH only) ── */
   const handlePointerDown = useCallback(() => {
     isPressedRef.current = true;
     pressStartRef.current = performance.now();
@@ -230,6 +240,7 @@ export function JellyWrapper({
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, []);
 
+  /* ── Jelly OFF: plain element ── */
   if (!jellyMode) {
     const Tag = as;
     return <Tag className={className} style={style}>{children}</Tag>;
@@ -247,6 +258,25 @@ export function JellyWrapper({
         },
       };
 
+  /* ── LIGHTER PATH: touch / coarse-pointer devices ── */
+  if (!fineHover) {
+    return (
+      <MotionTag
+        className={className}
+        style={{ ...style, touchAction: 'manipulation' }}
+        variants={noEntrance ? undefined : entranceVariants}
+        initial={noEntrance ? undefined : 'hidden'}
+        whileInView={noEntrance ? undefined : 'visible'}
+        viewport={noEntrance ? undefined : { once: true, margin: '-50px' }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+      >
+        {children}
+      </MotionTag>
+    );
+  }
+
+  /* ── FULL PATH: desktop with fine pointer ── */
   return (
     <MotionTag
       ref={elRef}
@@ -270,6 +300,9 @@ export function JellyWrapper({
 
 /**
  * JellyText — Makes text elements wobble like jelly on hover.
+ *
+ * FULL PATH: whileHover multi-axis scale wobble.
+ * LIGHTER PATH: no hover effect (prevents sticky wobble on touch).
  */
 interface JellyTextProps {
   children: string;
@@ -279,6 +312,7 @@ interface JellyTextProps {
 
 export function JellyText({ children, className = '', as = 'span' }: JellyTextProps) {
   const { jellyMode } = useJellyMode();
+  const fineHover = useFineHover();
 
   if (!jellyMode) {
     const Tag = as;
@@ -290,11 +324,11 @@ export function JellyText({ children, className = '', as = 'span' }: JellyTextPr
   return (
     <MotionTag
       className={className}
-      whileHover={{
+      whileHover={fineHover ? {
         scaleX: [1, 1.02, 0.98, 1.01, 1],
         scaleY: [1, 0.98, 1.02, 0.99, 1],
         transition: { duration: 0.5, ease: 'easeInOut' },
-      }}
+      } : undefined}
     >
       {children}
     </MotionTag>
@@ -303,6 +337,9 @@ export function JellyText({ children, className = '', as = 'span' }: JellyTextPr
 
 /**
  * JellyButton — A button with full jelly physics.
+ *
+ * FULL PATH: Continuous RAF spring loop, hold-duration squash, release force wobble.
+ * LIGHTER PATH: Simple whileTap scale, no continuous spring simulation.
  */
 interface JellyButtonProps {
   children: ReactNode;
@@ -326,6 +363,7 @@ export function JellyButton({
   disabled,
 }: JellyButtonProps) {
   const { jellyMode } = useJellyMode();
+  const fineHover = useFineHover();
   const elRef = useRef<HTMLElement>(null);
   const sxRef = useRef(new Spring(800, 8, 0.3));
   const syRef = useRef(new Spring(800, 8, 0.3));
@@ -402,6 +440,7 @@ export function JellyButton({
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, []);
 
+  /* ── Jelly OFF: plain element ── */
   if (!jellyMode) {
     if (href) {
       return (
@@ -422,6 +461,22 @@ export function JellyButton({
     ? { href, target, rel }
     : { onClick, disabled };
 
+  /* ── LIGHTER PATH: touch / coarse-pointer devices ── */
+  if (!fineHover) {
+    return (
+      <Tag
+        {...props}
+        className={className}
+        style={style}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+      >
+        {children}
+      </Tag>
+    );
+  }
+
+  /* ── FULL PATH: desktop with fine pointer ── */
   return (
     <Tag
       {...props}
