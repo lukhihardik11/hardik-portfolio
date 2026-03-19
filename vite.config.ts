@@ -167,6 +167,17 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 2100, // Spline 3D engine chunks (~2MB each) are intentionally large
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          // Isolate framer-motion (used across many components) for better caching
+          if (id.includes('framer-motion')) {
+            return 'framer-motion';
+          }
+        },
+      },
+    },
   },
   server: {
     host: true,
