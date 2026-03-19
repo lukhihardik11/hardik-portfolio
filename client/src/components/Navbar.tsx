@@ -141,7 +141,7 @@ export function Navbar() {
                       : { scale: 0.96 }
                     }
                     transition={jellyMode ? jellyBtnSpring : btnSpring}
-                    className="no-jelly relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none"
+                    className={`no-jelly relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none transition-colors ${!isActive ? 'text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground' : ''}`}
                     style={isActive ? {
                       background: `linear-gradient(145deg, ${gelColor.bg}, oklch(from ${gelColor.bg} calc(l - 0.08) c h))`,
                       color: isDark ? 'oklch(0.98 0 0)' : gelColor.text,
@@ -152,7 +152,6 @@ export function Navbar() {
                       `,
                     } : {
                       background: 'transparent',
-                      color: isDark ? 'oklch(0.65 0 0)' : 'oklch(0.45 0 0)',
                       border: 'none',
                       boxShadow: 'none',
                     }}
@@ -172,7 +171,7 @@ export function Navbar() {
             </div>
 
             {/* Right side controls — toggles + mail + hamburger */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 mt-[5px]">
               {/* Jelly Mode toggle — hidden on small mobile */}
               <div className="hidden sm:flex items-center">
                 <JellyModeToggle size={sz} />
