@@ -2,9 +2,15 @@
  * HERO — Refined jelly physics
  * Subtle spring animations on interactive elements only.
  * Non-interactive text/badges have no hover effects.
+ *
+ * Phase 2C: Responsive layout & real-estate optimization
+ * - iPad portrait gets stacked layout (xl: breakpoint for side-by-side)
+ * - Flexible hero height instead of rigid min-h-screen
+ * - Tighter top padding, proper bottom spacing
+ * - CTA buttons never orphan on mobile
  */
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, useEffect, Suspense, lazy, useCallback } from 'react';
+import React, { useRef, useEffect, Suspense, lazy, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -12,6 +18,27 @@ gsap.registerPlugin(ScrollTrigger);
 import { ArrowDown, Download } from 'lucide-react';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
+
+/* Error boundary to gracefully handle WebGL failures in Spline */
+class SplineErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: Error) {
+    console.warn('Spline 3D scene failed to load:', error.message);
+  }
+  render() {
+    if (this.state.hasError) return this.props.fallback;
+    return this.props.children;
+  }
+}
 
 /* Subtle spring for buttons */
 const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 } as const;
@@ -124,7 +151,11 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section ref={ref} id="hero" className="relative min-h-screen flex items-center overflow-hidden">
+    <section
+      ref={ref}
+      id="hero"
+      className="relative flex items-center overflow-hidden min-h-[100svh] xl:min-h-screen"
+    >
       {/* Floating blobs — background decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
@@ -155,11 +186,17 @@ export function HeroSection() {
 
       <motion.div
         style={{ opacity, y, skewX: springSkew, scaleX: springSX, scaleY: springSY }}
-        className="container relative z-10 pt-24 pb-20"
+        className="container relative z-10 pt-16 sm:pt-18 md:pt-20 xl:pt-24 pb-24 sm:pb-20"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 items-center min-h-[65vh]">
+        {/*
+          Grid layout:
+          - Mobile (<768px): single column, stacked
+          - Tablet (768–1279px): single column with Spline below text (stacked)
+          - Desktop (>=1280px): 5-column side-by-side (text 3 cols + Spline 2 cols)
+        */}
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 md:gap-10 xl:gap-8 items-center">
           {/* Left column — text content */}
-          <motion.div variants={stagger} initial="hidden" animate="visible" className="lg:col-span-3 flex flex-col gap-8">
+          <motion.div variants={stagger} initial="hidden" animate="visible" className="xl:col-span-3 flex flex-col gap-5 sm:gap-6 md:gap-7 xl:gap-8">
             {/* Status pill */}
             <motion.div variants={jellyChild}>
               <div className="glass-pill inline-flex items-center gap-2.5 px-4 py-2">
@@ -178,7 +215,7 @@ export function HeroSection() {
 
             {/* Name */}
             <motion.div variants={jellyChild}>
-              <h1 ref={nameRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold tracking-[-0.03em] leading-[1.02]">
+              <h1 ref={nameRef} className="text-4xl sm:text-5xl md:text-6xl xl:text-[5.5rem] font-bold tracking-[-0.03em] leading-[1.02]">
                 <span className="text-foreground inline-block">Hardik</span>
                 <br />
                 <span
@@ -193,7 +230,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Role */}
-            <motion.div variants={jellyChild} className="flex flex-col gap-3">
+            <motion.div variants={jellyChild} className="flex flex-col gap-2 sm:gap-3">
               <p className="text-lg sm:text-xl font-semibold text-foreground/80 leading-relaxed tracking-[-0.01em]">
                 Project Manager | Senior Mechanical Engineer
               </p>
@@ -205,51 +242,55 @@ export function HeroSection() {
               </p>
             </motion.div>
 
-            {/* CTA buttons — subtle hover only on buttons */}
-            <motion.div variants={jellyChild} className="flex items-center gap-3 flex-wrap pt-1">
-              <motion.a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                transition={btnSpring}
-                className="jelly-btn jelly-btn-teal no-underline"
-              >
-                Say Hello
-              </motion.a>
-              <motion.a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                transition={btnSpring}
-                className="jelly-btn jelly-btn-ghost no-underline"
-              >
-                <Download size={13} />
-                View Work
-              </motion.a>
-              <motion.a
-                href="/assets/resume/Hardik_Lukhi_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                transition={btnSpring}
-                className="jelly-btn jelly-btn-ghost no-underline"
-              >
-                <Download size={13} />
-                Resume
-              </motion.a>
+            {/* CTA buttons — grid layout to prevent orphaned buttons */}
+            <motion.div variants={jellyChild} className="pt-1">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <motion.a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={btnSpring}
+                  className="jelly-btn jelly-btn-teal no-underline text-center"
+                >
+                  Say Hello
+                </motion.a>
+                <div className="flex items-center gap-3">
+                  <motion.a
+                    href="#projects"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={btnSpring}
+                    className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
+                  >
+                    <Download size={13} />
+                    View Work
+                  </motion.a>
+                  <motion.a
+                    href="/assets/resume/Hardik_Lukhi_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={btnSpring}
+                    className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
+                  >
+                    <Download size={13} />
+                    Resume
+                  </motion.a>
+                </div>
+              </div>
             </motion.div>
 
             {/* Company pills — no hover animation, just static */}
-            <motion.div variants={jellyChild} className="flex items-center gap-2 sm:gap-2.5 pt-2 flex-wrap">
+            <motion.div variants={jellyChild} className="flex items-center gap-2 sm:gap-2.5 pt-1 flex-wrap">
               {[
                 { name: 'Meta', active: true },
                 { name: 'Stryker', active: false },
@@ -268,12 +309,15 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right column — Spline 3D */}
+          {/* Right column — Spline 3D
+              Hidden on phones (<768px).
+              On tablet (768–1279px): shown below text in stacked layout, shorter height.
+              On desktop (>=1280px): side-by-side, taller height. */}
           <motion.div
             initial={{ opacity: 0, scale: 0.7, rotate: -5, scaleX: 0.8, scaleY: 1.2 }}
             animate={{ opacity: 1, scale: 1, rotate: 0, scaleX: 1, scaleY: 1 }}
             transition={{ type: 'spring', stiffness: 100, damping: 10, mass: 1.5, delay: 0.3 }}
-            className="lg:col-span-2 relative h-[380px] sm:h-[440px] lg:h-[520px] hidden md:block"
+            className="xl:col-span-2 relative h-[340px] md:h-[380px] xl:h-[520px] hidden md:block"
           >
             <div
               className="absolute inset-0 pointer-events-none z-0"
@@ -284,32 +328,45 @@ export function HeroSection() {
                 `,
               }}
             />
-            <Suspense
+            <SplineErrorBoundary
               fallback={
                 <div className="w-full h-full flex items-center justify-center">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.3, 0.7, 0.3],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="w-24 h-24"
+                  <div
+                    className="w-32 h-32 rounded-full opacity-20"
                     style={{
-                      background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 25%) 0%, transparent 70%)',
+                      background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 30%) 0%, transparent 70%)',
                     }}
                   />
                 </div>
               }
             >
-              <div className="spline-container w-full h-full relative z-10">
-                <Spline
-                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                  className="w-full h-full"
-                  onLoad={onSplineLoad}
-                  style={{ background: 'transparent' }}
-                />
-              </div>
-            </Suspense>
+              <Suspense
+                fallback={
+                  <div className="w-full h-full flex items-center justify-center">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [0.3, 0.7, 0.3],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="w-24 h-24"
+                      style={{
+                        background: 'radial-gradient(circle, oklch(0.55 0.18 230 / 25%) 0%, transparent 70%)',
+                      }}
+                    />
+                  </div>
+                }
+              >
+                <div className="spline-container w-full h-full relative z-10">
+                  <Spline
+                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                    className="w-full h-full"
+                    onLoad={onSplineLoad}
+                    style={{ background: 'transparent' }}
+                  />
+                </div>
+              </Suspense>
+            </SplineErrorBoundary>
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-20" />
             <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background via-background/50 to-transparent pointer-events-none z-20" />
             <div className="absolute top-0 bottom-0 left-0 w-28 bg-gradient-to-r from-background via-background/50 to-transparent pointer-events-none z-20" />
@@ -317,12 +374,12 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — positioned relative to content flow on mobile, absolute on desktop */}
         <motion.div
           initial={{ opacity: 0, y: 20, scaleY: 1.3 }}
           animate={{ opacity: 1, y: 0, scaleY: 1 }}
           transition={{ type: 'spring' as const, stiffness: 150, damping: 8, mass: 1.2, delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          className="mt-8 sm:mt-10 xl:mt-0 xl:absolute xl:bottom-8 left-1/2 xl:-translate-x-1/2 flex flex-col items-center gap-3 mx-auto"
         >
           <span className="text-[10px] font-mono text-muted-foreground/30 uppercase tracking-[0.2em]">
             Scroll
