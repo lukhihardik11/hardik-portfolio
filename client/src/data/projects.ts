@@ -239,6 +239,8 @@ export const projects: ProjectData[] = [
     color: "oklch(0.60 0.18 350)",
     accentColor: "#f472b6",
     hasAnimation: true,
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
     downloadLinks: [
       {
         url: "/assets/reports/FinalGraduateProjectReport.pdf",
@@ -296,6 +298,8 @@ export const projects: ProjectData[] = [
     accentColor: "#f59e0b",
     hasAnimation: true,
     animBgColor: "#262626",
+    disclaimer:
+      "To protect intellectual property, all visuals shown are illustrative representations only and do not depict any proprietary or confidential designs.",
     downloadLinks: [
       {
         url: "/assets/reports/FinalPresentation.pptx",
