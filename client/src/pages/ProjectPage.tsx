@@ -98,12 +98,8 @@ export default function ProjectPage() {
             transition={{ duration: 0.5 }}
           >
             <span
-              className="inline-block px-3 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase mb-6"
-              style={{
-                color: project.accentColor,
-                background: `${project.accentColor}15`,
-                border: `1px solid ${project.accentColor}25`,
-              }}
+              className="glass-pill inline-block px-3 py-1 text-[10px] font-mono tracking-wider uppercase mb-6"
+              style={{ color: project.accentColor }}
             >
               {project.category}
             </span>
@@ -289,12 +285,8 @@ export default function ProjectPage() {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1.5 rounded-lg text-xs font-mono"
-                  style={{
-                    color: `${project.accentColor}cc`,
-                    background: `${project.accentColor}10`,
-                    border: `1px solid ${project.accentColor}20`,
-                  }}
+                  className="glass-pill px-3 py-1.5 text-xs font-mono cursor-default"
+                  style={{ color: `${project.accentColor}cc` }}
                 >
                   {tag}
                 </span>
