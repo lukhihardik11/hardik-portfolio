@@ -87,18 +87,14 @@ function GelOrb({ number, orbIndex, isDark }: { number: string; orbIndex: number
   const orb = GEL_ORB_COLORS[orbIndex % GEL_ORB_COLORS.length];
   return (
     <div
-      className="relative w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono font-bold text-white/90 shrink-0"
+      className="jelly-gel-orb relative w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono font-bold text-white/90 shrink-0"
       style={{
         background: `radial-gradient(ellipse 70% 60% at 35% 30%,
           oklch(1 0 0 / 35%),
           ${orb.bg} 60%,
           oklch(from ${orb.bg} calc(l - 0.15) c h) 100%)`,
-        border: 'none',
-        boxShadow: `
-          0 0 1px oklch(1 0 0 / 10%),
-          0 3px 10px ${orb.glow}
-        `,
-      }}
+        '--orb-glow': orb.glow,
+      } as React.CSSProperties}
     >
       {/* Specular highlight — white dot at top-left */}
       <span
@@ -191,7 +187,7 @@ export function SkillsSection() {
                 className="jelly-card p-6 lg:p-7 h-full"
               >
                 {/* Category header with gel orb badge */}
-                <div className="flex items-center justify-between mb-6 pb-3" style={{ borderBottom: 'none' }}>
+                <div className="flex items-center justify-between mb-6 pb-3">
                   <span className="text-sm font-semibold text-foreground tracking-tight">{cat.category}</span>
                   <GelOrb number={cat.number} orbIndex={cat.orbIndex} isDark={isDark} />
                 </div>

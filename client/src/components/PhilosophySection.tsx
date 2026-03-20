@@ -124,7 +124,8 @@ export function PhilosophySection() {
           {/* Quote — GSAP word-by-word reveal */}
           <h2
             ref={quoteRef}
-            className="text-2xl sm:text-3xl lg:text-4xl font-medium text-foreground leading-relaxed tracking-[-0.01em] cursor-default"
+            className="jelly-section-title leading-relaxed tracking-[-0.01em] cursor-default"
+            style={{ fontWeight: 500 }}
           >
             {mainQuote.split(' ').map((word, i) => (
               <span key={i} className="gsap-word inline-block mr-[0.3em]" style={{ opacity: 0.15 }}>

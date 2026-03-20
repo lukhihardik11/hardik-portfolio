@@ -111,17 +111,7 @@ export function Navbar() {
               transition={btnSpring}
               className="no-jelly flex items-center gap-2 no-underline shrink-0"
             >
-              <div
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-white text-[10px] sm:text-xs font-bold relative overflow-hidden"
-                style={{
-                  background: `linear-gradient(145deg, oklch(0.65 0.16 230 / 70%), oklch(0.50 0.22 230 / 75%))`,
-                  border: 'none',
-                  boxShadow: `
-                    0 0 1px oklch(1 0 0 / 15%),
-                    0 3px 8px oklch(0.55 0.20 230 / 20%)
-                  `,
-                }}
-              >
+              <div className="jelly-logo-badge w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-white text-[10px] sm:text-xs font-bold relative overflow-hidden">
                 HL
               </div>
               <span className="text-sm font-semibold text-foreground tracking-tight hidden sm:block">
@@ -147,7 +137,7 @@ export function Navbar() {
                       : { scale: 0.96 }
                     }
                     transition={jellyMode ? jellyBtnSpring : btnSpring}
-                    className={`no-jelly relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none transition-colors ${!isActive ? 'text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground' : ''}`}
+                    className={`no-jelly jelly-nav-link relative px-3.5 py-1.5 text-xs font-semibold rounded-full cursor-pointer border-none outline-none transition-colors ${!isActive ? 'text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground' : ''}`}
                     style={isActive ? {
                       background: `linear-gradient(145deg, ${gelColor.bg}, oklch(from ${gelColor.bg} calc(l - 0.08) c h))`,
                       color: isDark ? 'oklch(0.98 0 0)' : gelColor.text,

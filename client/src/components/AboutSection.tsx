@@ -266,7 +266,7 @@ function GSAPCounter({ target, suffix, color }: { target: number; suffix: string
   return (
     <span
       ref={counterRef}
-      className="text-2xl sm:text-3xl font-bold tracking-tight inline-block"
+      className="jelly-stat-number inline-block"
       style={{ color }}
     >
       {display}
