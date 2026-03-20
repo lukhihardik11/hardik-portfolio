@@ -107,10 +107,10 @@ const stagger = {
 const jellyChild = {
   hidden: {
     opacity: 0,
-    y: 60,
-    scaleX: 0.85,
-    scaleY: 1.18,
-    rotate: -3,
+    y: 40,
+    scaleX: 0.95,
+    scaleY: 1.05,
+    rotate: -1,
   },
   visible: {
     opacity: 1,
@@ -350,7 +350,7 @@ export function HeroSection() {
                 Hardware Sustainment & Test Engineering
               </p>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-lg">
-                Results-driven Hardware Engineer and Project Manager with 8+ years of experience in product design, prototyping, and hardware sustainment across consumer electronics and medical devices. Proven track record of leading cross-functional teams, driving root cause analysis, and delivering manufacturing test solutions that improve efficiency and product reliability. Expertise in NPI, DfX, failure analysis, and test automation with hands-on experience supporting cutting-edge wearable technology at Meta.
+                Hardware Engineer and Project Manager who owns Meta's end-to-end EMG wearable sustainment pipeline — from failure investigation and CT scanning through fixture design, factory test automation, and CM transfer. Eight years spanning six product generations across consumer electronics and regulated medical devices (FDA, ISO 13485, EU MDR), with dual Master's degrees and expertise in NPI, DfX, SPC, and cross-functional program leadership.
               </p>
             </motion.div>
 
@@ -386,7 +386,7 @@ export function HeroSection() {
                     View Work
                   </motion.a>
                   <motion.a
-                    href="/assets/resume/Hardik_Lukhi_Resume.pdf"
+                    href="/assets/resume/Hardik_Lukhi_Resume_Visual.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: hoverScale, y: hoverY }}

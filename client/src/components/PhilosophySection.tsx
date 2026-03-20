@@ -110,7 +110,7 @@ export function PhilosophySection() {
         <div className="max-w-3xl mx-auto text-center">
           {/* Divider above */}
           <motion.div
-            initial={{ opacity: 0, scaleX: 0.5, scaleY: 1.5 }}
+            initial={{ opacity: 0, scaleX: 0.8, scaleY: 1.2 }}
             whileInView={{ opacity: 1, scaleX: 1, scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ type: 'spring' as const, stiffness: 120, damping: 10 }}
@@ -151,7 +151,7 @@ export function PhilosophySection() {
 
           {/* Attribution — no hover on text */}
           <motion.div
-            initial={{ opacity: 0, scaleX: 0.5, scaleY: 1.5 }}
+            initial={{ opacity: 0, scaleX: 0.8, scaleY: 1.2 }}
             whileInView={{ opacity: 1, scaleX: 1, scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ type: 'spring' as const, stiffness: 120, damping: 10, delay: 0.25 }}

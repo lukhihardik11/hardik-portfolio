@@ -163,6 +163,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -200,6 +201,9 @@
   }
   @media (min-width: 1280px) {
     .container { padding-left: 3rem; padding-right: 3rem; max-width: 1280px; }
+  }
+  @media (min-width: 1536px) {
+    .container { padding-left: 4rem; padding-right: 4rem; max-width: 1400px; }
   }
 }
 
@@ -555,10 +559,10 @@ body {
   margin-bottom: 0.75rem;
 }
 .jelly-section-title {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.75rem, 3.5vw + 0.5rem, 2.75rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
   color: var(--foreground);
 }
 
@@ -669,8 +673,20 @@ body {
 ::-webkit-scrollbar-thumb { background: oklch(0.50 0.005 80 / 15%); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: oklch(0.40 0.005 80 / 25%); }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 section[id] { scroll-margin-top: 5rem; }
+
+/* Premium focus ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
 
 ::selection {
   background: oklch(0.55 0.18 230 / 15%);
@@ -903,9 +919,10 @@ section[id] { scroll-margin-top: 5rem; }
   border-radius: 16px;
 }
 
-/* Jelly mode: Section titles get subtle float */
+/* Jelly mode: Section titles get very subtle float — restrained for premium feel */
 .jelly-mode .jelly-section-title {
-  animation: jelly-float 10s ease-in-out infinite;
+  animation: jelly-float 14s ease-in-out infinite;
+  animation-delay: -3s;
 }
 
 /* Jelly mode: Icon boxes get 3D gel depth + pulse */
@@ -1063,14 +1080,14 @@ section[id] { scroll-margin-top: 5rem; }
   100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
 }
 
-/* Jelly wobble — DRAMATIC squash & stretch */
+/* Jelly wobble — Refined squash & stretch (premium restraint) */
 @keyframes jelly-wobble {
   0% { transform: scale(1, 1); }
-  15% { transform: scale(0.85, 1.15); }
-  30% { transform: scale(1.08, 0.92); }
-  45% { transform: scale(0.95, 1.05); }
-  60% { transform: scale(1.03, 0.97); }
-  75% { transform: scale(0.98, 1.02); }
+  15% { transform: scale(0.92, 1.08); }
+  30% { transform: scale(1.04, 0.96); }
+  45% { transform: scale(0.97, 1.03); }
+  60% { transform: scale(1.02, 0.98); }
+  75% { transform: scale(0.99, 1.01); }
   100% { transform: scale(1, 1); }
 }
 
@@ -1084,9 +1101,9 @@ section[id] { scroll-margin-top: 5rem; }
   100% { transform: scale(1, 1); }
 }
 
-/* Jelly mode: ALL buttons get dramatic squash on click */
+/* Jelly mode: Buttons get refined squash on click */
 .jelly-mode button:active:not(.no-jelly) {
-  transform: scale(1.15, 0.85) !important;
+  transform: scale(1.06, 0.94) !important;
   transition: transform 0.1s ease-out !important;
 }
 
@@ -1098,11 +1115,11 @@ section[id] { scroll-margin-top: 5rem; }
   }
 }
 
-/* Jelly mode: Cards get dramatic deformation on hover */
+/* Jelly mode: Cards get subtle elastic deformation on hover */
 @media (hover: hover) and (pointer: fine) {
   .jelly-mode .jelly-card:hover {
-    transform: scale(1.02, 0.98) !important;
-    animation: jelly-wobble 0.8s ease-in-out !important;
+    transform: scale(1.008, 0.992) !important;
+    animation: jelly-wobble 0.7s ease-in-out !important;
   }
 }
 

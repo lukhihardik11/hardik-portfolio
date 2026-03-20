@@ -99,10 +99,10 @@ export function ProjectsSection() {
           ref={headerRef}
           initial={{
             opacity: 0,
-            y: 50,
-            scaleX: 0.85,
-            scaleY: 1.15,
-            rotate: -2,
+            y: 30,
+            scaleX: 0.95,
+            scaleY: 1.05,
+            rotate: -1,
           }}
           whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -131,10 +131,10 @@ export function ProjectsSection() {
               key={project.id}
               initial={{
                 opacity: 0,
-                y: 70,
-                scaleX: 0.82,
-                scaleY: 1.2,
-                rotate: i % 2 === 0 ? -3 : 3,
+                y: 40,
+                scaleX: 0.95,
+                scaleY: 1.05,
+                rotate: i % 2 === 0 ? -1.5 : 1.5,
               }}
               whileInView={{
                 opacity: 1,

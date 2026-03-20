@@ -17,7 +17,7 @@ const btnSpringOn  = { type: 'spring' as const, stiffness: 220, damping: 16, mas
 const contactLinks = [
   { label: 'Email', value: 'lukhihardik11@gmail.com', href: 'mailto:lukhihardik11@gmail.com', icon: Mail, color: 'oklch(0.55 0.18 230)' },
   { label: 'LinkedIn', value: 'linkedin.com/in/hardiklukhi', href: 'https://linkedin.com/in/hardiklukhi', icon: Linkedin, color: 'oklch(0.50 0.14 230)' },
-  { label: 'Phone', value: '(361) 228-5831', href: 'tel:+13612285831', icon: Phone, color: 'oklch(0.75 0.15 65)' },
+  { label: 'Phone', value: '361-228-5831', href: 'tel:+13612285831', icon: Phone, color: 'oklch(0.75 0.15 65)' },
 ];
 
 export function ContactSection() {
@@ -89,7 +89,7 @@ export function ContactSection() {
           {/* Section header */}
           <motion.div
             ref={headerRef}
-            initial={{ opacity: 0, y: 50, scaleX: 0.85, scaleY: 1.15, rotate: -2 }}
+            initial={{ opacity: 0, y: 30, scaleX: 0.95, scaleY: 1.05, rotate: -1 }}
             whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ type: 'spring' as const, stiffness: 120, damping: 10, mass: 1.2 }}
@@ -105,7 +105,7 @@ export function ContactSection() {
 
           {/* Primary CTA — subtle hover */}
           <motion.div
-            initial={{ opacity: 0, y: 40, scaleX: 0.80, scaleY: 1.25, rotate: -3 }}
+            initial={{ opacity: 0, y: 30, scaleX: 0.95, scaleY: 1.05, rotate: -1 }}
             whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
             viewport={{ once: true }}
             transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1 }}
@@ -134,7 +134,7 @@ export function ContactSection() {
                   href={link.href}
                   target={link.href.startsWith('http') ? '_blank' : undefined}
                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  initial={{ opacity: 0, y: 60, scaleX: 0.82, scaleY: 1.20, rotate: i % 2 === 0 ? -3 : 3 }}
+                  initial={{ opacity: 0, y: 35, scaleX: 0.96, scaleY: 1.04, rotate: i % 2 === 0 ? -1 : 1 }}
                   whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ type: 'spring' as const, stiffness: 140, damping: 10, mass: 1, delay: i * 0.08 }}
@@ -161,7 +161,7 @@ export function ContactSection() {
 
           {/* Location — no hover */}
           <motion.div
-            initial={{ opacity: 0, y: 30, scaleX: 0.88, scaleY: 1.12 }}
+            initial={{ opacity: 0, y: 20, scaleX: 0.97, scaleY: 1.03 }}
             whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ type: 'spring' as const, stiffness: 150, damping: 10, delay: 0.3 }}

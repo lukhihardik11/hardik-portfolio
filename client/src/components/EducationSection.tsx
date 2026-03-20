@@ -93,7 +93,7 @@ export function EducationSection() {
         {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 50, scaleX: 0.85, scaleY: 1.15, rotate: -2 }}
+          initial={{ opacity: 0, y: 30, scaleX: 0.95, scaleY: 1.05, rotate: -1 }}
           whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ type: 'spring' as const, stiffness: 120, damping: 10, mass: 1.2 }}
@@ -108,7 +108,7 @@ export function EducationSection() {
           {education.map((edu, i) => (
             <motion.div
               key={edu.degree}
-              initial={{ opacity: 0, y: 70, scaleX: 0.82, scaleY: 1.20, rotate: i % 2 === 0 ? -3 : 3 }}
+              initial={{ opacity: 0, y: 40, scaleX: 0.95, scaleY: 1.05, rotate: i % 2 === 0 ? -1.5 : 1.5 }}
               whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
               viewport={{ once: true }}
               transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1, delay: i * 0.1 }}
@@ -152,7 +152,7 @@ export function EducationSection() {
 
         {/* Internships — subtle hover */}
         <motion.div
-          initial={{ opacity: 0, y: 40, scaleX: 0.88, scaleY: 1.12 }}
+            initial={{ opacity: 0, y: 30, scaleX: 0.96, scaleY: 1.04 }}
           whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1 }}
           viewport={{ once: true }}
           transition={{ type: 'spring' as const, stiffness: 120, damping: 10, mass: 1 }}
@@ -167,7 +167,7 @@ export function EducationSection() {
             {internships.map((intern, i) => (
               <motion.div
                 key={intern.company}
-                initial={{ opacity: 0, y: 50, scaleX: 0.85, scaleY: 1.15, rotate: i % 2 === 0 ? -2 : 2 }}
+                initial={{ opacity: 0, y: 35, scaleX: 0.96, scaleY: 1.04, rotate: i % 2 === 0 ? -1 : 1 }}
                 whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: 'spring' as const, stiffness: 140, damping: 10, mass: 1, delay: i * 0.08 }}

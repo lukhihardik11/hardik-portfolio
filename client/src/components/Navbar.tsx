@@ -129,11 +129,11 @@ export function Navbar() {
                     key={link.href}
                     onClick={() => nav(link.href)}
                     whileHover={jellyMode
-                      ? { y: -4, scale: 1.1, rotate: [0, -2, 2, 0] }
+                      ? { y: -3, scale: 1.06 }
                       : { y: -2, scale: 1.04 }
                     }
                     whileTap={jellyMode
-                      ? { scale: 0.85, scaleX: 1.15, scaleY: 0.85 }
+                      ? { scale: 0.92, scaleX: 1.06, scaleY: 0.94 }
                       : { scale: 0.96 }
                     }
                     transition={jellyMode ? jellyBtnSpring : btnSpring}
@@ -192,11 +192,11 @@ export function Navbar() {
                 href="#contact"
                 onClick={(e) => { e.preventDefault(); nav('#contact'); }}
                 whileHover={jellyMode
-                  ? { scale: 1.15, y: -3, rotate: [0, -3, 3, 0] }
-                  : { scale: 1.08, y: -1 }
+                  ? { scale: 1.1, y: -2 }
+                  : { scale: 1.06, y: -1 }
                 }
                 whileTap={jellyMode
-                  ? { scale: 0.88, scaleX: 1.12, scaleY: 0.88 }
+                  ? { scale: 0.92, scaleX: 1.06, scaleY: 0.94 }
                   : { scale: 0.94 }
                 }
                 transition={jellyMode ? jellyBtnSpring : btnSpring}
@@ -262,11 +262,11 @@ export function Navbar() {
                       : { duration: 0.2, delay: i * 0.04 }
                     }
                     whileHover={jellyMode
-                      ? { y: -5, scale: 1.12, rotate: [0, -3, 3, 0] }
+                      ? { y: -3, scale: 1.08 }
                       : { y: -2, scale: 1.04 }
                     }
                     whileTap={jellyMode
-                      ? { scale: 0.8, scaleX: 1.2, scaleY: 0.8 }
+                      ? { scale: 0.92, scaleX: 1.06, scaleY: 0.94 }
                       : { scale: 0.96 }
                     }
                     onClick={() => nav(link.href)}

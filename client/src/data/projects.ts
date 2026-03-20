@@ -78,14 +78,14 @@ export const projects: ProjectData[] = [
     subtitle: "Meta Platforms — Hardware Sustainment",
     category: "Wearable Electronics",
     description:
-      "Leading hardware sustainment program for next-generation EMG wristband. Managing end-to-end project delivery across prototyping, test development, failure analysis on 400+ devices, and cross-functional team coordination.",
+      "Leading hardware sustainment program for next-generation EMG wristband. Managing end-to-end project delivery across prototyping, test development, failure analysis on 400+ devices, CT scanning, fixture design, and CM transfer coordination.",
     longDescription:
-      "This project involves leading the hardware sustainment program for Meta's next-generation EMG (Electromyography) wristband — a neural interface device that reads electrical signals from the forearm muscles to enable gesture-based input. The role encompasses end-to-end project delivery including prototyping, custom test fixture development, statistical process control, failure analysis across 400+ devices, and coordination with cross-functional engineering teams. Key achievements include a 40% throughput improvement and 33% cycle time reduction through process optimization and automation.",
-    tags: ["EMG", "Python", "Test Automation", "DfX", "SPC", "Failure Analysis"],
+      "This project involves leading the hardware sustainment program for Meta's next-generation EMG (Electromyography) wristband — a neural interface device that reads electrical signals from the forearm muscles to enable gesture-based input. The role encompasses end-to-end project delivery including prototyping, 20+ custom test fixture development, CT scanning capability (Nikon XT H 225), statistical process control, failure analysis across 400+ devices, and coordination with cross-functional engineering teams. Key achievements include deploying a preventive solution across 1,900+ units, a 40% throughput improvement, 33% cycle time reduction, and successful contract manufacturer transfer summit participation.",
+    tags: ["EMG", "Python", "Test Automation", "DfX", "SPC", "Failure Analysis", "CT Scanning", "CM Transfer", "DAQ"],
     stats: [
+      { label: "Fleet Fix", value: "1,900+" },
       { label: "Devices Analyzed", value: "400+" },
-      { label: "Throughput Gain", value: "40%" },
-      { label: "Cycle Time Cut", value: "33%" },
+      { label: "Test Fixtures", value: "20+" },
     ],
     labels: [
       { name: "Top Cover", desc: "Matte black polycarbonate shell with green LED indicator", threshold: 15, side: "right" },
@@ -106,7 +106,7 @@ export const projects: ProjectData[] = [
     subtitle: "Custom Test Equipment Design",
     category: "Test & Measurement",
     description:
-      "Precision spring-loaded pogo pin test fixture for high-volume PCB testing. Features an array of spring-loaded contact probes that make simultaneous electrical connections to multiple test points on a circuit board.",
+      "One of 20+ custom test fixtures designed for high-volume PCB testing. Features an array of spring-loaded pogo pin contact probes that make simultaneous electrical connections to multiple test points on a circuit board.",
     longDescription:
       "The Bed of Nails test fixture is a critical piece of test equipment used in electronics manufacturing for in-circuit testing (ICT) and functional testing of printed circuit boards. The fixture uses an array of precisely positioned spring-loaded pogo pins (contact probes) that press against designated test points on the PCB under test. When the fixture is actuated, all probes make simultaneous contact, enabling rapid electrical measurements across hundreds of test points in seconds. This design features a vacuum-actuated alignment system, precision-machined probe plate, and modular probe configuration for different PCB layouts.",
     tags: ["Pogo Pins", "ICT", "PCB Testing", "Mechanical Design", "GD&T"],

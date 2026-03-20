@@ -13,28 +13,28 @@ import { Cpu, Shield, Factory } from 'lucide-react';
 const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 };
 
 const metrics = [
-  { value: 400, suffix: '+', label: 'Device Analysis', color: 'oklch(0.55 0.18 230)', type: 'teal' as const },
-  { value: 40, suffix: '%', label: 'Throughput Gain', color: 'oklch(0.75 0.15 65)', type: 'amber' as const },
-  { value: 33, suffix: '%', label: 'Cycle Time Reduction', color: 'oklch(0.55 0.18 230)', type: 'teal' as const },
-  { value: 25, suffix: '%', label: 'Service Life Extension', color: 'oklch(0.75 0.15 65)', type: 'amber' as const },
+  { value: 1900, suffix: '+', label: 'Fleet Units Fixed', color: 'oklch(0.55 0.18 230)', type: 'teal' as const },
+  { value: 400, suffix: '+', label: 'Devices Analyzed', color: 'oklch(0.75 0.15 65)', type: 'amber' as const },
+  { value: 20, suffix: '+', label: 'Custom Test Fixtures', color: 'oklch(0.55 0.18 230)', type: 'teal' as const },
+  { value: 6, suffix: '', label: 'Product Generations', color: 'oklch(0.75 0.15 65)', type: 'amber' as const },
 ];
 
 const specializations = [
   {
     title: 'Hardware Sustainment & Test',
-    desc: 'End-to-end project delivery across prototyping, test development, failure analysis, and lab operations for EMG wristband at Meta.',
+    desc: 'End-to-end project delivery across prototyping, test development, CT scanning, fixture design, factory test automation, and CM transfer for EMG wearables at Meta.',
     icon: Cpu,
     type: 'teal' as const,
   },
   {
     title: 'NPI, DfX & Failure Analysis',
-    desc: 'New Product Introduction, Design for Manufacturing/Test, and comprehensive failure analysis driving corrective actions across 400+ devices.',
+    desc: 'New Product Introduction, Design for Manufacturing/Test, and comprehensive failure analysis with root cause investigation across six product generations.',
     icon: Factory,
     type: 'amber' as const,
   },
   {
     title: 'Quality & Regulatory',
-    desc: 'ISO 13485, FDA QMS, IEC standards, Six Sigma methodologies, and SPC across medical device and consumer electronics industries.',
+    desc: 'FDA, ISO 13485, EU MDR, cGMP compliance, Six Sigma, SPC, and 8D methodology across medical device and consumer electronics industries.',
     icon: Shield,
     type: 'teal' as const,
   },
@@ -42,7 +42,7 @@ const specializations = [
 
 /* Jelly bounce-in for each child */
 const jellyChild = {
-  hidden: { opacity: 0, y: 60, scaleX: 0.82, scaleY: 1.20, rotate: -3 },
+  hidden: { opacity: 0, y: 40, scaleX: 0.94, scaleY: 1.06, rotate: -1.5 },
   visible: {
     opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0,
     transition: { type: 'spring' as const, stiffness: 140, damping: 10, mass: 1 },
@@ -146,7 +146,7 @@ export function AboutSection() {
         {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 50, scaleX: 0.85, scaleY: 1.15, rotate: -2 }}
+          initial={{ opacity: 0, y: 30, scaleX: 0.95, scaleY: 1.05, rotate: -1 }}
           whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ type: 'spring' as const, stiffness: 120, damping: 10, mass: 1.2 }}
@@ -155,7 +155,7 @@ export function AboutSection() {
           <p className="jelly-section-label">About</p>
           <h2 className="jelly-section-title max-w-xl">Engineering with purpose</h2>
           <p className="text-base text-muted-foreground mt-4 max-w-lg leading-relaxed">
-            Results-driven Hardware Engineer and Project Manager with 8+ years of experience in product design, prototyping, and hardware sustainment across consumer electronics and medical devices.
+            Hardware Engineer and Project Manager who owns Meta's end-to-end EMG wearable sustainment pipeline — spanning failure investigation, CT scanning, fixture design, factory test automation, and CM transfer across six product generations.
           </p>
         </motion.div>
 
@@ -193,7 +193,7 @@ export function AboutSection() {
             return (
               <motion.div
                 key={s.title}
-                initial={{ opacity: 0, y: 70, scaleX: 0.80, scaleY: 1.22, rotate: i % 2 === 0 ? -4 : 4 }}
+                initial={{ opacity: 0, y: 40, scaleX: 0.95, scaleY: 1.05, rotate: i % 2 === 0 ? -1.5 : 1.5 }}
                 whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1, delay: i * 0.1 }}
