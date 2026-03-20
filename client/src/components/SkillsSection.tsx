@@ -167,7 +167,7 @@ export function SkillsSection() {
           transition={{ type: 'spring' as const, stiffness: 100, damping: 16 }}
           className="mb-20"
         >
-          <p className="jelly-section-label">Capabilities</p>
+          <p className="jelly-section-label">Skills</p>
           <h2 className="jelly-section-title max-w-xl">Technical proficiency</h2>
         </motion.div>
 
