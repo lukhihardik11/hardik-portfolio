@@ -311,7 +311,7 @@ export function HeroSection() {
           <motion.div variants={stagger} initial="hidden" animate="visible" className="xl:col-span-3 flex flex-col gap-5 sm:gap-6 md:gap-7 xl:gap-8">
             {/* Status pill */}
             <motion.div variants={jellyChild}>
-              <div className="glass-pill inline-flex items-center gap-2.5 px-4 py-2">
+              <div className="glass-pill jelly-interactive inline-flex items-center gap-2.5 px-4 py-2">
                 <span
                   className="w-2.5 h-2.5 rounded-full animate-jelly-pulse"
                   style={{

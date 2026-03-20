@@ -167,7 +167,7 @@ export function ContactSection() {
             transition={{ type: 'spring' as const, stiffness: 150, damping: 10, delay: 0.3 }}
             className="text-center"
           >
-            <div className="glass-pill inline-flex items-center gap-2 px-4 py-2">
+            <div className="glass-pill jelly-interactive inline-flex items-center gap-2 px-4 py-2">
               <MapPin size={12} style={{ color: 'oklch(0.55 0.18 230 / 60%)' }} />
               <span className="text-[11px] text-muted-foreground/50">Ridgefield Park, NJ</span>
             </div>
@@ -204,7 +204,7 @@ export function Footer() {
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={btnSpringOff}
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground/30 hover:text-foreground/60 transition-colors duration-200 no-underline"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground/30 hover:text-foreground/60 transition-colors duration-200 no-underline jelly-social-icon"
                   aria-label={link.label}
                 >
                   <Icon size={13} />
