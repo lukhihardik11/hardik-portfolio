@@ -185,7 +185,7 @@ export function Footer() {
       <div className="container">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground/35">Hardik Lukhi</span>
+            <span className="text-xs text-muted-foreground/35">© {new Date().getFullYear()} Hardik Lukhi</span>
           </div>
 
           <span className="text-[10px] font-mono text-muted-foreground/20 tracking-wider">

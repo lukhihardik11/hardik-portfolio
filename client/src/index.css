@@ -164,6 +164,11 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
+    animation: page-fade-in 0.6s ease-out;
+  }
+  @keyframes page-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -212,9 +217,9 @@
    ============================== */
 body {
   background-image:
-    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 4%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 3%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 2%) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 0% 0%, oklch(0.55 0.18 230 / 2%) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, oklch(0.75 0.15 65 / 1.5%) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
 }
 .dark body {
   background-image:
@@ -799,7 +804,7 @@ section[id] { scroll-margin-top: 5rem; }
   mask-image: radial-gradient(ellipse 80% 85% at 50% 45%, black 40%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 80% 85% at 50% 45%, black 40%, transparent 75%);
 }
-.spline-container { mix-blend-mode: multiply; }
+.spline-container { mix-blend-mode: normal; }
 .dark .spline-container { mix-blend-mode: lighten; }
 
 /* ==============================

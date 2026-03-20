@@ -48,46 +48,61 @@ class SplineErrorBoundary extends React.Component<
 function HeroFallbackVisual() {
   return (
     <div className="w-full h-full flex items-center justify-center relative">
-      {/* Outer ambient glow */}
+      {/* Outer ambient glow — larger and more visible */}
       <motion.div
         animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.18, 0.28, 0.18],
+          scale: [1, 1.12, 1],
+          opacity: [0.25, 0.45, 0.25],
         }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute w-64 h-64 rounded-full"
+        className="absolute w-80 h-80 rounded-full"
         style={{
-          background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 18%) 0%, oklch(0.65 0.12 200 / 8%) 40%, transparent 70%)',
-          filter: 'blur(20px)',
+          background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 25%) 0%, oklch(0.65 0.12 200 / 12%) 40%, transparent 70%)',
+          filter: 'blur(30px)',
         }}
       />
-      {/* Inner teal core */}
-      <motion.div
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.25, 0.45, 0.25],
-          borderRadius: ['60% 40% 50% 50%', '50% 60% 40% 60%', '60% 40% 50% 50%'],
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="w-36 h-36"
-        style={{
-          background: 'radial-gradient(circle at 40% 35%, oklch(0.60 0.18 200 / 30%) 0%, oklch(0.50 0.15 230 / 15%) 50%, transparent 75%)',
-        }}
-      />
-      {/* Subtle amber accent */}
+      {/* Inner teal core — more prominent */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-          x: [0, 10, 0],
-          y: [0, -8, 0],
+          opacity: [0.35, 0.6, 0.35],
+          borderRadius: ['60% 40% 50% 50%', '50% 60% 40% 60%', '60% 40% 50% 50%'],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="w-52 h-52"
+        style={{
+          background: 'radial-gradient(circle at 40% 35%, oklch(0.60 0.18 200 / 40%) 0%, oklch(0.50 0.15 230 / 20%) 50%, transparent 75%)',
+        }}
+      />
+      {/* Amber accent — more visible */}
+      <motion.div
+        animate={{
+          scale: [1, 1.25, 1],
+          opacity: [0.15, 0.3, 0.15],
+          x: [0, 15, 0],
+          y: [0, -12, 0],
         }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute w-20 h-20 rounded-full"
+        className="absolute w-28 h-28 rounded-full"
         style={{
-          background: 'radial-gradient(circle, oklch(0.75 0.15 65 / 20%) 0%, transparent 70%)',
-          top: '35%',
-          right: '30%',
+          background: 'radial-gradient(circle, oklch(0.75 0.15 65 / 30%) 0%, transparent 70%)',
+          top: '30%',
+          right: '25%',
+        }}
+      />
+      {/* Secondary teal ring */}
+      <motion.div
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.1, 0.22, 0.1],
+          rotate: [0, 180, 360],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+        className="absolute w-64 h-64 rounded-full"
+        style={{
+          border: '1px solid oklch(0.55 0.18 230 / 15%)',
+          top: '15%',
+          left: '15%',
         }}
       />
     </div>
@@ -268,28 +283,28 @@ export function HeroSection() {
       id="hero"
       className="relative flex items-center md:items-start xl:items-center overflow-hidden min-h-[100svh] md:min-h-0 xl:min-h-screen"
     >
-      {/* Floating blobs — background decoration */}
+      {/* Floating blobs — background decoration (theme-aware) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           ref={blob1Ref}
-          className="absolute w-[500px] h-[500px] -top-32 -left-32 jelly-float-blob-1 opacity-30"
+          className="absolute w-[320px] h-[320px] -top-24 -left-24 jelly-float-blob-1 opacity-10 dark:opacity-25"
           style={{
-            background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 15%) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 8%) 0%, transparent 70%)',
             borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
           }}
         />
         <div
           ref={blob2Ref}
-          className="absolute w-[400px] h-[400px] -bottom-20 -right-20 jelly-float-blob-2 opacity-25"
+          className="absolute w-[280px] h-[280px] -bottom-16 -right-16 jelly-float-blob-2 opacity-8 dark:opacity-20"
           style={{
-            background: 'radial-gradient(ellipse, oklch(0.75 0.15 65 / 12%) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, oklch(0.75 0.15 65 / 6%) 0%, transparent 70%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',
           }}
         />
         <div
-          className="absolute w-[300px] h-[300px] top-1/3 left-1/3 jelly-float-blob-1 opacity-15"
+          className="absolute w-[200px] h-[200px] top-1/3 left-1/3 jelly-float-blob-1 opacity-5 dark:opacity-12"
           style={{
-            background: 'radial-gradient(ellipse, oklch(0.60 0.14 200 / 10%) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, oklch(0.60 0.14 200 / 5%) 0%, transparent 70%)',
             borderRadius: '50% 60% 30% 60% / 30% 60% 70% 40%',
             animationDelay: '-3s',
           }}
