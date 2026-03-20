@@ -1,8 +1,8 @@
 # Hardik Lukhi — Hardware Engineer Portfolio
 
-## Project Handoff for New Development Sessions
+## Project Handoff for Future Development Sessions
 
-This document provides everything needed to understand, run, and continue developing this portfolio website. It reflects the latest state after the **Batch 2** redesign, which unified the UI toggles and fixed several CSS bugs.
+This document provides everything needed to understand, run, and continue developing this portfolio website. It reflects the latest state after the completion of **Phases 1 through 3C**, which established a complete portfolio with a unique "Jelly Mode" design system, mobile performance optimizations, and full design consistency.
 
 ---
 
@@ -10,126 +10,122 @@ This document provides everything needed to understand, run, and continue develo
 
 A personal portfolio website for **Hardik Lukhi**, a Hardware Engineer and Project Manager with 8+ years of experience at Meta, Stryker, Abbott, Terumo, and J Group Robotics. The site showcases engineering projects through **scroll-driven exploded-view animations** — a signature feature where scrolling disassembles 3D CAD renders frame-by-frame on a canvas.
 
-### Key Recent Changes (Batch 2)
-
-- **Unified Gel Toggles:** Both the dark/light mode switch and the "Jelly Mode" switch now use a single, unified `GelToggle` component. This ensures they are visually identical and share the same premium, TypeGPU-inspired gel aesthetic.
-- **CSS Architecture:** The new toggles are built with pure CSS and spring physics via `framer-motion`, removing the previous complex and inconsistent WebGL implementation.
-- **Navbar CSS Fix:** The `jelly-navbar` class was fixed to ensure the navigation bar is always visible in all theme combinations (light/dark, jelly on/off).
-
----
-
-## 2. Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | React 19 + TypeScript + Tailwind CSS 4 |
-| Routing | Wouter |
-| Animation | GSAP ScrollTrigger (scroll-driven), Framer Motion (UI physics) |
-| 3D Hero | Spline (interactive 3D robot scene) |
-| Design System | Custom "Jelly" design system (glassmorphism, translucent cards, 3D depth) |
-| UI Components | shadcn/ui (Radix primitives) |
-| Backend | Express 4 + tRPC 11 |
-| Database | MySQL/TiDB via Drizzle ORM |
-| Auth | Manus OAuth (pre-configured) |
-| Build | Vite 7 + esbuild |
-| Testing | Vitest (36 tests passing) |
-| Package Manager | pnpm |
+### Current Visual & System Direction
+The portfolio features a custom **Jelly Design System** with two distinct modes controlled by a unified `GelToggle`:
+- **Jelly OFF (Default):** A subtle, premium glassmorphism aesthetic with calm interactions.
+- **Jelly ON:** A highly expressive, physics-based UI with spring animations, wobbly hover effects, and bouncy transitions powered by Framer Motion.
 
 ---
 
-## 3. Architecture & File Structure
+## 2. Current Completed State
 
-The project is a standard monorepo with `client/`, `server/`, and `shared/` directories.
+The project has progressed through three major phase groups and is currently feature-complete and design-consistent.
 
-```
-client/
-  src/
-    App.tsx                <- Routes: /, /project/octolapse, /project/:id, /404
-    main.tsx               <- tRPC + React Query providers
-    index.css              <- Full Jelly design system (light/dark CSS vars, animations)
-    pages/
-      Home.tsx             <- Main portfolio page (all sections composed here)
-      ProjectPage.tsx      <- Generic project detail page with scroll animation
-    components/
-      Navbar.tsx           <- Floating glass navbar with unified GelToggles
-      GelToggle.tsx        <- **NEW:** Unified component for all premium gel toggles
-      JellySwitch.tsx      <- Dark/light mode toggle (now uses GelToggle)
-      JellyModeToggle.tsx  <- Jelly mode on/off toggle (now uses GelToggle)
-      ExplodedView.tsx     <- Homepage EMG wristband scroll animation
-      ProjectExplodedView.tsx <- Reusable scroll animation for all project pages
-      ...
-    data/
-      projects.ts          <- All project metadata (9 projects)
-      frameUrlsIndex.ts    <- Central mapping: project ID -> frame URL array
-      frameUrls-*.ts       <- CDN URLs for each project's animation frames
-    hooks/
-    contexts/
-    lib/
-      trpc.ts              <- tRPC client binding
-      utils.ts             <- Tailwind merge utility
-server/
-  routers.ts               <- tRPC routes (auth.me, auth.logout, system)
-  db.ts                    <- Database query helpers
-  storage.ts               <- S3 storage helpers
-drizzle/
-  schema.ts                <- Users table only
-```
+### Phase 1: Foundation & Core Features
+- Full portfolio site implemented: Hero (Spline 3D), About, Experience, Projects (with individual pages), Skills, Education, Contact, Philosophy.
+- Light/dark mode and scroll-driven animations implemented.
+- All 1,727 animation frames localized into the repository (no CDN dependency).
 
-### Key Component Changes
+### Phase 2: Jelly Mode & Performance
+- **Jelly System (2A-2E):** Created the Jelly Mode toggle system. Implemented `JellyWrapper`, `JellyButton`, `JellyText`, metaball background, and comprehensive jelly treatments across all UI elements.
+- **Mobile Performance (2F):** Created shared `useFineHover` hook to gate heavy RAF physics off coarse-pointer devices (phones/tablets). Added CSS hover guards to prevent sticky hover on touch devices.
+- **Spline Gating (2G):** Implemented conditional rendering for the Hero 3D scene to prevent a 5.6 MB download on mobile, added an 8-second timeout with graceful fallback, and preconnect hints.
+- **Secondary Elements (2H):** Upgraded pills, badges, and icons with dense-group calm behavior and standalone interactive behavior.
 
-- **`JellySwitch.tsx` and `JellyModeToggle.tsx`** have been completely refactored. They are now simple wrappers around the new `GelToggle.tsx` component, passing in different color configurations and icons.
-- The old WebGL-based implementation and its associated GLSL shader code have been **removed**.
+### Phase 3: Consistency & Polish
+- **Project Pages (3A):** Unified project page tags/badges with the design system. Added IP disclaimers to professional projects.
+- **System Audit (3B):** Normalized Navbar logo badge, nav links, Skills orbs, Philosophy heading, and About stat counters.
+- **Content & Meta (3C):** Aligned Meta title with Hero positioning. Added Open Graph and Twitter/X social sharing tags. Standardized Skills eyebrow label.
 
 ---
 
-## 4. The 9 Engineering Projects
+## 3. Current Design System Behavior
 
-Each project has a scroll-driven exploded-view animation (192 frames on a pinned canvas).
+The design system is built on pure CSS and Framer Motion spring physics, completely removing earlier WebGL/GLSL implementations.
 
-| # | ID | Title | Notes |
-|---|---|---|---|
-| 1 | `fpc` | EMG Failure Analysis - FPC Design | CT/X-ray style. `contentCropX: 0.05`, `animBgColor: #0a0a0a` |
-| 2 | `emg` | EMG Wristband | Homepage also shows this animation. Has IP disclaimer |
-| 3 | `bon` | Bed of Nails Test Fixture | Standard cover mode |
-| 4 | `cyl` | Cylindrical EMG Band Verification Fixture | `contentCropX: 0.123`, `animBgColor: #1e2530`. User provided Higgsfield video |
-| 5 | `mod` | Flatbed Modular Test Fixture | Standard cover mode |
-| 6 | `func` | Functional System Test Fixture | Uses Gemini-generated morph frames |
-| 7 | `abaqus` | Coating Delamination FEM | Graduate research project |
-| 8 | `cpress` | Portable Hydraulic C-Press Machine | `animBgColor: #262626`. AI-upscaled from 1280x720 to 2752x1536 |
-| 9 | `octolapse` | Octolapse - DIY 3D Printing Timelapse | Custom OctolapsePage with YouTube link |
+### Mode Behaviors
+- **Jelly OFF:** Elements have subtle scale transforms and premium glass textures.
+- **Jelly ON:** Elements exhibit strong, expressive spring physics (squash and stretch) on hover and click. The background features floating metaballs.
+
+### Device-Specific Behavior
+Performance is strictly gated based on device capabilities using the `useFineHover` hook (`(hover: hover) and (pointer: fine)`):
+- **Desktop + Mouse:** Full jelly physics and hover effects enabled.
+- **Touch Devices (iPad, iPhone, Android):** Heavy RAF physics and sticky hover effects are disabled. Elements use a lighter interaction path to ensure smooth scrolling.
 
 ---
 
-## 5. Next Steps & Guidance for New Team
+## 4. Key Files & Architecture
 
-### Understanding the Website
+The project is a Vite + React SPA using `wouter` for client-side routing.
 
-To get started with the new Manus project, the team should focus on these key areas:
+### Core Logic & Components
+- **`client/src/components/HeroSection.tsx`**: Hero section with conditional Spline 3D rendering (desktop only).
+- **`client/src/components/JellyWrapper.tsx`**: Main jelly physics component with fine-hover gating for mobile performance.
+- **`client/src/hooks/useFineHover.ts`**: Shared hook for detecting fine-pointer capability using `matchMedia`.
+- **`client/src/hooks/useSplineGating.ts`**: Controls viewport and timeout gating for the Spline 3D scene.
+- **`client/src/index.css`**: The heart of the design system. Contains all glass-pill, jelly-badge, hover guards, and mode-specific styling.
+- **`client/src/pages/ProjectPage.tsx`**: Individual project pages with scroll-driven exploded views and unified tags/badges.
+- **`client/src/components/ProjectExplodedView.tsx`**: The GSAP ScrollTrigger logic that drives the frame-by-frame canvas animations.
 
-1.  **Review the Tech Stack (Section 2):** Familiarize yourself with the core technologies. The combination of React, Vite, Tailwind, tRPC, and Drizzle is modern and well-documented.
-2.  **Explore the File Structure (Section 3):** The project is organized logically. Start with `client/src/pages/Home.tsx` to see how the main page is assembled from various section components.
-3.  **Understand the Data Model:** The project data is decoupled from the UI. All project information is managed in `client/src/data/projects.ts`, and animation frames are indexed in `client/src/data/frameUrlsIndex.ts`. This makes it easy to add or modify projects without touching the React components.
-4.  **Examine the Scroll Animations:** The signature feature is the scroll-driven animations. `ProjectExplodedView.tsx` is the key component here. Study how it uses GSAP ScrollTrigger to pin the canvas and `drawFrame` to render the image sequence based on scroll progress.
+### Data & Configuration
+- **`client/src/data/projects.ts`**: Central data store for all 9 engineering projects, including metadata, IP disclaimers, and asset references.
+- **`client/src/data/frameUrlsIndex.ts`**: Maps project IDs to their respective local frame URL arrays.
+- **`client/index.html`**: HTML entry point containing meta tags, OG tags, and Twitter tags.
 
-### Cleanup & Final Commit
+---
 
-The repository has been cleaned of all unnecessary files (debug notes, intermediate screenshots, etc.). The `dist/` directory has also been removed and added to `.gitignore`.
+## 5. Assets and Dependency Status
 
-There are no lingering dependencies from the previous implementation. The `package.json` is clean and only contains packages required for the current feature set.
+The repository is highly self-contained to ensure long-term stability.
 
-### Running the Project
+### Fully Localized (Safe)
+- **Animation Frames:** All 1,727 `.webp` frames across 9 projects are stored locally in `client/public/frames/`. There is no runtime dependency on external CDNs for scroll animations.
+- **Resume:** The PDF resume is correctly located in `client/public/assets/resume/`.
 
-To run the project locally for development:
+### External Dependencies
+- **Spline 3D Scene:** The interactive robot in the Hero section is loaded from `prod.spline.design`. If this fails or times out, the site gracefully falls back to a static gradient.
 
-```bash
-# 1. Install dependencies
-pnpm install
+### ⚠️ Known Asset Issue (Requires Fix)
+During the final audit, it was discovered that gallery images and report PDFs referenced in `projects.ts` exist in the top-level `assets/` directory but **were not copied** to `client/public/assets/`. 
+- **Impact:** Gallery images and download links on the Abaqus and CPress project pages currently return 404s (or SPA fallback HTML) in the dev server and production build.
+- **Action Required:** These files must be moved or copied into `client/public/assets/` before deployment.
 
-# 2. Start the development server
-pnpm dev
+---
 
-# 3. Run tests to ensure everything is working
-pnpm test
-```
+## 6. Current Known Deferred Items
 
-The dev server runs on the port assigned by the Manus platform. All 36 tests are currently passing.
+The following items have been intentionally deferred until the final deployment phase (Phase 4A):
+
+1. **Deployment Platform Setup:** The project requires a deployment configuration (e.g., `vercel.json` with a rewrite rule `{"source": "/(.*)", "destination": "/index.html"}`) to support SPA routing for direct visits to `/project/:id`.
+2. **Production Metadata:** 
+   - `og:url` and `og:image` content attributes in `index.html` are currently empty placeholders, waiting for the final public URL and share image.
+   - Structured data / JSON-LD for SEO has not been added.
+3. **Production Readiness Checklist:**
+   - Favicon (`favicon.ico`, `apple-touch-icon.png`) needs to be generated and added.
+   - `robots.txt` needs to be created.
+   - A static `404.html` fallback may be needed depending on the hosting provider.
+
+---
+
+## 7. How to Continue Safely in a New Manus Chat
+
+To resume work on this project in a new session, follow these steps:
+
+1. **Inspect First:** Read this `HANDOFF.md` document to understand the current state and constraints.
+2. **Start Branch:** Always start from the latest commit on the `main` branch.
+3. **Verify Health:** Run `pnpm install` and `pnpm dev` to ensure the project builds and runs correctly. Check the browser console for any unexpected errors.
+4. **Next Phase Options:**
+   - **Fix Asset Paths:** Address the missing gallery/report assets in `client/public/assets/` (see Section 5).
+   - **Phase 4A (Deployment):** Proceed with the deferred deployment setup, metadata completion, and production readiness checklist (see Section 6).
+
+---
+
+## 8. Repo Safety Rules
+
+Strict adherence to these rules is required to maintain project integrity:
+
+- **No Broad Redesigns:** The design system is finalized. Do not initiate new design phases or layout changes without explicit user approval.
+- **Verify Before Acting:** Always check the actual code and repository state before making changes. Do not rely on assumptions from previous sessions.
+- **Commit & Push:** Commit and push to GitHub after every approved change or logical phase completion.
+- **Artifact Delivery:** Provide comprehensive proof packages (PNG/JPG screenshots, 1080p video for motion, zip bundles) for all visual changes.
+- **Keep it Private:** The repository must remain private unless deployment requires otherwise.
