@@ -824,24 +824,28 @@ section[id] { scroll-margin-top: 5rem; }
    Only active when html.jelly-mode is set
    ============================== */
 
-/* Enable all disabled animations */
-.jelly-mode .animate-jelly-pulse {
-  animation: jelly-pulse 4s ease-in-out infinite;
-}
-.jelly-mode .animate-jelly-float {
-  animation: jelly-float 8s ease-in-out infinite;
-}
-.jelly-mode .animate-jelly-glow {
-  animation: jelly-glow-pulse 3s ease-in-out infinite;
-}
-.jelly-mode .jelly-blob {
-  animation: jelly-morph 12s ease-in-out infinite;
-}
-.jelly-mode .jelly-float-blob-1 {
-  animation: float-blob-1 20s ease-in-out infinite;
-}
-.jelly-mode .jelly-float-blob-2 {
-  animation: float-blob-2 25s ease-in-out infinite;
+/* Enable all disabled animations — DESKTOP ONLY
+   Continuous CSS animations on mobile cause compositor layer pressure
+   leading to scroll artifacts on Android */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .animate-jelly-pulse {
+    animation: jelly-pulse 4s ease-in-out infinite;
+  }
+  .jelly-mode .animate-jelly-float {
+    animation: jelly-float 8s ease-in-out infinite;
+  }
+  .jelly-mode .animate-jelly-glow {
+    animation: jelly-glow-pulse 3s ease-in-out infinite;
+  }
+  .jelly-mode .jelly-blob {
+    animation: jelly-morph 12s ease-in-out infinite;
+  }
+  .jelly-mode .jelly-float-blob-1 {
+    animation: float-blob-1 20s ease-in-out infinite;
+  }
+  .jelly-mode .jelly-float-blob-2 {
+    animation: float-blob-2 25s ease-in-out infinite;
+  }
 }
 
 /* Jelly mode: Cards get STRONG 3D glass/gel depth */
@@ -891,7 +895,11 @@ section[id] { scroll-margin-top: 5rem; }
 /* Jelly mode: Caustic glow always subtly visible */
 .jelly-mode .jelly-caustic {
   opacity: 0.1;
-  animation: jelly-glow-pulse 4s ease-in-out infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-caustic {
+    animation: jelly-glow-pulse 4s ease-in-out infinite;
+  }
 }
 @media (hover: hover) and (pointer: fine) {
   .jelly-mode .group:hover > .jelly-caustic {
@@ -917,9 +925,11 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 /* Jelly mode: Section titles get very subtle float — restrained for premium feel */
-.jelly-mode .jelly-section-title {
-  animation: jelly-float 14s ease-in-out infinite;
-  animation-delay: -3s;
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-section-title {
+    animation: jelly-float 14s ease-in-out infinite;
+    animation-delay: -3s;
+  }
 }
 
 /* Jelly mode: Icon boxes get 3D gel depth + pulse */
@@ -931,7 +941,11 @@ section[id] { scroll-margin-top: 5rem; }
     inset 0 -2px 4px oklch(0 0 0 / 12%),
     0 3px 0 oklch(0 0 0 / 8%),
     0 6px 20px -4px oklch(0 0 0 / 12%) !important;
-  animation: jelly-pulse 5s ease-in-out infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-icon-box {
+    animation: jelly-pulse 5s ease-in-out infinite;
+  }
 }
 
 /* Jelly mode: Stat panels get 3D gel depth */
@@ -1050,11 +1064,16 @@ section[id] { scroll-margin-top: 5rem; }
   100% { transform: translate(50vw, 30vh) scale(1) rotate(0deg); }
 }
 
-.jelly-metaball-1 { animation: metaball-drift-1 30s ease-in-out infinite; }
-.jelly-metaball-2 { animation: metaball-drift-2 25s ease-in-out infinite; }
-.jelly-metaball-3 { animation: metaball-drift-3 20s ease-in-out infinite; }
-.jelly-metaball-4 { animation: metaball-drift-4 28s ease-in-out infinite; }
-.jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; }
+/* Metaball drift animations — DESKTOP ONLY
+   On mobile, MetaballBlobs are not rendered at all (JellyBackground.tsx),
+   but even if they were, these animations must not run on touch devices */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-metaball-1 { animation: metaball-drift-1 30s ease-in-out infinite; }
+  .jelly-metaball-2 { animation: metaball-drift-2 25s ease-in-out infinite; }
+  .jelly-metaball-3 { animation: metaball-drift-3 20s ease-in-out infinite; }
+  .jelly-metaball-4 { animation: metaball-drift-4 28s ease-in-out infinite; }
+  .jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; }
+}
 /* will-change: transform only on desktop — prevents mobile GPU layer explosion */
 @media (hover: hover) and (pointer: fine) {
   .jelly-metaball-1,
