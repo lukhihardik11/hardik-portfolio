@@ -178,13 +178,13 @@ export function EducationSection() {
                 <motion.div
                   whileHover={{ y: -3, scale: 1.005 }}
                   transition={btnSpring}
-                  className="jelly-card p-4"
+                  className="jelly-card p-4 h-full flex flex-col"
                 >
                   <p className="text-xs font-semibold text-foreground mb-1">{intern.role}</p>
                   <p className="text-[11px] text-muted-foreground">{intern.company} — {intern.location}</p>
                   <p className="text-[10px] font-mono text-muted-foreground/35 mt-1 mb-2">{intern.period}</p>
                   {intern.highlights && (
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 flex-1">
                       {intern.highlights.map((h, j) => (
                         <p key={j} className="text-[10px] text-muted-foreground/60 leading-relaxed">• {h}</p>
                       ))}
