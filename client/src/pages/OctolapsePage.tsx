@@ -2,6 +2,8 @@
  * OctolapsePage — Hobby project showcasing DIY 3D printing timelapse setup
  * using an Android TV box running Armbian OS during the COVID-19 Raspberry Pi shortage.
  * Scroll animation comes FIRST, then text content below.
+ *
+ * PR #7: Unified with main-page jelly-card / glass-pill / jelly-btn styling
  */
 
 import { useEffect } from "react";
@@ -109,7 +111,7 @@ export default function OctolapsePage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Fixed back button */}
+      {/* Fixed back button — uses jelly-btn for consistency */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -118,7 +120,7 @@ export default function OctolapsePage() {
       >
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs font-medium no-underline hover:bg-black/80 transition-colors"
+          className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-4 py-2 text-xs font-medium no-underline"
         >
           <ArrowLeft size={14} />
           Back
@@ -167,7 +169,7 @@ export default function OctolapsePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-3 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase mb-6 bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <span className="glass-pill inline-block px-3 py-1 text-[10px] font-mono tracking-wider uppercase mb-6 text-purple-400">
               Hobby Project
             </span>
           </motion.div>
@@ -205,7 +207,7 @@ export default function OctolapsePage() {
             href={YOUTUBE_CHANNEL_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-medium text-sm no-underline hover:bg-red-700 transition-colors"
+            className="jelly-btn jelly-btn-teal inline-flex items-center gap-2 no-underline"
           >
             <Youtube size={18} />
             Watch on YouTube
@@ -249,7 +251,7 @@ export default function OctolapsePage() {
             </div>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -260,18 +262,7 @@ export default function OctolapsePage() {
             {highlights.map((h, i) => (
               <div
                 key={i}
-                className="p-4 rounded-xl text-center"
-                style={{
-                  background:
-                    theme === "dark"
-                      ? "rgba(255,255,255,0.03)"
-                      : "rgba(0,0,0,0.02)",
-                  border: `1px solid ${
-                    theme === "dark"
-                      ? "rgba(255,255,255,0.06)"
-                      : "rgba(0,0,0,0.06)"
-                  }`,
-                }}
+                className="jelly-card p-4 text-center"
               >
                 <div className="text-xl md:text-2xl font-bold font-mono text-purple-400">
                   {h.value}
@@ -284,7 +275,7 @@ export default function OctolapsePage() {
             ))}
           </motion.div>
 
-          {/* Tech Stack */}
+          {/* Tech Stack — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -305,28 +296,13 @@ export default function OctolapsePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="p-5 rounded-xl"
-                    style={{
-                      background:
-                        theme === "dark"
-                          ? "rgba(255,255,255,0.02)"
-                          : "rgba(0,0,0,0.015)",
-                      border: `1px solid ${
-                        theme === "dark"
-                          ? "rgba(255,255,255,0.04)"
-                          : "rgba(0,0,0,0.04)"
-                      }`,
-                    }}
+                    className="jelly-card p-5"
                   >
                     <div className="flex items-start gap-4">
                       <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                        style={{
-                          background: `${tech.color}15`,
-                          border: `1px solid ${tech.color}25`,
-                        }}
+                        className="jelly-icon-box jelly-icon-box-teal w-10 h-10 shrink-0"
                       >
-                        <Icon size={18} style={{ color: tech.color }} />
+                        <Icon size={18} />
                       </div>
                       <div>
                         <h4 className="text-sm font-semibold mb-1">
@@ -343,7 +319,7 @@ export default function OctolapsePage() {
             </div>
           </motion.div>
 
-          {/* How it works */}
+          {/* How it works — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -387,18 +363,7 @@ export default function OctolapsePage() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 p-4 rounded-xl"
-                  style={{
-                    background:
-                      theme === "dark"
-                        ? "rgba(255,255,255,0.02)"
-                        : "rgba(0,0,0,0.015)",
-                    border: `1px solid ${
-                      theme === "dark"
-                        ? "rgba(255,255,255,0.04)"
-                        : "rgba(0,0,0,0.04)"
-                    }`,
-                  }}
+                  className="jelly-card flex items-start gap-4 p-4"
                 >
                   <span className="text-lg font-bold font-mono text-purple-400/60 shrink-0 w-8">
                     {item.step}
@@ -414,24 +379,13 @@ export default function OctolapsePage() {
             </div>
           </motion.div>
 
-          {/* YouTube CTA */}
+          {/* YouTube CTA — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="p-8 rounded-2xl text-center mb-16"
-            style={{
-              background:
-                theme === "dark"
-                  ? "linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.05))"
-                  : "linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.04))",
-              border: `1px solid ${
-                theme === "dark"
-                  ? "rgba(139,92,246,0.15)"
-                  : "rgba(139,92,246,0.12)"
-              }`,
-            }}
+            className="jelly-card p-8 text-center mb-16"
           >
             <Youtube size={40} className="mx-auto mb-4 text-red-500" />
             <h3 className="text-lg font-semibold mb-2">
@@ -445,7 +399,7 @@ export default function OctolapsePage() {
               href={YOUTUBE_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-medium text-sm no-underline hover:bg-red-700 transition-colors"
+              className="jelly-btn jelly-btn-teal inline-flex items-center gap-2 no-underline"
             >
               <Youtube size={16} />
               Visit YouTube Channel
@@ -453,7 +407,7 @@ export default function OctolapsePage() {
             </a>
           </motion.div>
 
-          {/* Tags */}
+          {/* Tags — uses glass-pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -481,7 +435,7 @@ export default function OctolapsePage() {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1.5 rounded-lg text-xs font-mono text-purple-400/80 bg-purple-500/10 border border-purple-500/15"
+                  className="glass-pill px-3 py-1.5 text-xs font-mono cursor-default text-purple-400/80"
                 >
                   {tag}
                 </span>
@@ -489,23 +443,17 @@ export default function OctolapsePage() {
             </div>
           </motion.div>
 
-          {/* Back link */}
+          {/* Back link — uses jelly-btn */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="pt-8 border-t"
-            style={{
-              borderColor:
-                theme === "dark"
-                  ? "rgba(255,255,255,0.06)"
-                  : "rgba(0,0,0,0.06)",
-            }}
+            className="pt-8 jelly-divider"
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
+              className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline mt-8"
             >
               <ArrowLeft size={14} />
               Back to all projects

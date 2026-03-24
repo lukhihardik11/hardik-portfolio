@@ -347,7 +347,7 @@ export function HeroSection() {
 
             {/* Name */}
             <motion.div variants={jellyChild}>
-              <h1 ref={nameRef} className="text-4xl sm:text-5xl md:text-6xl xl:text-[5.5rem] font-bold tracking-[-0.03em] leading-[1.02]">
+              <h1 ref={nameRef} className="text-4xl sm:text-5xl md:text-7xl xl:text-[5.5rem] font-bold tracking-[-0.03em] leading-[1.02]">
                 <span className="text-foreground inline-block">Hardik</span>
                 <br />
                 <span
@@ -386,7 +386,7 @@ export function HeroSection() {
                   whileHover={{ scale: hoverScale, y: hoverY }}
                   whileTap={{ scale: tapScale }}
                   transition={btnSpring}
-                  className="jelly-btn jelly-btn-teal no-underline text-center"
+                  className="jelly-btn jelly-btn-teal no-underline text-center justify-center"
                 >
                   Say Hello
                 </motion.a>
@@ -450,17 +450,9 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 0.7, rotate: -5, scaleX: 0.8, scaleY: 1.2 }}
             animate={{ opacity: 1, scale: 1, rotate: 0, scaleX: 1, scaleY: 1 }}
             transition={{ type: 'spring', stiffness: 100, damping: 10, mass: 1.5, delay: 0.3 }}
-            className="xl:col-span-2 relative h-[340px] md:h-[380px] xl:h-[520px] hidden md:block"
+            className="xl:col-span-2 relative h-[420px] md:h-[460px] xl:h-[520px] hidden md:block"
           >
-            <div
-              className="absolute inset-0 pointer-events-none z-0"
-              style={{
-                background: `
-                  radial-gradient(ellipse 80% 60% at 50% 50%, oklch(0.55 0.18 230 / 10%) 0%, transparent 70%),
-                  radial-gradient(ellipse 60% 50% at 60% 70%, oklch(0.75 0.15 65 / 7%) 0%, transparent 60%)
-                `,
-              }}
-            />
+            {/* Background glow behind Spline — removed tinted overlay to keep robot color-neutral */}
             {splineContent}
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-20" />
             <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background via-background/50 to-transparent pointer-events-none z-20" />

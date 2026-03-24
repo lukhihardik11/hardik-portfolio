@@ -1,6 +1,9 @@
 /*
  * ProjectPage — Individual project detail page with scroll-driven exploded view animation.
  * Renders project metadata, the canvas flipbook animation, and technical details.
+ *
+ * PR #7: Unified with main-page jelly-card / glass-pill / jelly-btn styling
+ * so project pages no longer look differently themed.
  */
 
 import { useParams, Link } from "wouter";
@@ -34,7 +37,7 @@ export default function ProjectPage() {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background font-medium text-sm no-underline hover:opacity-90 transition-opacity"
+            className="jelly-btn jelly-btn-teal inline-flex items-center gap-2 no-underline"
           >
             <ArrowLeft size={16} />
             Back to Portfolio
@@ -127,24 +130,13 @@ export default function ProjectPage() {
             {project.subtitle}
           </motion.p>
 
-          {/* Stats row */}
+          {/* Stats row — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-16 p-4 sm:p-6 rounded-2xl"
-            style={{
-              background:
-                theme === "dark"
-                  ? "rgba(255,255,255,0.03)"
-                  : "rgba(0,0,0,0.02)",
-              border: `1px solid ${
-                theme === "dark"
-                  ? "rgba(255,255,255,0.06)"
-                  : "rgba(0,0,0,0.06)"
-              }`,
-            }}
+            className="jelly-card grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-16 p-4 sm:p-6"
           >
             {project.stats.map((stat, i) => (
               <div key={i} className="text-center">
@@ -175,7 +167,7 @@ export default function ProjectPage() {
             </p>
           </motion.div>
 
-          {/* Download links */}
+          {/* Download links — uses jelly-card */}
           {project.downloadLinks && project.downloadLinks.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -193,18 +185,10 @@ export default function ProjectPage() {
                     download
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl no-underline transition-all hover:scale-[1.02]"
-                    style={{
-                      background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
-                      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
-                    }}
+                    className="jelly-card flex items-center gap-4 p-4 no-underline transition-all hover:scale-[1.02]"
                   >
                     <div
-                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                      style={{
-                        background: `${project.accentColor}15`,
-                        color: project.accentColor,
-                      }}
+                      className="jelly-icon-box jelly-icon-box-teal w-10 h-10 shrink-0"
                     >
                       {dl.fileType === 'PDF' ? <FileText size={20} /> : <Presentation size={20} />}
                     </div>
@@ -224,11 +208,10 @@ export default function ProjectPage() {
             <ProjectInlineGallery
               images={project.projectGallery}
               accentColor={project.accentColor}
-              theme={theme}
             />
           )}
 
-          {/* Component breakdown */}
+          {/* Component breakdown — uses jelly-card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -241,18 +224,7 @@ export default function ProjectPage() {
               {project.labels.map((label, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 p-4 rounded-xl transition-colors"
-                  style={{
-                    background:
-                      theme === "dark"
-                        ? "rgba(255,255,255,0.02)"
-                        : "rgba(0,0,0,0.015)",
-                    border: `1px solid ${
-                      theme === "dark"
-                        ? "rgba(255,255,255,0.04)"
-                        : "rgba(0,0,0,0.04)"
-                    }`,
-                  }}
+                  className="jelly-card flex items-start gap-4 p-4"
                 >
                   <div
                     className="w-2 h-2 rounded-full mt-1.5 shrink-0"
@@ -272,7 +244,7 @@ export default function ProjectPage() {
             </div>
           </motion.div>
 
-          {/* Tags */}
+          {/* Tags — uses glass-pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -300,17 +272,11 @@ export default function ProjectPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="pt-8 border-t"
-            style={{
-              borderColor:
-                theme === "dark"
-                  ? "rgba(255,255,255,0.06)"
-                  : "rgba(0,0,0,0.06)",
-            }}
+            className="pt-8 jelly-divider"
           >
             <Link
               href="/"
-              className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline"
+              className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline mt-8"
             >
               <ArrowLeft size={14} />
               Back to all projects
@@ -474,11 +440,9 @@ function ProjectGalleryHero({
 function ProjectInlineGallery({
   images,
   accentColor,
-  theme,
 }: {
   images: { url: string; caption: string }[];
   accentColor: string;
-  theme: string;
 }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -507,18 +471,7 @@ function ProjectInlineGallery({
           {images.map((img, i) => (
             <motion.div
               key={i}
-              className="group relative rounded-xl overflow-hidden cursor-pointer"
-              style={{
-                background:
-                  theme === "dark"
-                    ? "rgba(255,255,255,0.03)"
-                    : "rgba(0,0,0,0.02)",
-                border: `1px solid ${
-                  theme === "dark"
-                    ? "rgba(255,255,255,0.06)"
-                    : "rgba(0,0,0,0.06)"
-                }`,
-              }}
+              className="jelly-card group relative overflow-hidden cursor-pointer p-0"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
               onClick={() => openLightbox(i)}

@@ -10,7 +10,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-import { Mail, Linkedin, Phone, ArrowUpRight, MapPin } from 'lucide-react';
+import { Mail, Linkedin, Phone, ArrowUpRight, MapPin, Youtube } from 'lucide-react';
 
 const btnSpringOff = { type: 'spring' as const, stiffness: 300, damping: 25, mass: 0.8 };
 const btnSpringOn  = { type: 'spring' as const, stiffness: 220, damping: 16, mass: 1.0 };
@@ -19,6 +19,7 @@ const contactLinks = [
   { label: 'Email', value: 'lukhihardik11@gmail.com', href: 'mailto:lukhihardik11@gmail.com', icon: Mail, color: 'oklch(0.55 0.18 230)' },
   { label: 'LinkedIn', value: 'linkedin.com/in/hardiklukhi', href: 'https://linkedin.com/in/hardiklukhi', icon: Linkedin, color: 'oklch(0.50 0.14 230)' },
   { label: 'Phone', value: '361-228-5831', href: 'tel:+13612285831', icon: Phone, color: 'oklch(0.75 0.15 65)' },
+  { label: 'YouTube', value: 'youtube.com/c/HardikLukhi', href: 'https://www.youtube.com/c/HardikLukhi', icon: Youtube, color: 'oklch(0.65 0.20 29)' },
 ];
 
 export function ContactSection() {
@@ -128,7 +129,7 @@ export function ContactSection() {
           </motion.div>
 
           {/* Contact cards — subtle hover */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-12">
             {contactLinks.map((link, i) => {
               const Icon = link.icon;
               return (
@@ -147,7 +148,7 @@ export function ContactSection() {
                 >
                   <div
                     className={`jelly-icon-box w-10 h-10 mx-auto mb-3 ${
-                      i === 2 ? 'jelly-icon-box-amber' : 'jelly-icon-box-teal'
+                      i === 2 ? 'jelly-icon-box-amber' : i === 3 ? 'jelly-icon-box-amber' : 'jelly-icon-box-teal'
                     }`}
                   >
                     <Icon size={16} />
