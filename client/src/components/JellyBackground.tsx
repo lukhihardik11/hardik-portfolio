@@ -60,22 +60,27 @@ function JellyCursor({ visible }: { visible: boolean }) {
     ? { main: 'oklch(0.62 0.18 230 / 45%)', trail: 'oklch(0.78 0.15 65 / 30%)', tail: 'oklch(0.55 0.16 230 / 20%)' }
     : { main: 'oklch(0.72 0.16 65 / 35%)',  trail: 'oklch(0.55 0.18 230 / 25%)', tail: 'oklch(0.75 0.12 65 / 15%)' };
 
+  /*
+   * CRITICAL FIX (PR #9): Do NOT apply SVG filter to a full-viewport container.
+   * The gooey-cursor filter processes EVERY pixel of the container, not just blobs.
+   * Even transparent areas get composited through the filter pipeline, creating
+   * a barely-visible but perceptible color wash across the entire page.
+   *
+   * Instead: use CSS blur on individual blobs for the soft glow effect.
+   * This is GPU-efficient and only processes the blob pixels.
+   */
   return (
-    <div
-      className="fixed inset-0 pointer-events-none"
-      style={{
-        zIndex: 40,
-        filter: 'url(#gooey-cursor)',
-        opacity: visible ? 0.22 : 0,
-        transition: 'opacity 0.4s ease',
-      }}
-    >
+    <>
       <motion.div
         className="fixed pointer-events-none rounded-full"
         style={{
           x: springX, y: springY,
           width: 32, height: 32, marginLeft: -16, marginTop: -16,
           background: colors.main,
+          filter: 'blur(12px)',
+          opacity: visible ? 0.35 : 0,
+          transition: 'opacity 0.4s ease',
+          zIndex: 40,
         }}
       />
       <motion.div
@@ -84,6 +89,10 @@ function JellyCursor({ visible }: { visible: boolean }) {
           x: trailX, y: trailY,
           width: 44, height: 44, marginLeft: -22, marginTop: -22,
           background: colors.trail,
+          filter: 'blur(16px)',
+          opacity: visible ? 0.3 : 0,
+          transition: 'opacity 0.4s ease',
+          zIndex: 40,
         }}
       />
       <motion.div
@@ -92,9 +101,13 @@ function JellyCursor({ visible }: { visible: boolean }) {
           x: trail3X, y: trail3Y,
           width: 24, height: 24, marginLeft: -12, marginTop: -12,
           background: colors.tail,
+          filter: 'blur(10px)',
+          opacity: visible ? 0.25 : 0,
+          transition: 'opacity 0.4s ease',
+          zIndex: 40,
         }}
       />
-    </div>
+    </>
   );
 }
 
@@ -217,14 +230,15 @@ export function JellyBackground() {
         <defs>
           {/*
            * Gooey background filter — softened for mobile safety.
-           * stdDeviation=18 (was 20): slightly tighter blur for cleaner edges
-           * Alpha matrix 12/-5: moderate threshold, gradual transition
-           * This creates organic blob merging without the hard color wash.
+           * stdDeviation=14: tighter blur to reduce color bleed beyond blob edges
+           * Alpha matrix 18/-7: stricter threshold prevents transparent areas from
+           * surviving the filter and creating a visible wash across the viewport.
+           * This creates organic blob merging without any page-wide color wash.
            */}
           <filter id="gooey-bg">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
             <feColorMatrix in="blur" mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -5" result="gooey" />
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="gooey" />
             <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
           </filter>
           {/* Cursor gooey filter */}
