@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useEffect } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useFineHover } from '../hooks/useFineHover';
 
 gsap.registerPlugin(ScrollTrigger);
 import { Link } from "wouter";
@@ -29,20 +30,22 @@ export function ProjectsSection() {
     offset: ["start end", "end start"],
   });
 
+  /* Scroll-reactive wobble — desktop only */
+  const isFine = useFineHover();
   const sectionSkew = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [0.15, -0.08, 0, 0.05, -0.1]
+    isFine ? [0.15, -0.08, 0, 0.05, -0.1] : [0, 0, 0, 0, 0]
   );
   const sectionSX = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [1.001, 0.999, 1, 1.001, 0.999]
+    isFine ? [1.001, 0.999, 1, 1.001, 0.999] : [1, 1, 1, 1, 1]
   );
   const sectionSY = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [0.999, 1.001, 1, 0.999, 1.001]
+    isFine ? [0.999, 1.001, 1, 0.999, 1.001] : [1, 1, 1, 1, 1]
   );
   const springSkew = useSpring(sectionSkew, { stiffness: 80, damping: 15 });
   const springSX = useSpring(sectionSX, { stiffness: 80, damping: 15 });

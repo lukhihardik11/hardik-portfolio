@@ -18,6 +18,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { useJellyMode } from '@/contexts/JellyModeContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useFineHover } from '@/hooks/useFineHover';
 
 /**
  * Detect if the device is primarily touch-based.
@@ -98,7 +99,7 @@ function JellyCursor({ visible }: { visible: boolean }) {
 }
 
 /* ─── Metaball Blobs (always in DOM, visibility controlled by CSS opacity) ─── */
-function MetaballBlobs({ visible }: { visible: boolean }) {
+function MetaballBlobs({ visible, isFine }: { visible: boolean; isFine: boolean }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const containerRef = useRef<HTMLDivElement>(null);
@@ -139,7 +140,9 @@ function MetaballBlobs({ visible }: { visible: boolean }) {
          * The filter creates the organic metaball merging effect.
          * Softened threshold prevents hard color wash.
          */
-        filter: visible ? 'url(#gooey-bg)' : 'none',
+        /* SVG gooey filter disabled on touch devices — too expensive for mobile GPUs
+           and causes compositor artifacts during scroll */
+        filter: (visible && isFine) ? 'url(#gooey-bg)' : 'none',
         /*
          * KEY FIX: Use CSS opacity transition instead of AnimatePresence mount/unmount.
          * This keeps blobs in the DOM at all times, preventing the stale paint layer
@@ -181,6 +184,7 @@ function MetaballBlobs({ visible }: { visible: boolean }) {
 export function JellyBackground() {
   const { jellyMode } = useJellyMode();
   const { theme } = useTheme();
+  const isFineHover = useFineHover();
   const [isTouch, setIsTouch] = useState(false);
   const prevThemeRef = useRef(theme);
 
@@ -239,7 +243,7 @@ export function JellyBackground() {
        * This eliminates the AnimatePresence mount/unmount cycle that caused
        * stale paint layers and toggle contamination on mobile browsers.
        */}
-      <MetaballBlobs visible={jellyMode} />
+      <MetaballBlobs visible={jellyMode} isFine={isFineHover} />
       {/* Cursor blob: always mounted on desktop, visibility controlled by CSS */}
       {!isTouch && <JellyCursor visible={jellyMode} />}
     </>

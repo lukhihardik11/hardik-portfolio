@@ -13,6 +13,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from 'react';
 import { useJellyMode } from '../contexts/JellyModeContext';
 import { useSplineGating } from '../hooks/useSplineGating';
+import { useFineHover } from '../hooks/useFineHover';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -159,9 +160,13 @@ export function HeroSection() {
   });
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 80]);
-  const scrollSkew = useTransform(scrollYProgress, [0, 0.3, 0.5], [0, -1, 0]);
-  const scrollScaleX = useTransform(scrollYProgress, [0, 0.25, 0.5], [1, 1.01, 0.99]);
-  const scrollScaleY = useTransform(scrollYProgress, [0, 0.25, 0.5], [1, 0.99, 1.01]);
+  /* Scroll-reactive section deformation — desktop only.
+     On mobile, these promote the entire section to a GPU compositor layer,
+     causing stale texture tiles to flash during fast scroll. */
+  const isFine = useFineHover();
+  const scrollSkew = useTransform(scrollYProgress, [0, 0.3, 0.5], isFine ? [0, -1, 0] : [0, 0, 0]);
+  const scrollScaleX = useTransform(scrollYProgress, [0, 0.25, 0.5], isFine ? [1, 1.01, 0.99] : [1, 1, 1]);
+  const scrollScaleY = useTransform(scrollYProgress, [0, 0.25, 0.5], isFine ? [1, 0.99, 1.01] : [1, 1, 1]);
   const springSkew = useSpring(scrollSkew, { stiffness: 80, damping: 15 });
   const springSX = useSpring(scrollScaleX, { stiffness: 80, damping: 15 });
   const springSY = useSpring(scrollScaleY, { stiffness: 80, damping: 15 });
