@@ -66,7 +66,7 @@ function JellyCursor({ visible }: { visible: boolean }) {
       style={{
         zIndex: 40,
         filter: 'url(#gooey-cursor)',
-        opacity: visible ? 0.35 : 0,
+        opacity: visible ? 0.22 : 0,
         transition: 'opacity 0.4s ease',
       }}
     >
@@ -231,7 +231,7 @@ export function JellyBackground() {
           <filter id="gooey-cursor">
             <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
             <feColorMatrix in="blur" mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -6" result="gooey" />
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -5" result="gooey" />
             <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
           </filter>
         </defs>

@@ -18,13 +18,11 @@ const LIGHT_COLORS: GelToggleColors = {
   trackOff: 'linear-gradient(180deg, oklch(0.72 0.008 75) 0%, oklch(0.77 0.006 75) 40%, oklch(0.74 0.008 75) 100%)',
   trackOn: 'linear-gradient(180deg, oklch(0.70 0.010 75) 0%, oklch(0.75 0.008 75) 40%, oklch(0.72 0.010 75) 100%)',
   trackShadow: [
-    'inset 0 3px 7px oklch(0 0 0 / 25%)',
-    'inset 0 1px 3px oklch(0 0 0 / 15%)',
-    'inset 0 -1px 1px oklch(1 0 0 / 50%)',
-    '0 2px 6px oklch(0 0 0 / 12%)',
-    '0 1px 2px oklch(0 0 0 / 8%)',
+    'inset 0 2px 5px oklch(0 0 0 / 15%)',
+    'inset 0 1px 2px oklch(0 0 0 / 10%)',
+    'inset 0 -1px 1px oklch(1 0 0 / 25%)',
   ].join(', '),
-  trackRimLight: 'oklch(1 0 0 / 50%)',
+  trackRimLight: 'oklch(1 0 0 / 20%)',
   // Knob OFF (light mode = sun): warm amber gel with translucency
   knobOff: 'radial-gradient(ellipse at 30% 25%, oklch(0.96 0.07 72 / 96%) 0%, oklch(0.86 0.14 68 / 92%) 40%, oklch(0.74 0.16 62 / 88%) 100%)',
   // Knob ON (dark mode = moon): cool blue gel
@@ -49,8 +47,8 @@ const LIGHT_COLORS: GelToggleColors = {
   ].join(', '),
   glowOff: 'radial-gradient(ellipse, oklch(0.78 0.15 70 / 38%) 0%, oklch(0.76 0.13 70 / 18%) 40%, transparent 70%)',
   glowOn: 'radial-gradient(ellipse, oklch(0.53 0.24 234 / 45%) 0%, oklch(0.48 0.20 234 / 20%) 40%, transparent 70%)',
-  borderOff: '1.5px solid oklch(0 0 0 / 10%)',
-  borderOn: '1.5px solid oklch(0 0 0 / 10%)',
+  borderOff: '1px solid oklch(0 0 0 / 6%)',
+  borderOn: '1px solid oklch(0 0 0 / 6%)',
   causticIntensity: 1.0,
 };
 
