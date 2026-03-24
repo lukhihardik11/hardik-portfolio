@@ -213,10 +213,10 @@ export function ExperienceSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: 'spring' as const, stiffness: 100, damping: 16, delay: i * 0.05 }}
-                className="relative pl-10 lg:pl-14"
+                className="relative pl-8 sm:pl-10 lg:pl-14"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-[5px] lg:left-[9px] top-6">
+                <div className="absolute left-[3px] sm:left-[5px] lg:left-[9px] top-6">
                   <div
                     className={`w-[14px] h-[14px] jelly-dot ${
                       exp.dotColor === 'teal' ? 'jelly-dot-teal' : 'jelly-dot-amber'
@@ -229,7 +229,7 @@ export function ExperienceSection() {
                 <motion.div
                   whileHover={{ y: -2, scale: 1.003 }}
                   transition={btnSpring}
-                  className="jelly-card p-6 lg:p-7 group relative overflow-hidden"
+                  className="jelly-card p-4 sm:p-6 lg:p-7 group relative overflow-hidden"
                 >
                   <div className={`jelly-caustic -bottom-6 left-1/4 right-1/4 h-12 ${
                     exp.dotColor === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
@@ -269,7 +269,7 @@ export function ExperienceSection() {
                     {exp.highlights.map((h, j) => (
                       <div key={j} className="flex items-start gap-2 text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
                         <ChevronRight size={12} className="mt-1 shrink-0" style={{ color: exp.color }} />
-                        <span className="text-[11px] sm:text-xs leading-relaxed">{h}</span>
+                        <span className="text-[11px] sm:text-xs leading-relaxed break-words">{h}</span>
                       </div>
                     ))}
                   </div>

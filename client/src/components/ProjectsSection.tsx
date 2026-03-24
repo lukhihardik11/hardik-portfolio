@@ -154,6 +154,8 @@ export function ProjectsSection() {
                 mass: 1,
                 delay: i * 0.06,
               }}
+              className="rounded-[1.25rem]"
+              style={{ background: 'inherit' }}
             >
               <ProjectCard project={project} index={i} />
             </motion.div>
