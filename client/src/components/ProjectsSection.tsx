@@ -32,17 +32,17 @@ export function ProjectsSection() {
   const sectionSkew = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [0.6, -0.3, 0, 0.2, -0.4]
+    [0.15, -0.08, 0, 0.05, -0.1]
   );
   const sectionSX = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [1.004, 0.998, 1, 1.002, 0.997]
+    [1.001, 0.999, 1, 1.001, 0.999]
   );
   const sectionSY = useTransform(
     scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [0.996, 1.002, 1, 0.998, 1.003]
+    [0.999, 1.001, 1, 0.999, 1.001]
   );
   const springSkew = useSpring(sectionSkew, { stiffness: 80, damping: 15 });
   const springSX = useSpring(sectionSX, { stiffness: 80, damping: 15 });

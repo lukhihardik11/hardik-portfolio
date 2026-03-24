@@ -242,9 +242,9 @@ body {
     0 1px 0 var(--jelly-highlight),
     0 4px 16px -4px var(--jelly-shadow-ambient),
     0 12px 32px -8px var(--jelly-shadow-deep);
-  transition: box-shadow 0.4s ease-out, background 0.4s ease-out, border-color 0.4s ease-out;
+  transition: box-shadow 0.35s ease-out, background 0.35s ease-out, border-color 0.35s ease-out;
   position: relative;
-  will-change: transform;
+  will-change: auto;
   transform-style: preserve-3d;
   overflow: hidden;
 }
@@ -260,11 +260,11 @@ body {
   .jelly-card:hover {
     background: var(--jelly-surface-hover);
     border-color: var(--jelly-border-hover);
-    transition: box-shadow 0.2s ease-in, background 0.2s ease-in, border-color 0.2s ease-in;
+    transition: box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
     box-shadow:
       0 1px 0 var(--jelly-highlight),
-      0 8px 24px -4px var(--jelly-shadow-deep),
-      0 16px 48px -8px var(--jelly-shadow-ambient);
+      0 6px 20px -4px var(--jelly-shadow-deep),
+      0 12px 36px -8px var(--jelly-shadow-ambient);
   }
 }
 
@@ -1054,7 +1054,7 @@ section[id] { scroll-margin-top: 5rem; }
 
 /* Jelly mode: Sections get elastic scroll deformation */
 .jelly-mode section {
-  will-change: transform;
+  will-change: auto;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
