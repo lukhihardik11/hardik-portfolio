@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useFineHover } from '../hooks/useFineHover';
 
 gsap.registerPlugin(ScrollTrigger);
 import { GraduationCap, Award, Briefcase } from 'lucide-react';
@@ -49,9 +50,11 @@ export function EducationSection() {
     offset: ['start end', 'end start'],
   });
 
-  const sectionSkew = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0.12, -0.06, 0, 0.04, -0.08]);
-  const sectionSX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [1.001, 0.999, 1, 1.001, 0.999]);
-  const sectionSY = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0.999, 1.001, 1, 0.999, 1.001]);
+  /* Scroll-reactive wobble — desktop only */
+  const isFine = useFineHover();
+  const sectionSkew = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], isFine ? [0.12, -0.06, 0, 0.04, -0.08] : [0, 0, 0, 0, 0]);
+  const sectionSX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], isFine ? [1.001, 0.999, 1, 1.001, 0.999] : [1, 1, 1, 1, 1]);
+  const sectionSY = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], isFine ? [0.999, 1.001, 1, 0.999, 1.001] : [1, 1, 1, 1, 1]);
   const springSkew = useSpring(sectionSkew, { stiffness: 80, damping: 15 });
   const springSX = useSpring(sectionSX, { stiffness: 80, damping: 15 });
   const springSY = useSpring(sectionSY, { stiffness: 80, damping: 15 });

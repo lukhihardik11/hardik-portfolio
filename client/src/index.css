@@ -318,7 +318,6 @@ body {
   font-weight: 600;
   border-radius: 999px;
   letter-spacing: 0.01em;
-  will-change: transform;
   transform-origin: center center;
   position: relative;
   overflow: hidden;
@@ -801,8 +800,13 @@ section[id] { scroll-margin-top: 5rem; }
    JELLY SCROLL DEFORM — Applied via JS
    ============================== */
 .jelly-scroll-deform {
-  will-change: transform;
   transform-origin: center center;
+}
+/* will-change only on desktop — prevents mobile compositor layer explosion */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-scroll-deform {
+    will-change: transform;
+  }
 }
 
 /* Respect reduced motion */
@@ -843,8 +847,8 @@ section[id] { scroll-margin-top: 5rem; }
 /* Jelly mode: Cards get STRONG 3D glass/gel depth */
 .jelly-mode .jelly-card {
   background: oklch(1 0 0 / 8%);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.2);
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
   border: 1.5px solid oklch(1 0 0 / 20%);
   border-top: 2px solid oklch(1 0 0 / 40%);
   border-bottom: 2px solid oklch(0 0 0 / 12%);
@@ -858,6 +862,13 @@ section[id] { scroll-margin-top: 5rem; }
     0 8px 32px -4px oklch(0 0 0 / 15%),
     0 16px 48px -8px oklch(0 0 0 / 10%);
   transition: box-shadow 0.3s ease, background 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* Full backdrop-filter only on desktop — mobile gets lighter blur */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode .jelly-card {
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  }
 }
 .jelly-mode .jelly-card::before {
   display: none;
@@ -941,22 +952,30 @@ section[id] { scroll-margin-top: 5rem; }
     radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 8%) 0%, transparent 50%),
     radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 6%) 0%, transparent 50%),
     radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 4%) 0%, transparent 60%);
-  background-size: 200% 200%, 200% 200%, 200% 200%;
-  animation: caustic-shimmer 15s ease-in-out infinite;
 }
 .jelly-mode.dark body {
   background-image:
     radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 12%) 0%, transparent 50%),
     radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 8%) 0%, transparent 50%),
     radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.30 0.005 80 / 6%) 0%, transparent 60%);
-  background-size: 200% 200%, 200% 200%, 200% 200%;
-  animation: caustic-shimmer 15s ease-in-out infinite;
+}
+/* Caustic shimmer animation only on desktop — continuous body background-position
+   animation causes repaint storms on mobile during scroll */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode body,
+  .jelly-mode.dark body {
+    background-size: 200% 200%, 200% 200%, 200% 200%;
+    animation: caustic-shimmer 15s ease-in-out infinite;
+  }
 }
 
-/* Jelly mode: Buttons get squish on active */
-.jelly-mode button:active:not(.no-jelly),
-.jelly-mode a:active:not(.no-jelly) {
-  animation: jelly-wobble 0.4s ease-in-out;
+/* Jelly mode: Buttons get squish on active — desktop only
+   On mobile, :active fires during scroll-touch causing unwanted wobbles */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode button:active:not(.no-jelly),
+  .jelly-mode a:active:not(.no-jelly) {
+    animation: jelly-wobble 0.4s ease-in-out;
+  }
 }
 
 /* Jelly mode: Material surfaces get enhanced 3D */
@@ -1031,11 +1050,21 @@ section[id] { scroll-margin-top: 5rem; }
   100% { transform: translate(50vw, 30vh) scale(1) rotate(0deg); }
 }
 
-.jelly-metaball-1 { animation: metaball-drift-1 30s ease-in-out infinite; will-change: transform; }
-.jelly-metaball-2 { animation: metaball-drift-2 25s ease-in-out infinite; will-change: transform; }
-.jelly-metaball-3 { animation: metaball-drift-3 20s ease-in-out infinite; will-change: transform; }
-.jelly-metaball-4 { animation: metaball-drift-4 28s ease-in-out infinite; will-change: transform; }
-.jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; will-change: transform; }
+.jelly-metaball-1 { animation: metaball-drift-1 30s ease-in-out infinite; }
+.jelly-metaball-2 { animation: metaball-drift-2 25s ease-in-out infinite; }
+.jelly-metaball-3 { animation: metaball-drift-3 20s ease-in-out infinite; }
+.jelly-metaball-4 { animation: metaball-drift-4 28s ease-in-out infinite; }
+.jelly-metaball-5 { animation: metaball-drift-5 35s ease-in-out infinite; }
+/* will-change: transform only on desktop — prevents mobile GPU layer explosion */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-metaball-1,
+  .jelly-metaball-2,
+  .jelly-metaball-3,
+  .jelly-metaball-4,
+  .jelly-metaball-5 {
+    will-change: transform;
+  }
+}
 
 /* Jelly mode: ALL interactive elements get visible squash & stretch */
 @media (hover: hover) and (pointer: fine) {
@@ -1052,10 +1081,13 @@ section[id] { scroll-margin-top: 5rem; }
   }
 }
 
-/* Jelly mode: Sections get elastic scroll deformation */
-.jelly-mode section {
-  will-change: auto;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Jelly mode: Sections get elastic scroll deformation — DESKTOP ONLY
+   On mobile, this creates too many compositor layers causing scroll glitches */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode section {
+    will-change: auto;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
 }
 
 /* Caustic shimmer animation for background */
@@ -1087,10 +1119,12 @@ section[id] { scroll-margin-top: 5rem; }
   100% { transform: scale(1, 1); }
 }
 
-/* Jelly mode: Buttons get refined squash on click */
-.jelly-mode button:active:not(.no-jelly) {
-  transform: scale(1.06, 0.94) !important;
-  transition: transform 0.1s ease-out !important;
+/* Jelly mode: Buttons get refined squash on click — desktop only */
+@media (hover: hover) and (pointer: fine) {
+  .jelly-mode button:active:not(.no-jelly) {
+    transform: scale(1.06, 0.94) !important;
+    transition: transform 0.1s ease-out !important;
+  }
 }
 
 /* Jelly mode: ALL buttons bounce on hover */
