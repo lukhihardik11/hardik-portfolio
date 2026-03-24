@@ -1,17 +1,28 @@
 /**
  * GelToggle — Unified premium gel capsule toggle component.
  *
- * Phase 2B: Material quality redesign
- * - Improved knob-to-track silhouette (knob overflows track more visibly)
- * - Better internal highlight structure (rim light, deeper caustics)
- * - Better gel/translucent feel in both OFF and ON modes
- * - OFF = subtle premium jelly (smooth, restrained, high clarity)
- * - ON = stronger realistic jelly (TypeGPU-inspired, elastic, expressive)
- * - Alignment fix: glow spill no longer inflates bounding box
+ * DUAL-PATH ARCHITECTURE (matching JellyWrapper pattern):
+ *
+ * FULL PATH (desktop with fine pointer — useFineHover === true):
+ *   - Full RAF spring physics for knob position + squash
+ *   - onPointerDown for press feedback
+ *   - Smooth, bouncy, elastic feel
+ *
+ * LIGHTER PATH (touch / coarse-pointer — useFineHover === false):
+ *   - Pure CSS transitions for knob position (GPU-accelerated)
+ *   - No RAF loops, no continuous DOM writes
+ *   - Simple onClick only (no onTouchStart/onMouseDown)
+ *   - touch-action: manipulation (no 300ms delay)
+ *   - No preventDefault/stopPropagation
+ *   - Spring-like feel via cubic-bezier easing
+ *
+ * This eliminates the Android/iOS jelly toggle artifacts caused by
+ * RAF loops conflicting with jelly-mode class style recalculations.
  */
 import { useRef, useCallback, useEffect, type ReactNode } from 'react';
+import { useFineHover } from '@/hooks/useFineHover';
 
-/* ───────── Spring Physics ───────── */
+/* ───────── Spring Physics (FULL PATH only) ───────── */
 class Spring {
   value = 0;
   target = 0;
@@ -38,31 +49,18 @@ class Spring {
 
 /* ───────── Color Configuration ───────── */
 export interface GelToggleColors {
-  /** Track gradient when OFF */
   trackOff: string;
-  /** Track gradient when ON */
   trackOn: string;
-  /** Track inset shadow (dark recess) */
   trackShadow: string;
-  /** Track rim highlight (top edge light) */
   trackRimLight: string;
-  /** Knob radial gradient when OFF */
   knobOff: string;
-  /** Knob radial gradient when ON */
   knobOn: string;
-  /** Knob box-shadow when OFF */
   knobShadowOff: string;
-  /** Knob box-shadow when ON */
   knobShadowOn: string;
-  /** Glow color when OFF */
   glowOff: string;
-  /** Glow color when ON */
   glowOn: string;
-  /** Border color when OFF */
   borderOff: string;
-  /** Border color when ON */
   borderOn: string;
-  /** Caustic highlight opacity multiplier (0-1) */
   causticIntensity: number;
 }
 
@@ -92,19 +90,302 @@ export function GelToggle({
   jellyMode = false,
 }: Props) {
   const colors = isDark ? darkColors : lightColors;
+  const fineHover = useFineHover();
 
   /* ── Sizing — improved proportions for better silhouette ── */
   const trackW = Math.round(size * 1.82);
   const trackH = Math.round(size * 0.82);
-  // Knob overflows track more visibly (1.35x vs old 1.15x)
   const knobD = Math.round(trackH * 1.35);
   const knobOverflow = (knobD - trackH) / 2;
   const pad = Math.round(trackH * 0.08);
   const travel = trackW - knobD - pad * 2;
+  const totalH = knobD;
 
-  /* ── Spring configs differ between OFF and ON ── */
-  // OFF: stiffer, more damped = smooth and fast
-  // ON: softer, less damped = bouncy and elastic
+  /* ══════════════════════════════════════════════════════════
+   * LIGHTER PATH — Touch / coarse-pointer devices
+   * Pure CSS transitions, no RAF, no continuous DOM writes
+   * ══════════════════════════════════════════════════════════ */
+  if (!fineHover) {
+    const knobX = checked ? pad + travel : pad;
+    const glowW = knobD * 1.6;
+    const glowX = knobX + (knobD - glowW) / 2;
+    const glowOpacity = checked ? 0.8 : 0.1;
+
+    /* Spring-like CSS easing: overshoot via cubic-bezier */
+    const springEasing = jellyMode
+      ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' /* bouncier */
+      : 'cubic-bezier(0.25, 1.2, 0.5, 1)';  /* subtle overshoot */
+    const duration = jellyMode ? '0.45s' : '0.35s';
+
+    const handleClick = () => {
+      onChange(!checked);
+    };
+
+    return (
+      <button
+        onClick={handleClick}
+        className="no-jelly cursor-pointer bg-transparent border-none outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        style={{
+          width: trackW,
+          height: totalH,
+          borderRadius: trackH / 2,
+          position: 'relative',
+          zIndex: 101,
+          padding: 0,
+          overflow: 'visible',
+          touchAction: 'manipulation',
+          WebkitTapHighlightColor: 'transparent',
+        }}
+        aria-label={ariaLabel}
+        title={title}
+        role="switch"
+        aria-checked={checked}
+      >
+        {/* ── Recessed capsule track ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: knobOverflow,
+            left: 0,
+            right: 0,
+            height: trackH,
+            borderRadius: trackH / 2,
+            pointerEvents: 'none',
+            background: checked ? colors.trackOn : colors.trackOff,
+            boxShadow: colors.trackShadow,
+            border: checked ? colors.borderOn : colors.borderOff,
+            transition: `background ${duration} ${springEasing}, border ${duration} ${springEasing}`,
+          }}
+        />
+
+        {/* ── Track rim highlight ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: knobOverflow + trackH - 1,
+            left: 4,
+            right: 4,
+            height: 1,
+            borderRadius: 1,
+            pointerEvents: 'none',
+            background: colors.trackRimLight,
+            transition: `background ${duration}`,
+          }}
+        />
+
+        {/* ── Track inner fill tint (ON state only) ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: knobOverflow + 2,
+            left: 2,
+            right: 2,
+            height: trackH - 4,
+            borderRadius: (trackH - 4) / 2,
+            pointerEvents: 'none',
+            opacity: checked ? 1 : 0,
+            background: isDark
+              ? 'linear-gradient(90deg, oklch(1 0 0 / 4%) 0%, oklch(1 0 0 / 7%) 100%)'
+              : 'linear-gradient(90deg, oklch(0 0 0 / 3%) 0%, oklch(0 0 0 / 6%) 100%)',
+            transition: `opacity ${duration}`,
+          }}
+        />
+
+        {/* ── Colored glow spill beneath knob ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: knobOverflow + trackH - 2,
+            left: 0,
+            width: glowW,
+            height: jellyMode ? 16 : 10,
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            background: checked ? colors.glowOn : colors.glowOff,
+            filter: `blur(${jellyMode ? 6 : 3}px)`,
+            opacity: glowOpacity,
+            transform: `translateX(${glowX}px)`,
+            transition: `transform ${duration} ${springEasing}, opacity ${duration}, background ${duration}, filter ${duration}`,
+          }}
+        />
+
+        {/* ── Gel knob — CSS transition instead of RAF ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: knobD,
+            height: knobD,
+            borderRadius: '50%',
+            transformOrigin: 'center center',
+            pointerEvents: 'none',
+            willChange: 'transform',
+            transform: `translateX(${knobX}px)`,
+            background: checked ? colors.knobOn : colors.knobOff,
+            boxShadow: checked ? colors.knobShadowOn : colors.knobShadowOff,
+            border: checked
+              ? `1.5px solid ${isDark ? 'oklch(1 0 0 / 18%)' : 'oklch(1 0 0 / 35%)'}`
+              : `1.5px solid ${isDark ? 'oklch(1 0 0 / 12%)' : 'oklch(1 0 0 / 12%)'}`,
+            transition: `transform ${duration} ${springEasing}, background ${duration}, box-shadow ${duration}, border-color ${duration}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          {/* ── Primary caustic highlight ── */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '4%',
+              left: '10%',
+              right: '10%',
+              height: '42%',
+              borderRadius: '50%',
+              background: `linear-gradient(180deg, oklch(1 0 0 / ${checked ? 55 * colors.causticIntensity : 40 * colors.causticIntensity}%) 0%, oklch(1 0 0 / ${checked ? 22 * colors.causticIntensity : 15 * colors.causticIntensity}%) 50%, oklch(1 0 0 / 0%) 100%)`,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* ── Secondary caustic ── */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '8%',
+              left: '15%',
+              width: '32%',
+              height: '26%',
+              borderRadius: '50%',
+              background: `radial-gradient(ellipse, oklch(1 0 0 / ${checked ? 42 * colors.causticIntensity : 28 * colors.causticIntensity}%) 0%, transparent 70%)`,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* ── Rim light ── */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: '50%',
+              pointerEvents: 'none',
+              background: `linear-gradient(135deg, oklch(1 0 0 / ${isDark ? 12 : 18}%) 0%, transparent 40%, transparent 60%, oklch(0 0 0 / ${isDark ? 12 : 6}%) 100%)`,
+            }}
+          />
+
+          {/* ── Bottom shadow ── */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '0%',
+              left: '8%',
+              right: '8%',
+              height: '35%',
+              borderRadius: '50%',
+              background: `linear-gradient(0deg, oklch(0 0 0 / ${isDark ? 20 : 12}%) 0%, transparent 100%)`,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* ── Icon ── */}
+          {icon && (
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                filter: `drop-shadow(0 1px 2px oklch(0 0 0 / 30%))`,
+                transition: 'opacity 0.3s',
+              }}
+            >
+              {icon}
+            </div>
+          )}
+        </div>
+
+        {/* ── Caustic overlay on knob ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: knobD,
+            height: knobD,
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            transformOrigin: 'center center',
+            transform: `translateX(${knobX}px)`,
+            background: checked
+              ? `radial-gradient(ellipse at 35% 30%, oklch(1 0 0 / ${jellyMode ? 15 : 8}%) 0%, transparent 50%)`
+              : 'none',
+            transition: `transform ${duration} ${springEasing}, background ${duration}`,
+          }}
+        />
+      </button>
+    );
+  }
+
+  /* ══════════════════════════════════════════════════════════
+   * FULL PATH — Desktop with fine pointer
+   * Full RAF spring physics (unchanged from original)
+   * ══════════════════════════════════════════════════════════ */
+  return (
+    <DesktopGelToggle
+      checked={checked}
+      onChange={onChange}
+      colors={colors}
+      isDark={isDark}
+      icon={icon}
+      jellyMode={jellyMode}
+      trackW={trackW}
+      trackH={trackH}
+      knobD={knobD}
+      knobOverflow={knobOverflow}
+      pad={pad}
+      travel={travel}
+      totalH={totalH}
+      ariaLabel={ariaLabel}
+      title={title}
+    />
+  );
+}
+
+/* ── Desktop-only component with full spring physics ── */
+function DesktopGelToggle({
+  checked,
+  onChange,
+  colors,
+  isDark,
+  icon,
+  jellyMode = false,
+  trackW,
+  trackH,
+  knobD,
+  knobOverflow,
+  pad,
+  travel,
+  totalH,
+  ariaLabel,
+  title,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  colors: GelToggleColors;
+  isDark: boolean;
+  icon?: ReactNode;
+  jellyMode?: boolean;
+  trackW: number;
+  trackH: number;
+  knobD: number;
+  knobOverflow: number;
+  pad: number;
+  travel: number;
+  totalH: number;
+  ariaLabel: string;
+  title?: string;
+}) {
   const posSpring = useRef(
     Object.assign(
       new Spring(
@@ -128,6 +409,9 @@ export function GelToggle({
   const glowRef = useRef<HTMLDivElement>(null);
   const causticRef = useRef<HTMLDivElement>(null);
 
+  const squashScaleX = jellyMode ? 0.28 : 0.10;
+  const squashScaleY = jellyMode ? 0.20 : 0.06;
+
   /* Update spring configs when jellyMode changes */
   useEffect(() => {
     const sp = posSpring.current;
@@ -145,10 +429,6 @@ export function GelToggle({
   useEffect(() => {
     posSpring.current.target = checked ? 1 : 0;
   }, [checked]);
-
-  /* Squash multipliers: OFF is restrained, ON is expressive */
-  const squashScaleX = jellyMode ? 0.28 : 0.10;
-  const squashScaleY = jellyMode ? 0.20 : 0.06;
 
   /* Animation loop */
   useEffect(() => {
@@ -185,20 +465,16 @@ export function GelToggle({
     return () => cancelAnimationFrame(rafRef.current);
   }, [pad, travel, knobD, squashScaleX, squashScaleY]);
 
-  /* Click handler */
+  /* Click handler — desktop uses pointer events */
   const handleClick = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+    () => {
       const sp = posSpring.current;
       const sq = squashSpring.current;
-      // OFF: gentle impulse; ON: strong elastic impulse
       const velMult = jellyMode ? 2.0 : 0.8;
       const sqMult = jellyMode ? 2.0 : 0.6;
       sp.velocity = (checked ? -4 : 4) * velMult;
       sq.velocity = (checked ? 5 : -5) * sqMult;
       onChange(!checked);
-      // Restart animation
       lastT.current = performance.now();
       cancelAnimationFrame(rafRef.current);
       const loop = (ts: number) => {
@@ -265,20 +541,10 @@ export function GelToggle({
     rafRef.current = requestAnimationFrame(loop);
   }, [jellyMode, pad, travel, knobD, squashScaleX, squashScaleY]);
 
-  /*
-   * ALIGNMENT FIX: totalH is now based purely on the knob diameter
-   * (the tallest visual element). The glow spill renders outside
-   * the bounding box via overflow:visible, so it no longer inflates
-   * the button height. This eliminates the 5px offset that forced
-   * siblings to use -translate-y-[5px].
-   */
-  const totalH = knobD;
-
   return (
     <button
       onClick={handleClick}
-      onMouseDown={handleDown}
-      onTouchStart={handleDown}
+      onPointerDown={handleDown}
       className="no-jelly cursor-pointer bg-transparent border-none outline-none focus-visible:ring-2 focus-visible:ring-ring"
       style={{
         width: trackW,
@@ -294,7 +560,7 @@ export function GelToggle({
       role="switch"
       aria-checked={checked}
     >
-      {/* ── Recessed capsule track — deeply sunken groove ── */}
+      {/* ── Recessed capsule track ── */}
       <div
         style={{
           position: 'absolute',
@@ -307,11 +573,11 @@ export function GelToggle({
           background: checked ? colors.trackOn : colors.trackOff,
           boxShadow: colors.trackShadow,
           border: checked ? colors.borderOn : colors.borderOff,
-          transition: 'background 0.4s, box-shadow 0.4s, border-color 0.4s',
+          transition: 'background 0.4s, border 0.4s',
         }}
       />
 
-      {/* ── Track rim highlight — sells the recessed groove ── */}
+      {/* ── Track rim highlight ── */}
       <div
         style={{
           position: 'absolute',
@@ -345,7 +611,7 @@ export function GelToggle({
         />
       )}
 
-      {/* ── Colored glow spill beneath knob — outside bounding box ── */}
+      {/* ── Colored glow spill beneath knob ── */}
       <div
         ref={glowRef}
         style={{
@@ -362,7 +628,7 @@ export function GelToggle({
         }}
       />
 
-      {/* ── Gel knob — translucent with material depth, OVERFLOWS track ── */}
+      {/* ── Gel knob ── */}
       <div
         ref={knobRef}
         style={{
@@ -387,7 +653,7 @@ export function GelToggle({
           overflow: 'hidden',
         }}
       >
-        {/* ── Primary caustic highlight — white arc across top ── */}
+        {/* ── Primary caustic highlight ── */}
         <div
           style={{
             position: 'absolute',
@@ -401,7 +667,7 @@ export function GelToggle({
           }}
         />
 
-        {/* ── Secondary caustic — smaller, offset left ── */}
+        {/* ── Secondary caustic ── */}
         <div
           style={{
             position: 'absolute',
@@ -415,7 +681,7 @@ export function GelToggle({
           }}
         />
 
-        {/* ── Rim light — edge highlight for 3D separation ── */}
+        {/* ── Rim light ── */}
         <div
           style={{
             position: 'absolute',
@@ -426,7 +692,7 @@ export function GelToggle({
           }}
         />
 
-        {/* ── Bottom shadow inside knob for volume ── */}
+        {/* ── Bottom shadow ── */}
         <div
           style={{
             position: 'absolute',
@@ -458,7 +724,7 @@ export function GelToggle({
         )}
       </div>
 
-      {/* ── Caustic overlay on knob — moves with spring ── */}
+      {/* ── Caustic overlay on knob ── */}
       <div
         ref={causticRef}
         style={{
