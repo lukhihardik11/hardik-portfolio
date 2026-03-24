@@ -145,7 +145,7 @@ function MetaballBlobs({ visible }: { visible: boolean }) {
          * This keeps blobs in the DOM at all times, preventing the stale paint layer
          * issue that caused toggle contamination on mobile.
          */
-        opacity: visible ? (isDark ? 0.12 : 0.08) : 0,
+        opacity: visible ? (isDark ? 0.22 : 0.18) : 0,
         transition: 'opacity 0.6s ease-out, filter 0.3s ease',
         willChange: 'opacity',
       }}

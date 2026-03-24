@@ -53,22 +53,22 @@
   --exploded-label-fg: rgba(20, 25, 35, 0.9);
   --background: oklch(0.965 0.004 80);
   --foreground: oklch(0.15 0.015 60);
-  --card: oklch(0.98 0.003 80 / 60%);
+  --card: oklch(0.98 0.003 80 / 82%);
   --card-foreground: oklch(0.15 0.015 60);
   --popover: oklch(0.98 0.003 80 / 90%);
   --popover-foreground: oklch(0.15 0.015 60);
   --primary: oklch(0.55 0.18 230);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.92 0.004 80 / 80%);
+  --secondary: oklch(0.92 0.004 80 / 90%);
   --secondary-foreground: oklch(0.30 0.015 60);
   --muted: oklch(0.92 0.004 80);
-  --muted-foreground: oklch(0.45 0.012 60);
+  --muted-foreground: oklch(0.40 0.015 60);
   --accent: oklch(0.75 0.15 65);
   --accent-foreground: oklch(0.18 0.03 60);
   --destructive: oklch(0.55 0.24 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.50 0.005 80 / 12%);
-  --input: oklch(0.50 0.005 80 / 15%);
+  --border: oklch(0.50 0.005 80 / 20%);
+  --input: oklch(0.50 0.005 80 / 22%);
   --ring: oklch(0.55 0.18 230);
   --chart-1: oklch(0.55 0.18 230);
   --chart-2: oklch(0.75 0.15 65);
@@ -86,19 +86,19 @@
 
   --jelly-teal: oklch(0.55 0.18 230);
   --jelly-amber: oklch(0.75 0.15 65);
-  --jelly-surface: oklch(0.99 0.002 80 / 55%);
-  --jelly-surface-hover: oklch(0.99 0.002 80 / 70%);
-  --jelly-border: oklch(0 0 0 / 6%);
-  --jelly-border-hover: oklch(0 0 0 / 10%);
-  --jelly-shadow-ambient: oklch(0.20 0.01 60 / 8%);
-  --jelly-shadow-deep: oklch(0.20 0.01 60 / 14%);
-  --jelly-highlight: oklch(1 0 0 / 50%);
-  --jelly-inner-shadow: oklch(0 0 0 / 4%);
+  --jelly-surface: oklch(0.99 0.002 80 / 72%);
+  --jelly-surface-hover: oklch(0.99 0.002 80 / 85%);
+  --jelly-border: oklch(0 0 0 / 12%);
+  --jelly-border-hover: oklch(0 0 0 / 18%);
+  --jelly-shadow-ambient: oklch(0.20 0.01 60 / 14%);
+  --jelly-shadow-deep: oklch(0.20 0.01 60 / 22%);
+  --jelly-highlight: oklch(1 0 0 / 60%);
+  --jelly-inner-shadow: oklch(0 0 0 / 7%);
   --jelly-caustic-teal: oklch(0.55 0.18 230 / 20%);
   --jelly-caustic-amber: oklch(0.75 0.15 65 / 20%);
   --jelly-glass-thickness: 1px;
-  --jelly-gel-teal-fill: oklch(0.60 0.16 230 / 10%);
-  --jelly-gel-amber-fill: oklch(0.75 0.14 65 / 10%);
+  --jelly-gel-teal-fill: oklch(0.60 0.16 230 / 18%);
+  --jelly-gel-amber-fill: oklch(0.75 0.14 65 / 18%);
 }
 
 /* ==============================
@@ -109,13 +109,13 @@
   --exploded-label-fg: rgba(255, 255, 255, 0.85);
   --background: oklch(0.14 0.008 60);
   --foreground: oklch(0.93 0.006 80);
-  --card: oklch(1 0 0 / 4%);
+  --card: oklch(1 0 0 / 8%);
   --card-foreground: oklch(0.93 0.006 80);
   --popover: oklch(0.18 0.008 60 / 95%);
   --popover-foreground: oklch(0.93 0.006 80);
   --primary: oklch(0.62 0.18 230);
   --primary-foreground: oklch(0.10 0.005 60);
-  --secondary: oklch(1 0 0 / 3%);
+  --secondary: oklch(1 0 0 / 6%);
   --secondary-foreground: oklch(0.78 0.006 80);
   --muted: oklch(0.22 0.008 60);
   --muted-foreground: oklch(0.65 0.008 80);
@@ -123,8 +123,8 @@
   --accent-foreground: oklch(0.14 0.02 60);
   --destructive: oklch(0.60 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 6%);
-  --input: oklch(1 0 0 / 6%);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 12%);
   --ring: oklch(0.62 0.18 230);
   --chart-1: oklch(0.62 0.18 230);
   --chart-2: oklch(0.75 0.15 65);
@@ -142,19 +142,19 @@
 
   --jelly-teal: oklch(0.62 0.18 230);
   --jelly-amber: oklch(0.78 0.15 65);
-  --jelly-surface: oklch(1 0 0 / 3%);
-  --jelly-surface-hover: oklch(1 0 0 / 5%);
-  --jelly-border: oklch(1 0 0 / 8%);
-  --jelly-border-hover: oklch(1 0 0 / 14%);
-  --jelly-shadow-ambient: oklch(0 0 0 / 15%);
-  --jelly-shadow-deep: oklch(0 0 0 / 25%);
-  --jelly-highlight: oklch(1 0 0 / 12%);
-  --jelly-inner-shadow: oklch(0 0 0 / 12%);
+  --jelly-surface: oklch(1 0 0 / 6%);
+  --jelly-surface-hover: oklch(1 0 0 / 10%);
+  --jelly-border: oklch(1 0 0 / 14%);
+  --jelly-border-hover: oklch(1 0 0 / 22%);
+  --jelly-shadow-ambient: oklch(0 0 0 / 20%);
+  --jelly-shadow-deep: oklch(0 0 0 / 32%);
+  --jelly-highlight: oklch(1 0 0 / 18%);
+  --jelly-inner-shadow: oklch(0 0 0 / 16%);
   --jelly-caustic-teal: oklch(0.62 0.18 230 / 20%);
   --jelly-caustic-amber: oklch(0.78 0.15 65 / 20%);
   --jelly-glass-thickness: 1px;
-  --jelly-gel-teal-fill: oklch(0.55 0.20 230 / 6%);
-  --jelly-gel-amber-fill: oklch(0.75 0.16 65 / 6%);
+  --jelly-gel-teal-fill: oklch(0.55 0.20 230 / 12%);
+  --jelly-gel-amber-fill: oklch(0.75 0.16 65 / 12%);
 }
 
 @layer base {
@@ -217,15 +217,15 @@
    ============================== */
 body {
   background-image:
-    radial-gradient(ellipse 80% 50% at 0% 0%, oklch(0.55 0.18 230 / 2%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 100% 100%, oklch(0.75 0.15 65 / 1.5%) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
+   radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 6%) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 4%) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 2%) 0%, transparent 60%);
 }
 .dark body {
   background-image:
-    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 6%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 4%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.30 0.005 80 / 3%) 0%, transparent 60%);
+    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 10%) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 7%) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.30 0.005 80 / 5%) 0%, transparent 60%);
 }
 
 /* ==============================
@@ -273,13 +273,13 @@ body {
    ============================== */
 .glow-teal {
   box-shadow:
-    0 0 12px oklch(0.55 0.18 230 / 8%),
-    0 8px 24px -8px oklch(0.55 0.18 230 / 10%);
+    0 0 12px oklch(0.55 0.18 230 / 14%),
+    0 8px 24px -8px oklch(0.55 0.18 230 / 16%);
 }
 .glow-amber {
   box-shadow:
-    0 0 12px oklch(0.75 0.15 65 / 8%),
-    0 8px 24px -8px oklch(0.75 0.15 65 / 10%);
+    0 0 12px oklch(0.75 0.15 65 / 14%),
+    0 8px 24px -8px oklch(0.75 0.15 65 / 16%);
 }
 
 /* ==============================
