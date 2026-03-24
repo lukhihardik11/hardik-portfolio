@@ -102,7 +102,7 @@
 
   /* Jelly-mode ON card backgrounds — theme-reactive */
   --jelly-card-solid: oklch(0.96 0.004 80 / 88%);
-  --jelly-card-glass: oklch(0.99 0.002 80 / 12%);
+  --jelly-card-glass: oklch(0.97 0.005 80 / 75%);
   --jelly-card-border: oklch(0 0 0 / 16%);
   --jelly-card-border-top: oklch(1 0 0 / 40%);
   --jelly-card-border-bottom: oklch(0 0 0 / 10%);

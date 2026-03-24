@@ -144,7 +144,7 @@ export function ContactSection() {
                   transition={{ type: 'spring' as const, stiffness: 140, damping: 10, mass: 1, delay: i * 0.08 }}
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="jelly-card p-5 text-center group no-underline overflow-hidden"
+                  className="jelly-card p-3 sm:p-5 text-center group no-underline"
                 >
                   <div
                     className={`jelly-icon-box w-10 h-10 mx-auto mb-3 ${
@@ -154,8 +154,8 @@ export function ContactSection() {
                     <Icon size={16} />
                   </div>
                   <div className="text-xs font-semibold text-foreground mb-0.5">{link.label}</div>
-                  <div className="text-[11px] text-muted-foreground font-mono flex items-center justify-center gap-1 w-full overflow-hidden">
-                    <span className="truncate">{link.value}</span>
+                  <div className="text-[10px] sm:text-[11px] text-muted-foreground font-mono flex items-center justify-center gap-1 w-full">
+                    <span className="break-all sm:truncate leading-tight">{link.value}</span>
                     <ArrowUpRight size={9} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                   </div>
                 </motion.a>
