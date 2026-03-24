@@ -1,20 +1,28 @@
 /**
- * JellyBackground — SVG Gooey Metaball Background + Jelly Cursor
+ * JellyBackground — Ambient Metaball Background + Jelly Cursor
  *
- * REWRITE: Fix-forward strategy for toggle contamination
- * Root cause: AnimatePresence mount/unmount of MetaballBlobs during theme/jelly
- * toggles created stale GPU paint layers on mobile compositors.
+ * PR #10 REWRITE: Eliminate washed-out page and Android scroll flash.
+ *
+ * Root causes:
+ * 1. WASHED OUT (desktop): The MetaballBlobs container was `fixed inset-0` with
+ *    `filter: url(#gooey-bg)`. The SVG filter processed EVERY pixel of the entire
+ *    viewport through feGaussianBlur + feColorMatrix, even transparent areas far
+ *    from any blob. This created a barely-visible but perceptible color wash.
+ *
+ * 2. ANDROID FLASH: The container was `fixed inset-0` with 3 CSS-animated blobs
+ *    (metaball-drift-1/2/3 continuously transforming). On Android, fixed positioning
+ *    + CSS transform animations + scroll = compositor tile invalidation = random
+ *    flash artifacts during scroll.
  *
  * Fix approach:
- * 1. REMOVE AnimatePresence for blob mount/unmount — blobs are always in DOM
- * 2. Use CSS opacity transition to show/hide blobs (no mount/unmount cycle)
- * 3. Force reflow after theme changes to flush compositor
- * 4. Restore proper blob colors, gradients, and animations
- * 5. Re-enable gooey SVG filter with mobile-safe settings
- * 6. Use fixed positioning (original) with proper z-indexing
- * 7. Keep cursor blob desktop-only via CSS media query + JS check
+ * - REMOVE the full-viewport container entirely
+ * - Each blob is now an independent fixed element with per-blob CSS blur
+ * - Desktop: blobs have blur(20-30px) for soft glow, no SVG filter needed
+ * - Mobile: blobs use animation: none (static position) to prevent compositor issues
+ * - Cursor blobs: individual elements with CSS blur (from PR #9)
+ * - SVG gooey filters removed entirely — not needed anymore
  */
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { useJellyMode } from '@/contexts/JellyModeContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -60,15 +68,6 @@ function JellyCursor({ visible }: { visible: boolean }) {
     ? { main: 'oklch(0.62 0.18 230 / 45%)', trail: 'oklch(0.78 0.15 65 / 30%)', tail: 'oklch(0.55 0.16 230 / 20%)' }
     : { main: 'oklch(0.72 0.16 65 / 35%)',  trail: 'oklch(0.55 0.18 230 / 25%)', tail: 'oklch(0.75 0.12 65 / 15%)' };
 
-  /*
-   * CRITICAL FIX (PR #9): Do NOT apply SVG filter to a full-viewport container.
-   * The gooey-cursor filter processes EVERY pixel of the container, not just blobs.
-   * Even transparent areas get composited through the filter pipeline, creating
-   * a barely-visible but perceptible color wash across the entire page.
-   *
-   * Instead: use CSS blur on individual blobs for the soft glow effect.
-   * This is GPU-efficient and only processes the blob pixels.
-   */
   return (
     <>
       <motion.div
@@ -111,14 +110,13 @@ function JellyCursor({ visible }: { visible: boolean }) {
   );
 }
 
-/* ─── Metaball Blobs (always in DOM, visibility controlled by CSS opacity) ─── */
+/* ─── Metaball Blobs — individual elements, no full-viewport container ─── */
 function MetaballBlobs({ visible, isFine }: { visible: boolean; isFine: boolean }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const containerRef = useRef<HTMLDivElement>(null);
 
   /*
-   * Theme-aware blob colors — rich gradients restored.
+   * Theme-aware blob colors — rich gradients.
    * Dark mode: deeper, more saturated tones
    * Light mode: softer pastels
    */
@@ -133,64 +131,70 @@ function MetaballBlobs({ visible, isFine }: { visible: boolean; isFine: boolean 
   };
 
   /*
-   * CRITICAL FIX: Force reflow after theme change to flush mobile compositor.
-   * This prevents stale paint layers from persisting after CSS variable updates.
+   * Blob opacity: subtle ambient glow, NOT a page-wide wash.
+   * Desktop gets slightly higher opacity since blobs are blurred more.
+   * Mobile gets lower opacity with no blur to minimize GPU load.
    */
-  useEffect(() => {
-    if (containerRef.current) {
-      // Force synchronous layout recalculation
-      void containerRef.current.offsetHeight;
-    }
-  }, [theme]);
+  const blobOpacity = visible ? (isDark ? 0.20 : 0.15) : 0;
+
+  /*
+   * KEY FIX: On mobile (isFine=false), disable CSS animations entirely.
+   * Fixed positioning + CSS transform animations + scroll = Android compositor
+   * tile invalidation = random flash artifacts. Static blobs are safe.
+   *
+   * Desktop gets full animations + CSS blur for the organic glow effect.
+   */
+  const animationStyle = isFine ? {} : { animation: 'none' };
+  const blurDesktop = isFine ? 'blur(25px)' : 'none';
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-      style={{
-        /*
-         * Gooey filter re-enabled with mobile-safe settings.
-         * The filter creates the organic metaball merging effect.
-         * Softened threshold prevents hard color wash.
-         */
-        /* SVG gooey filter disabled on touch devices — too expensive for mobile GPUs
-           and causes compositor artifacts during scroll */
-        filter: (visible && isFine) ? 'url(#gooey-bg)' : 'none',
-        /*
-         * KEY FIX: Use CSS opacity transition instead of AnimatePresence mount/unmount.
-         * This keeps blobs in the DOM at all times, preventing the stale paint layer
-         * issue that caused toggle contamination on mobile.
-         */
-        opacity: visible ? (isDark ? 0.22 : 0.18) : 0,
-        transition: 'opacity 0.6s ease-out, filter 0.3s ease',
-        willChange: 'opacity',
-      }}
-    >
+    <>
       {/* Blob 1 — largest, drifts across upper-left quadrant */}
-      <div className="absolute rounded-full jelly-metaball-1"
+      <div
+        className="fixed pointer-events-none rounded-full jelly-metaball-1"
         style={{
           width: '22vw', height: '22vw',
           minWidth: 160, minHeight: 160,
           maxWidth: 400, maxHeight: 400,
           background: colors.blob1,
-        }} />
+          filter: blurDesktop,
+          opacity: blobOpacity,
+          transition: 'opacity 0.6s ease-out',
+          zIndex: 0,
+          ...animationStyle,
+        }}
+      />
       {/* Blob 2 — medium, drifts across lower-right quadrant */}
-      <div className="absolute rounded-full jelly-metaball-2"
+      <div
+        className="fixed pointer-events-none rounded-full jelly-metaball-2"
         style={{
           width: '18vw', height: '18vw',
           minWidth: 140, minHeight: 140,
           maxWidth: 350, maxHeight: 350,
           background: colors.blob2,
-        }} />
+          filter: blurDesktop,
+          opacity: blobOpacity,
+          transition: 'opacity 0.6s ease-out',
+          zIndex: 0,
+          ...animationStyle,
+        }}
+      />
       {/* Blob 3 — smallest, drifts across center */}
-      <div className="absolute rounded-full jelly-metaball-3"
+      <div
+        className="fixed pointer-events-none rounded-full jelly-metaball-3"
         style={{
           width: '15vw', height: '15vw',
           minWidth: 120, minHeight: 120,
           maxWidth: 300, maxHeight: 300,
           background: colors.blob3,
-        }} />
-    </div>
+          filter: blurDesktop,
+          opacity: blobOpacity,
+          transition: 'opacity 0.6s ease-out',
+          zIndex: 0,
+          ...animationStyle,
+        }}
+      />
+    </>
   );
 }
 
@@ -209,15 +213,13 @@ export function JellyBackground() {
   }, []);
 
   /*
-   * CRITICAL FIX: Force global reflow on theme change.
-   * Mobile browsers (especially WebKit/Blink on Android/iOS) can retain
-   * stale compositor layers when CSS custom properties change.
-   * This forces the browser to recalculate all styles and repaint.
+   * Force global reflow on theme change.
+   * Mobile browsers can retain stale compositor layers when CSS custom
+   * properties change. This forces the browser to recalculate all styles.
    */
   useEffect(() => {
     if (prevThemeRef.current !== theme) {
       prevThemeRef.current = theme;
-      // Force synchronous reflow to flush stale compositor state
       requestAnimationFrame(() => {
         void document.documentElement.offsetHeight;
       });
@@ -226,39 +228,18 @@ export function JellyBackground() {
 
   return (
     <>
-      <svg className="absolute w-0 h-0" aria-hidden="true">
-        <defs>
-          {/*
-           * Gooey background filter — softened for mobile safety.
-           * stdDeviation=14: tighter blur to reduce color bleed beyond blob edges
-           * Alpha matrix 18/-7: stricter threshold prevents transparent areas from
-           * surviving the filter and creating a visible wash across the viewport.
-           * This creates organic blob merging without any page-wide color wash.
-           */}
-          <filter id="gooey-bg">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
-            <feColorMatrix in="blur" mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="gooey" />
-            <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
-          </filter>
-          {/* Cursor gooey filter */}
-          <filter id="gooey-cursor">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
-            <feColorMatrix in="blur" mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -5" result="gooey" />
-            <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-
       {/*
-       * KEY ARCHITECTURAL CHANGE:
-       * Blobs are ALWAYS mounted in the DOM. Visibility is controlled by CSS opacity.
-       * This eliminates the AnimatePresence mount/unmount cycle that caused
-       * stale paint layers and toggle contamination on mobile browsers.
+       * NO SVG filters needed anymore.
+       * All glow effects are achieved via per-blob CSS blur().
+       * This eliminates the full-viewport filter processing that caused:
+       * - Washed-out page on desktop
+       * - Compositor artifacts on Android during scroll
        */}
+
+      {/* Ambient background blobs — always mounted, visibility via opacity */}
       <MetaballBlobs visible={jellyMode} isFine={isFineHover} />
-      {/* Cursor blob: always mounted on desktop, visibility controlled by CSS */}
+
+      {/* Cursor blobs — desktop only, individual elements with CSS blur */}
       {!isTouch && <JellyCursor visible={jellyMode} />}
     </>
   );
