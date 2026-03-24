@@ -22,6 +22,12 @@ const contactLinks = [
   { label: 'YouTube', value: 'youtube.com/c/HardikLukhi', href: 'https://www.youtube.com/c/HardikLukhi', icon: Youtube, color: 'oklch(0.65 0.20 29)' },
 ];
 
+/** Insert zero-width spaces before logical break points (@, /, .) so text
+ *  wraps at meaningful boundaries instead of randomly mid-word. */
+function smartBreak(text: string): string {
+  return text.replace(/(@|\/|\.)/g, '\u200B$1');
+}
+
 export function ContactSection() {
   const { jellyMode } = useJellyMode();
   const btnSpring = useMemo(() => jellyMode ? btnSpringOn : btnSpringOff, [jellyMode]);
@@ -80,7 +86,7 @@ export function ContactSection() {
       {/* Floating blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute w-[350px] h-[350px] top-1/4 -left-20 jelly-float-blob-2 opacity-15"
+          className="absolute w-[350px] h-[350px] top-1/4 -left-20 jelly-float-blob-2 opacity-[0.03] dark:opacity-15"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 10%) 0%, transparent 70%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',
@@ -155,7 +161,7 @@ export function ContactSection() {
                   </div>
                   <div className="text-xs font-semibold text-foreground mb-0.5">{link.label}</div>
                   <div className="text-[10px] sm:text-[11px] text-muted-foreground font-mono flex items-center justify-center gap-1 w-full">
-                    <span className="break-all sm:truncate leading-tight">{link.value}</span>
+                    <span className="sm:truncate leading-tight" style={{ wordBreak: 'break-word' }}>{smartBreak(link.value)}</span>
                     <ArrowUpRight size={9} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                   </div>
                 </motion.a>

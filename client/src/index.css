@@ -86,7 +86,7 @@
 
   --jelly-teal: oklch(0.55 0.18 230);
   --jelly-amber: oklch(0.75 0.15 65);
-  --jelly-surface: oklch(0.99 0.002 80 / 72%);
+  --jelly-surface: oklch(0.98 0.003 80 / 88%);
   --jelly-surface-hover: oklch(0.99 0.002 80 / 85%);
   --jelly-border: oklch(0 0 0 / 12%);
   --jelly-border-hover: oklch(0 0 0 / 18%);
@@ -102,7 +102,7 @@
 
   /* Jelly-mode ON card backgrounds — theme-reactive */
   --jelly-card-solid: oklch(0.96 0.004 80 / 88%);
-  --jelly-card-glass: oklch(0.97 0.005 80 / 75%);
+  --jelly-card-glass: oklch(0.97 0.005 80 / 92%);
   --jelly-card-border: oklch(0 0 0 / 16%);
   --jelly-card-border-top: oklch(1 0 0 / 40%);
   --jelly-card-border-bottom: oklch(0 0 0 / 10%);
@@ -241,9 +241,9 @@
    ============================== */
 body {
   background-image:
-   radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 6%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 4%) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 2%) 0%, transparent 60%);
+   radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 3%) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 2%) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
 }
 .dark body {
   background-image:
@@ -272,8 +272,8 @@ body {
 /* backdrop-filter only on desktop — creates compositor layers on Android causing scroll artifacts */
 @media (hover: hover) and (pointer: fine) {
   .jelly-card {
-    backdrop-filter: blur(12px) saturate(1.15);
-    -webkit-backdrop-filter: blur(12px) saturate(1.15);
+    backdrop-filter: blur(6px) saturate(1.08);
+    -webkit-backdrop-filter: blur(6px) saturate(1.08);
     transform-style: preserve-3d;
   }
 }
@@ -902,8 +902,8 @@ section[id] { scroll-margin-top: 5rem; }
 @media (hover: hover) and (pointer: fine) {
   .jelly-mode .jelly-card {
     background: var(--jelly-card-glass);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(10px) saturate(1.15);
+    -webkit-backdrop-filter: blur(10px) saturate(1.15);
   }
 }
 .jelly-mode .jelly-card::before {
@@ -942,9 +942,9 @@ section[id] { scroll-margin-top: 5rem; }
 /* Jelly mode: Enhanced navbar with 3D glass depth */
 /* Light mode jelly navbar — needs visible background against light page */
 .jelly-mode .jelly-navbar {
-  background: oklch(0.96 0.005 80 / 75%) !important;
-  backdrop-filter: blur(16px) saturate(1.3) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(1.3) !important;
+  background: oklch(0.96 0.005 80 / 92%) !important;
+  backdrop-filter: blur(8px) saturate(1.1) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(1.1) !important;
   border: 1.5px solid oklch(0 0 0 / 8%) !important;
   border-top: 1.5px solid oklch(1 0 0 / 40%) !important;
   border-bottom: 1.5px solid oklch(0 0 0 / 8%) !important;
@@ -957,8 +957,8 @@ section[id] { scroll-margin-top: 5rem; }
 }
 @media (hover: hover) and (pointer: fine) {
   .jelly-mode .jelly-navbar {
-    backdrop-filter: blur(16px) saturate(1.2);
-    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    backdrop-filter: blur(8px) saturate(1.1);
+    -webkit-backdrop-filter: blur(8px) saturate(1.1);
   }
 }
 
@@ -1002,9 +1002,9 @@ section[id] { scroll-margin-top: 5rem; }
    Light mode: very subtle (4%/3%/2%) to prevent washed-out appearance */
 .jelly-mode body {
   background-image:
-    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 4%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 3%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 2%) 0%, transparent 60%);
+    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 2%) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 1%) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
 }
 .jelly-mode.dark body {
   background-image:
