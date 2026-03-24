@@ -19,13 +19,11 @@ const LIGHT_COLORS: GelToggleColors = {
   // Track ON: teal-tinted groove
   trackOn: 'linear-gradient(180deg, oklch(0.68 0.05 174) 0%, oklch(0.73 0.045 174) 40%, oklch(0.70 0.05 174) 100%)',
   trackShadow: [
-    'inset 0 3px 7px oklch(0 0 0 / 25%)',
-    'inset 0 1px 3px oklch(0 0 0 / 15%)',
-    'inset 0 -1px 1px oklch(1 0 0 / 50%)',
-    '0 2px 6px oklch(0 0 0 / 12%)',
-    '0 1px 2px oklch(0 0 0 / 8%)',
+    'inset 0 2px 5px oklch(0 0 0 / 15%)',
+    'inset 0 1px 2px oklch(0 0 0 / 10%)',
+    'inset 0 -1px 1px oklch(1 0 0 / 25%)',
   ].join(', '),
-  trackRimLight: 'oklch(1 0 0 / 50%)',
+  trackRimLight: 'oklch(1 0 0 / 20%)',
   // Knob OFF: soft warm pearl gel (not flat gray — retains gel character)
   knobOff: 'radial-gradient(ellipse at 30% 25%, oklch(0.94 0.02 75 / 95%) 0%, oklch(0.84 0.04 75 / 91%) 45%, oklch(0.76 0.04 72 / 87%) 100%)',
   // Knob ON: bright teal gel
@@ -49,8 +47,8 @@ const LIGHT_COLORS: GelToggleColors = {
   ].join(', '),
   glowOff: 'radial-gradient(ellipse, oklch(0.68 0.04 75 / 15%) 0%, transparent 60%)',
   glowOn: 'radial-gradient(ellipse, oklch(0.58 0.24 174 / 48%) 0%, oklch(0.53 0.20 174 / 22%) 40%, transparent 70%)',
-  borderOff: '1.5px solid oklch(0 0 0 / 10%)',
-  borderOn: '1.5px solid oklch(0.53 0.14 174 / 20%)',
+  borderOff: '1px solid oklch(0 0 0 / 6%)',
+  borderOn: '1px solid oklch(0.53 0.14 174 / 14%)',
   causticIntensity: 1.0,
 };
 
