@@ -99,6 +99,18 @@
   --jelly-glass-thickness: 1px;
   --jelly-gel-teal-fill: oklch(0.60 0.16 230 / 18%);
   --jelly-gel-amber-fill: oklch(0.75 0.14 65 / 18%);
+
+  /* Jelly-mode ON card backgrounds — theme-reactive */
+  --jelly-card-solid: oklch(0.96 0.004 80 / 88%);
+  --jelly-card-glass: oklch(0.99 0.002 80 / 12%);
+  --jelly-card-border: oklch(0 0 0 / 16%);
+  --jelly-card-border-top: oklch(1 0 0 / 40%);
+  --jelly-card-border-bottom: oklch(0 0 0 / 10%);
+  --jelly-card-inset-top: oklch(1 0 0 / 30%);
+  --jelly-card-inset-side: oklch(1 0 0 / 10%);
+  --jelly-card-inset-bottom: oklch(0 0 0 / 12%);
+  --jelly-card-shelf: oklch(0 0 0 / 6%);
+  --jelly-card-shelf-highlight: oklch(1 0 0 / 12%);
 }
 
 /* ==============================
@@ -155,6 +167,18 @@
   --jelly-glass-thickness: 1px;
   --jelly-gel-teal-fill: oklch(0.55 0.20 230 / 12%);
   --jelly-gel-amber-fill: oklch(0.75 0.16 65 / 12%);
+
+  /* Jelly-mode ON card backgrounds — theme-reactive */
+  --jelly-card-solid: oklch(0.15 0.01 250 / 88%);
+  --jelly-card-glass: oklch(1 0 0 / 8%);
+  --jelly-card-border: oklch(1 0 0 / 16%);
+  --jelly-card-border-top: oklch(1 0 0 / 25%);
+  --jelly-card-border-bottom: oklch(0 0 0 / 20%);
+  --jelly-card-inset-top: oklch(1 0 0 / 18%);
+  --jelly-card-inset-side: oklch(1 0 0 / 6%);
+  --jelly-card-inset-bottom: oklch(0 0 0 / 25%);
+  --jelly-card-shelf: oklch(0 0 0 / 15%);
+  --jelly-card-shelf-highlight: oklch(1 0 0 / 6%);
 }
 
 @layer base {
@@ -853,19 +877,22 @@ section[id] { scroll-margin-top: 5rem; }
   }
 }
 
-/* Jelly mode: Cards get STRONG 3D glass/gel depth */
+/* Jelly mode: Cards get STRONG 3D glass/gel depth
+   Uses theme-reactive CSS custom properties so cards respond to dark↔light toggle.
+   --jelly-card-solid = opaque fallback for mobile (no backdrop-filter)
+   --jelly-card-glass = semi-transparent for desktop (with backdrop-filter) */
 .jelly-mode .jelly-card {
-  background: oklch(0.15 0.01 250 / 85%);
-  border: 1.5px solid oklch(1 0 0 / 20%);
-  border-top: 2px solid oklch(1 0 0 / 40%);
-  border-bottom: 2px solid oklch(0 0 0 / 12%);
+  background: var(--jelly-card-solid);
+  border: 1.5px solid var(--jelly-card-border);
+  border-top: 2px solid var(--jelly-card-border-top);
+  border-bottom: 2px solid var(--jelly-card-border-bottom);
   box-shadow:
-    inset 0 3px 8px oklch(1 0 0 / 30%),
-    inset 3px 0 6px oklch(1 0 0 / 10%),
-    inset -3px 0 6px oklch(1 0 0 / 10%),
-    inset 0 -4px 8px oklch(0 0 0 / 15%),
-    0 4px 0 oklch(0 0 0 / 8%),
-    0 2px 0 oklch(1 0 0 / 12%),
+    inset 0 3px 8px var(--jelly-card-inset-top),
+    inset 3px 0 6px var(--jelly-card-inset-side),
+    inset -3px 0 6px var(--jelly-card-inset-side),
+    inset 0 -4px 8px var(--jelly-card-inset-bottom),
+    0 4px 0 var(--jelly-card-shelf),
+    0 2px 0 var(--jelly-card-shelf-highlight),
     0 8px 32px -4px oklch(0 0 0 / 15%),
     0 16px 48px -8px oklch(0 0 0 / 10%);
   transition: box-shadow 0.3s ease, background 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -874,7 +901,7 @@ section[id] { scroll-margin-top: 5rem; }
    because ANY backdrop-filter creates compositor layers on Android causing scroll artifacts */
 @media (hover: hover) and (pointer: fine) {
   .jelly-mode .jelly-card {
-    background: oklch(1 0 0 / 8%);
+    background: var(--jelly-card-glass);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
   }
@@ -971,12 +998,13 @@ section[id] { scroll-margin-top: 5rem; }
   animation: jelly-bounce-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-/* Jelly mode: Enhanced body background with animated caustics */
+/* Jelly mode: Enhanced body background with animated caustics
+   Light mode: very subtle (4%/3%/2%) to prevent washed-out appearance */
 .jelly-mode body {
   background-image:
-    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 8%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 6%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 4%) 0%, transparent 60%);
+    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 4%) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 3%) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 2%) 0%, transparent 60%);
 }
 .jelly-mode.dark body {
   background-image:
@@ -1173,22 +1201,9 @@ section[id] { scroll-margin-top: 5rem; }
   }
 }
 
-/* Jelly mode dark: Adjust 3D depth for dark backgrounds */
-.jelly-mode.dark .jelly-card {
-  background: oklch(1 0 0 / 5%);
-  border: 1.5px solid oklch(1 0 0 / 14%);
-  border-top: 2px solid oklch(1 0 0 / 25%);
-  border-bottom: 2px solid oklch(0 0 0 / 20%);
-  box-shadow:
-    inset 0 3px 8px oklch(1 0 0 / 18%),
-    inset 3px 0 6px oklch(1 0 0 / 6%),
-    inset -3px 0 6px oklch(1 0 0 / 6%),
-    inset 0 -4px 8px oklch(0 0 0 / 25%),
-    0 4px 0 oklch(0 0 0 / 15%),
-    0 2px 0 oklch(1 0 0 / 6%),
-    0 8px 32px -4px oklch(0 0 0 / 25%),
-    0 16px 48px -8px oklch(0 0 0 / 18%);
-}
+/* Jelly mode dark: No longer needed — theme-reactive CSS custom properties
+   in :root and .dark handle both light and dark automatically.
+   The --jelly-card-* vars switch when .dark class toggles. */
 /* Dark mode jelly navbar — subtle glass against dark page */
 .jelly-mode.dark .jelly-navbar {
   background: oklch(0.12 0.01 230 / 70%) !important;
