@@ -125,7 +125,7 @@ export function ProjectsSection() {
         </motion.div>
 
         {/* Uniform Project Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6">
           {projects.map((project, i) => (
             <motion.div
               key={project.id}
@@ -186,7 +186,7 @@ function ProjectCard({
 
         {/* Project thumbnail image — fills container */}
         <div
-          className="relative h-48 sm:h-52 overflow-hidden rounded-xl m-2.5 sm:m-3 mb-0"
+          className="relative h-48 sm:h-52 overflow-hidden"
           style={{
             background: `linear-gradient(135deg, ${project.accentColor}15, ${project.accentColor}05)`,
           }}
@@ -243,7 +243,7 @@ function ProjectCard({
           </p>
 
           {/* Stats — no hover */}
-          <div className="flex gap-2 sm:gap-3 mb-3 sm:mb-4 jelly-stat-panel">
+          <div className="flex gap-2 sm:gap-3 mb-3 sm:mb-4">
             {project.stats.map((stat) => (
               <div key={stat.label} className="text-center flex-1">
                 <div

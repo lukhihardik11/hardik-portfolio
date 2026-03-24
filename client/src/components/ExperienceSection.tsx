@@ -265,8 +265,6 @@ export function ExperienceSection() {
                     </div>
                   </div>
 
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{exp.description}</p>
-
                   <div className="flex flex-col gap-2 mb-4">
                     {exp.highlights.map((h, j) => (
                       <div key={j} className="flex items-start gap-2 text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
