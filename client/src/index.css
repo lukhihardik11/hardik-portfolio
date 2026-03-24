@@ -187,12 +187,11 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    opacity: 1;
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: page-fade-in 0.6s ease-out;
-  }
-  @keyframes page-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    /* page-fade-in animation REMOVED — it was re-triggered every time a class
+       changed on <html> (e.g. jelly-mode toggle), resetting body opacity to 0
+       and causing the entire page to become invisible (wash-out bug). */
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -239,11 +238,10 @@
 /* ==============================
    BODY AMBIENT GRADIENTS
    ============================== */
+/* Light mode: no ambient gradients — they stack with jelly blobs and section
+   decorations to create a visible teal wash across the viewport */
 body {
-  background-image:
-   radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 3%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 2%) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 35% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
+  background-image: none;
 }
 .dark body {
   background-image:
@@ -999,12 +997,10 @@ section[id] { scroll-margin-top: 5rem; }
 }
 
 /* Jelly mode: Enhanced body background with animated caustics
-   Light mode: very subtle (4%/3%/2%) to prevent washed-out appearance */
+   Light mode: NO gradients at all — even 1-2% teal/amber stacks with blobs and
+   section decorations to create a visible wash across the entire viewport */
 .jelly-mode body {
-  background-image:
-    radial-gradient(ellipse 100% 60% at 0% 0%, oklch(0.55 0.18 230 / 2%) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 1%) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.50 0.005 80 / 1%) 0%, transparent 60%);
+  background-image: none;
 }
 .jelly-mode.dark body {
   background-image:
@@ -1012,10 +1008,9 @@ section[id] { scroll-margin-top: 5rem; }
     radial-gradient(ellipse 80% 50% at 100% 100%, oklch(0.75 0.15 65 / 8%) 0%, transparent 50%),
     radial-gradient(ellipse 60% 40% at 50% 50%, oklch(0.30 0.005 80 / 6%) 0%, transparent 60%);
 }
-/* Caustic shimmer animation only on desktop — continuous body background-position
-   animation causes repaint storms on mobile during scroll */
+/* Caustic shimmer animation only in dark mode on desktop — light mode has no body
+   gradients, and continuous animation causes repaint storms on mobile during scroll */
 @media (hover: hover) and (pointer: fine) {
-  .jelly-mode body,
   .jelly-mode.dark body {
     background-size: 200% 200%, 200% 200%, 200% 200%;
     animation: caustic-shimmer 15s ease-in-out infinite;

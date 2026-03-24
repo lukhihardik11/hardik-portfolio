@@ -86,7 +86,7 @@ export function ContactSection() {
       {/* Floating blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute w-[350px] h-[350px] top-1/4 -left-20 jelly-float-blob-2 opacity-[0.03] dark:opacity-15"
+          className="absolute w-[350px] h-[350px] top-1/4 -left-20 jelly-float-blob-2 opacity-0 dark:opacity-15"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 10%) 0%, transparent 70%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',

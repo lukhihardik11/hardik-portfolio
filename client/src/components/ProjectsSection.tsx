@@ -87,7 +87,7 @@ export function ProjectsSection() {
       {/* Floating blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute w-[450px] h-[450px] top-1/4 -right-32 jelly-float-blob-1 opacity-[0.03] dark:opacity-15"
+          className="absolute w-[450px] h-[450px] top-1/4 -right-32 jelly-float-blob-1 opacity-0 dark:opacity-15"
           style={{
             background:
               "radial-gradient(ellipse, oklch(0.55 0.18 230 / 10%) 0%, transparent 70%)",

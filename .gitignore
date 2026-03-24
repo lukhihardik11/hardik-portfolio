@@ -111,3 +111,5 @@ temp/
 frame-backup/
 .npmcache/
 tmp/
+.npm-cache/
+tmp/
