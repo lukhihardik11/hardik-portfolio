@@ -129,7 +129,10 @@ function MetaballBlobs({ visible }: { visible: boolean }) {
    * ambient glows, NOT visible colored areas that wash out the page.
    * Previous values (0.15-0.20) were way too high with blur(25px).
    */
-  const blobOpacity = visible ? (isDark ? 0.08 : 0.06) : 0;
+  /* Light mode: NO blobs at all. Even 1-3% opacity with blur(18px) creates a visible
+   * teal wash that stacks with body gradients and section blobs to wash out the page.
+   * Dark mode blobs at 0.06 are fine against dark backgrounds. */
+  const blobOpacity = visible ? (isDark ? 0.06 : 0) : 0;
 
   return (
     <>

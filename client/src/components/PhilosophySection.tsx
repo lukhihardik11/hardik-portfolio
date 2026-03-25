@@ -97,9 +97,9 @@ export function PhilosophySection() {
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] jelly-float-blob-1"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] jelly-float-blob-1 opacity-0 dark:opacity-100"
           style={{
-            background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 5%) 0%, transparent 60%)',
+            background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 3%) 0%, transparent 60%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',
           }}
         />

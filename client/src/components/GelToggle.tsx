@@ -412,10 +412,16 @@ function DesktopGelToggle({
   const squashScaleX = jellyMode ? 0.28 : 0.10;
   const squashScaleY = jellyMode ? 0.20 : 0.06;
 
-  /* Update spring configs when jellyMode changes */
+  /* Update spring configs when jellyMode changes.
+     CRITICAL: Reset squash spring value & velocity to prevent the new config
+     from amplifying stale velocity into a massive overshoot that scales the
+     knob to cover the entire viewport (root cause of the "teal wash" bug). */
   useEffect(() => {
     const sp = posSpring.current;
     const sq = squashSpring.current;
+    // Reset squash to rest — prevents config-change overshoot
+    sq.value = 0;
+    sq.velocity = 0;
     if (jellyMode) {
       sp.mass = 0.5; sp.stiffness = 220; sp.damping = 12;
       sq.mass = 0.25; sq.stiffness = 500; sq.damping = 7;
@@ -443,7 +449,8 @@ function DesktopGelToggle({
 
       const t = Math.max(0, Math.min(1, sp.value));
       const x = pad + t * travel;
-      const squash = sq.value;
+      // Clamp squash to safe range to prevent extreme scaling
+      const squash = Math.max(-3, Math.min(3, sq.value));
 
       if (knobRef.current) {
         knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
@@ -484,7 +491,7 @@ function DesktopGelToggle({
         sq.update(dt);
         const t = Math.max(0, Math.min(1, sp.value));
         const x = pad + t * travel;
-        const squash = sq.value;
+        const squash = Math.max(-3, Math.min(3, sq.value));
         if (knobRef.current) {
           knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
         }
@@ -519,7 +526,7 @@ function DesktopGelToggle({
       squashSpring.current.update(dt);
       const t = Math.max(0, Math.min(1, posSpring.current.value));
       const x = pad + t * travel;
-      const squash = squashSpring.current.value;
+      const squash = Math.max(-3, Math.min(3, squashSpring.current.value));
       if (knobRef.current) {
         knobRef.current.style.transform = `translateX(${x}px) scaleX(${1 + squash * squashScaleX}) scaleY(${1 - squash * squashScaleY})`;
       }

@@ -129,7 +129,7 @@ export function AboutSection() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           ref={blob1Ref}
-          className="absolute w-[400px] h-[400px] -top-20 right-0 jelly-float-blob-2 opacity-20"
+          className="absolute w-[400px] h-[400px] -top-20 right-0 jelly-float-blob-2 opacity-0 dark:opacity-20"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 12%) 0%, transparent 70%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',
@@ -137,7 +137,7 @@ export function AboutSection() {
         />
         <div
           ref={blob2Ref}
-          className="absolute w-[350px] h-[350px] bottom-0 -left-20 jelly-float-blob-1 opacity-15"
+          className="absolute w-[350px] h-[350px] bottom-0 -left-20 jelly-float-blob-1 opacity-0 dark:opacity-15"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.75 0.15 65 / 10%) 0%, transparent 70%)',
             borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { JellyModeProvider } from "./contexts/JellyModeContext";
-import { JellyBackground } from "./components/JellyBackground";
+import { JellyBackground } from './components/JellyBackground';
 import PageTransition from "./components/PageTransition";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";

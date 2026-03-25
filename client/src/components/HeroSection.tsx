@@ -292,7 +292,7 @@ export function HeroSection() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           ref={blob1Ref}
-          className="absolute w-[320px] h-[320px] -top-24 -left-24 jelly-float-blob-1 opacity-10 dark:opacity-25"
+          className="absolute w-[320px] h-[320px] -top-24 -left-24 jelly-float-blob-1 opacity-0 dark:opacity-25"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.55 0.18 230 / 8%) 0%, transparent 70%)',
             borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
@@ -300,14 +300,14 @@ export function HeroSection() {
         />
         <div
           ref={blob2Ref}
-          className="absolute w-[280px] h-[280px] -bottom-16 -right-16 jelly-float-blob-2 opacity-8 dark:opacity-20"
+          className="absolute w-[280px] h-[280px] -bottom-16 -right-16 jelly-float-blob-2 opacity-0 dark:opacity-20"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.75 0.15 65 / 6%) 0%, transparent 70%)',
             borderRadius: '40% 60% 70% 30% / 50% 40% 60% 50%',
           }}
         />
         <div
-          className="absolute w-[200px] h-[200px] top-1/3 left-1/3 jelly-float-blob-1 opacity-5 dark:opacity-12"
+          className="absolute w-[200px] h-[200px] top-1/3 left-1/3 jelly-float-blob-1 opacity-0 dark:opacity-12"
           style={{
             background: 'radial-gradient(ellipse, oklch(0.60 0.14 200 / 5%) 0%, transparent 70%)',
             borderRadius: '50% 60% 30% 60% / 30% 60% 70% 40%',
