@@ -14,7 +14,7 @@ import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from '
 import { useJellyMode } from '../contexts/JellyModeContext';
 import { useSplineGating } from '../hooks/useSplineGating';
 import { useFineHover } from '../hooks/useFineHover';
-import { JellyButton } from './JellyWrapper';
+import { JellyWrapper, JellyButton } from './JellyWrapper';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -332,7 +332,7 @@ export function HeroSection() {
           <motion.div variants={stagger} initial="hidden" animate="visible" className="xl:col-span-3 flex flex-col gap-5 sm:gap-6 md:gap-7 xl:gap-8">
             {/* Status pill */}
             <motion.div variants={jellyChild}>
-              <div className="glass-pill jelly-interactive inline-flex items-center gap-2.5 px-4 py-2">
+              <JellyWrapper as="div" intensity="soft" noEntrance hoverScale={1.05} className="glass-pill jelly-interactive inline-flex items-center gap-2.5 px-4 py-2">
                 <span
                   className="w-2.5 h-2.5 rounded-full animate-jelly-pulse"
                   style={{
@@ -343,7 +343,7 @@ export function HeroSection() {
                 <span className="text-[11px] font-medium text-muted-foreground tracking-wide">
                   Open to opportunities
                 </span>
-              </div>
+              </JellyWrapper>
             </motion.div>
 
             {/* Name */}
@@ -413,7 +413,7 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Company pills — no hover animation, just static */}
+            {/* Company pills — jelly hover wobble */}
             <motion.div variants={jellyChild} className="flex items-center gap-2 sm:gap-2.5 pt-1 flex-wrap">
               {[
                 { name: 'Meta', active: true },
@@ -421,14 +421,18 @@ export function HeroSection() {
                 { name: 'Abbott', active: false },
                 { name: 'Terumo', active: false },
               ].map((c) => (
-                <span
+                <JellyWrapper
                   key={c.name}
+                  as="span"
+                  intensity="soft"
+                  noEntrance
+                  hoverScale={1.06}
                   className={`text-[10px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl cursor-default ${
                     c.active ? 'jelly-badge-teal' : 'glass-pill text-foreground/80'
                   }`}
                 >
                   {c.name}
-                </span>
+                </JellyWrapper>
               ))}
             </motion.div>
           </motion.div>

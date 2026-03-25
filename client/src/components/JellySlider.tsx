@@ -10,6 +10,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useJellyMode } from '@/contexts/JellyModeContext';
 
 export type BlobColor = 'amber' | 'teal';
 
@@ -29,6 +30,8 @@ export function JellySlider({ value, label, blobColor = 'amber' }: JellySliderPr
   const ref = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const { jellyMode } = useJellyMode();
+  const [isHovered, setIsHovered] = useState(false);
 
   /* Intersection observer for scroll-triggered animation */
   useEffect(() => {
@@ -84,7 +87,15 @@ export function JellySlider({ value, label, blobColor = 'amber' }: JellySliderPr
   const fillOffset = (trackH - fillH) / 2;
 
   return (
-    <div className="w-full" ref={ref}>
+    <div
+      className="w-full"
+      ref={ref}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        cursor: jellyMode ? 'pointer' : 'default',
+      }}
+    >
       {label && (
         <div className="flex items-center justify-between mb-2.5">
           <span className="text-[11px] sm:text-xs font-medium text-foreground/75 tracking-tight">{label}</span>
@@ -127,7 +138,9 @@ export function JellySlider({ value, label, blobColor = 'amber' }: JellySliderPr
             minWidth: animPct > 0 ? fillH : 0,
             borderRadius: fillH / 2,
             background: gelFill,
-            transition: 'width 1.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transition: 'width 1.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: jellyMode && isHovered ? 'scaleY(1.15) scaleX(1.01) translateZ(0)' : 'scaleY(1) scaleX(1) translateZ(0)',
+            willChange: jellyMode ? 'transform' : 'auto',
             overflow: 'hidden',
             border: isDark
               ? '1px solid oklch(1 0 0 / 8%)'

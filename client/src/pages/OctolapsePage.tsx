@@ -14,7 +14,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import ProjectExplodedView from "@/components/ProjectExplodedView";
 import { getFrameUrls } from "@/data/frameUrlsIndex";
 import type { ProjectLabel } from "@/data/projects";
-import { JellyWrapper } from "@/components/JellyWrapper";
+import { JellyWrapper, JellyButton } from "@/components/JellyWrapper";
 
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/c/HardikLukhi";
 
@@ -393,7 +393,7 @@ export default function OctolapsePage() {
               Check out the results on my YouTube channel — smooth, cinematic 3D
               printing timelapses captured with this DIY setup.
             </p>
-            <a
+            <JellyButton
               href={YOUTUBE_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -402,7 +402,7 @@ export default function OctolapsePage() {
               <Youtube size={16} />
               Visit YouTube Channel
               <ExternalLink size={14} />
-            </a>
+            </JellyButton>
           </JellyWrapper>
 
           {/* Tags — uses glass-pill */}
@@ -431,12 +431,16 @@ export default function OctolapsePage() {
                 "SSH",
                 "Networking",
               ].map((tag) => (
-                <span
+                <JellyWrapper
                   key={tag}
+                  as="span"
+                  intensity="soft"
+                  noEntrance
+                  hoverScale={1.08}
                   className="glass-pill px-3 py-1.5 text-xs font-mono cursor-default text-purple-400/80"
                 >
                   {tag}
-                </span>
+                </JellyWrapper>
               ))}
             </div>
           </motion.div>
@@ -449,13 +453,13 @@ export default function OctolapsePage() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="pt-8 jelly-divider"
           >
-            <Link
+            <JellyButton
               href="/"
               className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline mt-8"
             >
               <ArrowLeft size={14} />
               Back to all projects
-            </Link>
+            </JellyButton>
           </motion.div>
         </div>
       </section>
