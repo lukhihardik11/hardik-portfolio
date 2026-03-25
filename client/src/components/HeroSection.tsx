@@ -14,6 +14,7 @@ import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from '
 import { useJellyMode } from '../contexts/JellyModeContext';
 import { useSplineGating } from '../hooks/useSplineGating';
 import { useFineHover } from '../hooks/useFineHover';
+import { JellyButton } from './JellyWrapper';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -374,49 +375,40 @@ export function HeroSection() {
               </p>
             </motion.div>
 
-            {/* CTA buttons — grid layout to prevent orphaned buttons */}
+            {/* CTA buttons — JellyButton with spring physics */}
             <motion.div variants={jellyChild} className="pt-1">
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <motion.a
+                <JellyButton
                   href="#contact"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  whileHover={{ scale: hoverScale, y: hoverY }}
-                  whileTap={{ scale: tapScale }}
-                  transition={btnSpring}
                   className="jelly-btn jelly-btn-teal no-underline text-center justify-center"
                 >
                   Say Hello
-                </motion.a>
+                </JellyButton>
                 <div className="flex items-center gap-3">
-                  <motion.a
+                  <JellyButton
                     href="#projects"
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent) => {
                       e.preventDefault();
                       document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    whileHover={{ scale: hoverScale, y: hoverY }}
-                    whileTap={{ scale: tapScale }}
-                    transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >
                     <Download size={13} />
                     View Work
-                  </motion.a>
-                  <motion.a
+                  </JellyButton>
+                  <JellyButton
                     href="/assets/resume/Hardik_Lukhi_Resume_Visual.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: hoverScale, y: hoverY }}
-                    whileTap={{ scale: tapScale }}
-                    transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >
                     <Download size={13} />
                     Resume
-                  </motion.a>
+                  </JellyButton>
                 </div>
               </div>
             </motion.div>

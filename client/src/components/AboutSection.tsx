@@ -1,5 +1,6 @@
 /*
  * ABOUT — Refined jelly physics + GSAP ScrollTrigger counters
+ * JellyWrapper provides spring-physics hover effects on all cards.
  * Subtle spring animations on scroll. Hover effects only on cards, not on individual elements.
  */
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
@@ -7,11 +8,10 @@ import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useFineHover } from '../hooks/useFineHover';
+import { JellyWrapper } from './JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { Cpu, Shield, Factory } from 'lucide-react';
-
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 };
 
 const metrics = [
   { value: 1900, suffix: '+', label: 'Fleet Units Fixed', color: 'oklch(0.55 0.18 230)', type: 'teal' as const },
@@ -40,15 +40,6 @@ const specializations = [
     type: 'teal' as const,
   },
 ];
-
-/* Jelly bounce-in for each child */
-const jellyChild = {
-  hidden: { opacity: 0, y: 40, scaleX: 0.94, scaleY: 1.06, rotate: -1.5 },
-  visible: {
-    opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0,
-    transition: { type: 'spring' as const, stiffness: 140, damping: 10, mass: 1 },
-  },
-};
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -162,69 +153,51 @@ export function AboutSection() {
           </p>
         </motion.div>
 
-        {/* Metrics — GSAP ScrollTrigger counters */}
+        {/* Metrics — GSAP ScrollTrigger counters with JellyWrapper */}
         <div ref={metricsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-20 sm:mb-28">
-          {metrics.map((m, i) => (
-            <motion.div
+          {metrics.map((m) => (
+            <JellyWrapper
               key={m.label}
-              variants={jellyChild}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i}
-              transition={{ delay: i * 0.08 }}
+              intensity="medium"
+              className="jelly-card gel-fill p-6 text-center cursor-default group relative overflow-hidden"
             >
-              <motion.div
-                whileHover={{ y: -4, scale: 1.02 }}
-                transition={btnSpring}
-                className="jelly-card p-6 text-center cursor-default group relative overflow-hidden"
-              >
-                <div className={`jelly-caustic -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-12 ${
-                  m.type === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
-                }`} />
-                <GSAPCounter target={m.value} suffix={m.suffix} color={m.color} />
-                <p className="text-[11px] font-medium text-muted-foreground mt-2 tracking-wide">{m.label}</p>
-              </motion.div>
-            </motion.div>
+              <div className={`jelly-caustic -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-12 ${
+                m.type === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
+              }`} />
+              <GSAPCounter target={m.value} suffix={m.suffix} color={m.color} />
+              <p className="text-[11px] font-medium text-muted-foreground mt-2 tracking-wide">{m.label}</p>
+            </JellyWrapper>
           ))}
         </div>
 
-        {/* Specializations — subtle card hover */}
+        {/* Specializations — JellyWrapper card hover */}
         <div className="grid sm:grid-cols-3 gap-3 sm:gap-5">
           {specializations.map((s, i) => {
             const Icon = s.icon;
             return (
-              <motion.div
+              <JellyWrapper
                 key={s.title}
-                initial={{ opacity: 0, y: 40, scaleX: 0.95, scaleY: 1.05, rotate: i % 2 === 0 ? -1.5 : 1.5 }}
-                whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1, delay: i * 0.1 }}
+                intensity="medium"
+                className="jelly-card gel-fill p-6 h-full cursor-default relative overflow-hidden group"
               >
-                <motion.div
-                  whileHover={{ y: -4, scale: 1.01 }}
-                  transition={btnSpring}
-                  className="jelly-card p-6 h-full cursor-default relative overflow-hidden group"
+                <div className={`jelly-caustic -bottom-6 left-1/4 right-1/4 h-12 ${
+                  s.type === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
+                }`} />
+
+                <div
+                  className={`jelly-icon-box w-10 h-10 mb-4 ${
+                    s.type === 'teal' ? 'jelly-icon-box-teal' : 'jelly-icon-box-amber'
+                  }`}
                 >
-                  <div className={`jelly-caustic -bottom-6 left-1/4 right-1/4 h-12 ${
-                    s.type === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
-                  }`} />
+                  <Icon size={18} />
+                </div>
 
-                  <div
-                    className={`jelly-icon-box w-10 h-10 mb-4 ${
-                      s.type === 'teal' ? 'jelly-icon-box-teal' : 'jelly-icon-box-amber'
-                    }`}
-                  >
-                    <Icon size={18} />
-                  </div>
-
-                  <span className="text-[10px] font-mono text-muted-foreground/35 tracking-wider">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="text-sm font-semibold text-foreground mt-1.5 mb-2.5">{s.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
-                </motion.div>
-              </motion.div>
+                <span className="text-[10px] font-mono text-muted-foreground/35 tracking-wider">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="text-sm font-semibold text-foreground mt-1.5 mb-2.5">{s.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+              </JellyWrapper>
             );
           })}
         </div>

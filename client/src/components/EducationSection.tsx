@@ -7,11 +7,10 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useFineHover } from '../hooks/useFineHover';
+import { JellyWrapper } from './JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { GraduationCap, Award, Briefcase } from 'lucide-react';
-
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 15, mass: 0.8 };
 
 const education = [
   { degree: 'M.S. Information Technology', school: 'University of the Cumberlands', location: 'Williamsburg, KY', year: '2023', gpa: '4.0 / 4.0', highlight: 'Perfect GPA', color: 'oklch(0.75 0.15 65)' },
@@ -109,18 +108,11 @@ export function EducationSection() {
         {/* Education cards — subtle hover */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-20">
           {education.map((edu, i) => (
-            <motion.div
+            <JellyWrapper
               key={edu.degree}
-              initial={{ opacity: 0, y: 40, scaleX: 0.95, scaleY: 1.05, rotate: i % 2 === 0 ? -1.5 : 1.5 }}
-              whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1, delay: i * 0.1 }}
+              intensity="medium"
+              className="jelly-card gel-fill p-6 h-full"
             >
-              <motion.div
-                whileHover={{ y: -4, scale: 1.01 }}
-                transition={btnSpring}
-                className="jelly-card p-6 h-full"
-              >
                 <div className="flex items-start justify-between mb-4">
                   <div
                     className={`jelly-icon-box w-10 h-10 ${i === 0 ? 'jelly-icon-box-amber' : 'jelly-icon-box-teal'}`}
@@ -148,8 +140,7 @@ export function EducationSection() {
                     </span>
                   )}
                 </div>
-              </motion.div>
-            </motion.div>
+            </JellyWrapper>
           ))}
         </div>
 
@@ -168,18 +159,11 @@ export function EducationSection() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {internships.map((intern, i) => (
-              <motion.div
+              <JellyWrapper
                 key={intern.company}
-                initial={{ opacity: 0, y: 35, scaleX: 0.96, scaleY: 1.04, rotate: i % 2 === 0 ? -1 : 1 }}
-                whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: 'spring' as const, stiffness: 140, damping: 10, mass: 1, delay: i * 0.08 }}
+                intensity="soft"
+                className="jelly-card gel-fill p-4 h-full flex flex-col"
               >
-                <motion.div
-                  whileHover={{ y: -3, scale: 1.005 }}
-                  transition={btnSpring}
-                  className="jelly-card p-4 h-full flex flex-col"
-                >
                   <p className="text-xs font-semibold text-foreground mb-1">{intern.role}</p>
                   <p className="text-[11px] text-muted-foreground">{intern.company} — {intern.location}</p>
                   <p className="text-[10px] font-mono text-muted-foreground/35 mt-1 mb-2">{intern.period}</p>
@@ -190,8 +174,7 @@ export function EducationSection() {
                       ))}
                     </div>
                   )}
-                </motion.div>
-              </motion.div>
+              </JellyWrapper>
             ))}
           </div>
         </motion.div>

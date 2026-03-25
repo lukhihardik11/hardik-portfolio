@@ -14,6 +14,7 @@ import { getProjectById } from "@/data/projects";
 import { getFrameUrls } from "@/data/frameUrlsIndex";
 import ProjectExplodedView from "@/components/ProjectExplodedView";
 import { useTheme } from "@/contexts/ThemeContext";
+import { JellyWrapper } from "@/components/JellyWrapper";
 
 export default function ProjectPage() {
   const params = useParams<{ id: string }>();
@@ -130,13 +131,10 @@ export default function ProjectPage() {
             {project.subtitle}
           </motion.p>
 
-          {/* Stats row — uses jelly-card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="jelly-card grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-16 p-4 sm:p-6"
+          {/* Stats row — uses jelly-card with JellyWrapper */}
+          <JellyWrapper
+            intensity="soft"
+            className="jelly-card gel-fill grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-16 p-4 sm:p-6"
           >
             {project.stats.map((stat, i) => (
               <div key={i} className="text-center">
@@ -151,7 +149,7 @@ export default function ProjectPage() {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </JellyWrapper>
 
           {/* Long description */}
           <motion.div
@@ -185,7 +183,11 @@ export default function ProjectPage() {
                     download
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="jelly-card flex items-center gap-4 p-4 no-underline transition-all hover:scale-[1.02]"
+                    className="no-underline"
+                  >
+                  <JellyWrapper
+                    intensity="medium"
+                    className="jelly-card gel-fill flex items-center gap-4 p-4"
                   >
                     <div
                       className="jelly-icon-box jelly-icon-box-teal w-10 h-10 shrink-0"
@@ -197,6 +199,7 @@ export default function ProjectPage() {
                       <div className="text-xs text-muted-foreground/60">{dl.fileType} · {dl.fileSize}</div>
                     </div>
                     <Download size={16} className="text-muted-foreground/40 shrink-0" />
+                  </JellyWrapper>
                   </a>
                 ))}
               </div>
@@ -222,9 +225,11 @@ export default function ProjectPage() {
             <h3 className="text-lg font-semibold mb-6">Component Breakdown</h3>
             <div className="space-y-3">
               {project.labels.map((label, i) => (
-                <div
+                <JellyWrapper
                   key={i}
-                  className="jelly-card flex items-start gap-4 p-4"
+                  intensity="soft"
+                  noEntrance
+                  className="jelly-card gel-fill flex items-start gap-4 p-4"
                 >
                   <div
                     className="w-2 h-2 rounded-full mt-1.5 shrink-0"
@@ -239,7 +244,7 @@ export default function ProjectPage() {
                       {label.desc}
                     </div>
                   </div>
-                </div>
+                </JellyWrapper>
               ))}
             </div>
           </motion.div>

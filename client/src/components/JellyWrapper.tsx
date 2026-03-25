@@ -345,7 +345,7 @@ interface JellyButtonProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   href?: string;
   target?: string;
   rel?: string;

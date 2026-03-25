@@ -9,11 +9,10 @@ import { useRef, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { JellyWrapper } from './JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { JellySlider } from '@/components/JellySlider';
-
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 18, mass: 0.8 };
 
 /* Gel orb colors for each category */
 const GEL_ORB_COLORS = [
@@ -176,18 +175,11 @@ export function SkillsSection() {
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
           {skillCategories.map((cat, catIndex) => (
-            <motion.div
+            <JellyWrapper
               key={cat.category}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: 'spring' as const, stiffness: 100, damping: 16, delay: catIndex * 0.08 }}
+              intensity="soft"
+              className="jelly-card gel-fill p-6 lg:p-7 h-full"
             >
-              <motion.div
-                whileHover={{ y: -3, scale: 1.005 }}
-                transition={btnSpring}
-                className="jelly-card p-6 lg:p-7 h-full"
-              >
                 {/* Category header with gel orb badge */}
                 <div className="flex items-center justify-between mb-6 pb-3">
                   <span className="text-sm font-semibold text-foreground tracking-tight">{cat.category}</span>
@@ -205,8 +197,7 @@ export function SkillsSection() {
                     />
                   ))}
                 </div>
-              </motion.div>
-            </motion.div>
+            </JellyWrapper>
           ))}
         </div>
       </div>

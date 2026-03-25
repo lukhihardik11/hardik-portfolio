@@ -7,11 +7,11 @@ import { motion } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { JellyWrapper } from './JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { ChevronRight } from 'lucide-react';
 
-const btnSpring = { type: 'spring' as const, stiffness: 200, damping: 18, mass: 0.8 };
 
 const experiences = [
   {
@@ -225,11 +225,11 @@ export function ExperienceSection() {
                   />
                 </div>
 
-                {/* Card — subtle hover */}
-                <motion.div
-                  whileHover={{ y: -2, scale: 1.003 }}
-                  transition={btnSpring}
-                  className="jelly-card p-4 sm:p-6 lg:p-7 group relative overflow-hidden"
+                {/* Card — JellyWrapper hover */}
+                <JellyWrapper
+                  intensity="soft"
+                  noEntrance
+                  className="jelly-card gel-fill p-4 sm:p-6 lg:p-7 group relative overflow-hidden"
                 >
                   <div className={`jelly-caustic -bottom-6 left-1/4 right-1/4 h-12 ${
                     exp.dotColor === 'teal' ? 'jelly-caustic-teal' : 'jelly-caustic-amber'
@@ -308,7 +308,7 @@ export function ExperienceSection() {
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </JellyWrapper>
               </motion.div>
             ))}
           </div>
