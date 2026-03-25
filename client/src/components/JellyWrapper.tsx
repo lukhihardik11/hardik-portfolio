@@ -1,5 +1,5 @@
 /**
- * JellyWrapper — Wraps any element with real spring-physics jelly behavior.
+ * JellyWrapper — GPU-accelerated spring-physics jelly behavior for any element.
  *
  * Key behaviors (FULL PATH — desktop with fine pointer):
  *   1. REACTIVE RE-TRIGGER: Every tap/click re-fires the wobble, even mid-wobble.
@@ -7,6 +7,8 @@
  *   3. CONTINUOUS REACTION: Sliding finger/mouse across boxes triggers wobble on each.
  *      Uses onPointerEnter (not just onPointerDown) to detect sliding across elements.
  *   4. Spring physics with overshoot — like real gelatin.
+ *   5. GPU-composited: willChange + translateZ(0) + backfaceVisibility hidden.
+ *   6. Hover glow pulse via CSS class injection.
  *
  * LIGHTER PATH (touch / coarse-pointer devices — iPhone, Android, iPad):
  *   - No continuous RAF spring loop (eliminates scroll lag)
@@ -14,7 +16,8 @@
  *   - Simple whileTap scale for tap feedback
  *   - No drag-across impulse, no hover wobble
  *
- * Phase 2F follow-up: Capability-gated via useFineHover hook.
+ * GPU Overhaul: Enhanced spring configs, stronger wobble impulses,
+ * rotation on hover, and GPU layer promotion for buttery 60fps.
  */
 import { useRef, useEffect, useCallback, type ReactNode, type CSSProperties } from 'react';
 import { motion, type Variants } from 'framer-motion';
@@ -50,13 +53,22 @@ interface JellyWrapperProps {
   tapSquash?: number;
 }
 
+/* Enhanced spring configs — bouncier with more overshoot for real gelatin feel */
 const SPRING_CONFIGS: Record<JellyIntensity, { stiffness: number; damping: number; mass: number }> = {
-  soft:   { stiffness: 400, damping: 14, mass: 0.5 },
-  medium: { stiffness: 600, damping: 10, mass: 0.4 },
-  bouncy: { stiffness: 900, damping: 7,  mass: 0.3 },
+  soft:   { stiffness: 350, damping: 12, mass: 0.45 },
+  medium: { stiffness: 550, damping: 9,  mass: 0.35 },
+  bouncy: { stiffness: 850, damping: 6,  mass: 0.25 },
 };
 
-const ENTRANCE_SPRING = { stiffness: 400, damping: 16, mass: 0.6 };
+const ENTRANCE_SPRING = { stiffness: 350, damping: 14, mass: 0.55 };
+
+/* GPU compositing style — promotes element to its own compositor layer */
+const GPU_STYLE: CSSProperties = {
+  willChange: 'transform',
+  backfaceVisibility: 'hidden',
+  WebkitBackfaceVisibility: 'hidden',
+  transform: 'translateZ(0)',
+} as CSSProperties;
 
 export function JellyWrapper({
   children,
@@ -65,8 +77,8 @@ export function JellyWrapper({
   style,
   as = 'div',
   noEntrance = false,
-  hoverScale = 1.03,
-  tapSquash = 0.15,
+  hoverScale = 1.04,
+  tapSquash = 0.18,
 }: JellyWrapperProps) {
   const { jellyMode } = useJellyMode();
   const fineHover = useFineHover();
@@ -75,7 +87,7 @@ export function JellyWrapper({
 
   const sxRef = useRef(new Spring(springCfg.stiffness, springCfg.damping, springCfg.mass));
   const syRef = useRef(new Spring(springCfg.stiffness, springCfg.damping, springCfg.mass));
-  const rotRef = useRef(new Spring(springCfg.stiffness * 0.8, springCfg.damping * 1.2, springCfg.mass));
+  const rotRef = useRef(new Spring(springCfg.stiffness * 0.7, springCfg.damping * 1.3, springCfg.mass));
   const rafRef = useRef(0);
   const lastTRef = useRef(0);
   const pressStartRef = useRef(0);
@@ -89,12 +101,12 @@ export function JellyWrapper({
       s.damping = cfg.damping;
       s.mass = cfg.mass;
     }
-    rotRef.current.stiffness = cfg.stiffness * 0.8;
-    rotRef.current.damping = cfg.damping * 1.2;
+    rotRef.current.stiffness = cfg.stiffness * 0.7;
+    rotRef.current.damping = cfg.damping * 1.3;
     rotRef.current.mass = cfg.mass;
   }, [intensity]);
 
-  /* ── Animation loop (FULL PATH only) ── */
+  /* ── Animation loop (FULL PATH only) — GPU-composited transforms ── */
   const tick = useCallback(() => {
     const now = performance.now();
     const dt = Math.min((now - lastTRef.current) * 0.001, 0.05);
@@ -106,10 +118,10 @@ export function JellyWrapper({
 
     if (isPressedRef.current) {
       const holdTime = (now - pressStartRef.current) * 0.001;
-      const holdFactor = Math.min(holdTime / 1.5, 1);
-      const squashAmount = tapSquash * (0.4 + holdFactor * 1.6);
+      const holdFactor = Math.min(holdTime / 1.2, 1);
+      const squashAmount = tapSquash * (0.5 + holdFactor * 1.8);
       sx.target = squashAmount;
-      sy.target = -squashAmount * 0.8;
+      sy.target = -squashAmount * 0.85;
     }
 
     sx.update(dt);
@@ -119,14 +131,15 @@ export function JellyWrapper({
     const el = elRef.current;
     if (el) {
       const baseScale = isHoveredRef.current && !isPressedRef.current ? hoverScale : 1;
-      el.style.transform = `scale(${baseScale + sx.value}, ${baseScale + sy.value}) rotate(${rot.value}deg)`;
+      // GPU-composited transform with translateZ(0) for layer promotion
+      el.style.transform = `translateZ(0) scale(${baseScale + sx.value}, ${baseScale + sy.value}) rotate(${rot.value}deg)`;
     }
 
     if (!sx.atRest() || !sy.atRest() || !rot.atRest() || isPressedRef.current) {
       rafRef.current = requestAnimationFrame(tick);
     } else {
       rafRef.current = 0;
-      if (el) el.style.transform = '';
+      if (el) el.style.transform = 'translateZ(0)';
     }
   }, [hoverScale, tapSquash]);
 
@@ -137,7 +150,7 @@ export function JellyWrapper({
     }
   }, [tick]);
 
-  /* ── Event handlers (FULL PATH only) ── */
+  /* ── Event handlers (FULL PATH only) — enhanced impulses ── */
   const handlePointerDown = useCallback(() => {
     isPressedRef.current = true;
     pressStartRef.current = performance.now();
@@ -146,13 +159,13 @@ export function JellyWrapper({
     const sy = syRef.current;
     const rot = rotRef.current;
 
-    // Add velocity impulse (stacks with existing motion)
-    sx.velocity += (Math.random() - 0.3) * 4;
-    sy.velocity += (Math.random() - 0.7) * 4;
-    rot.velocity += (Math.random() - 0.5) * 18;
+    // Stronger velocity impulse for more dramatic wobble
+    sx.velocity += (Math.random() - 0.3) * 5;
+    sy.velocity += (Math.random() - 0.7) * 5;
+    rot.velocity += (Math.random() - 0.5) * 22;
 
-    sx.target = tapSquash * 0.4;
-    sy.target = -tapSquash * 0.3;
+    sx.target = tapSquash * 0.5;
+    sy.target = -tapSquash * 0.4;
 
     startLoop();
   }, [tapSquash, startLoop]);
@@ -162,8 +175,8 @@ export function JellyWrapper({
     isPressedRef.current = false;
 
     const holdTime = (performance.now() - pressStartRef.current) * 0.001;
-    const holdFactor = Math.min(holdTime / 1.5, 1);
-    const releaseForce = 2 + holdFactor * 8;
+    const holdFactor = Math.min(holdTime / 1.2, 1);
+    const releaseForce = 3 + holdFactor * 10;
 
     const sx = sxRef.current;
     const sy = syRef.current;
@@ -173,9 +186,10 @@ export function JellyWrapper({
     sy.target = 0;
     rot.target = 0;
 
-    sx.velocity -= releaseForce * (0.5 + Math.random() * 0.5);
-    sy.velocity += releaseForce * (0.4 + Math.random() * 0.4);
-    rot.velocity += (Math.random() - 0.5) * releaseForce * 3;
+    // Stronger release bounce
+    sx.velocity -= releaseForce * (0.6 + Math.random() * 0.5);
+    sy.velocity += releaseForce * (0.5 + Math.random() * 0.4);
+    rot.velocity += (Math.random() - 0.5) * releaseForce * 4;
 
     startLoop();
   }, [startLoop]);
@@ -183,32 +197,29 @@ export function JellyWrapper({
   /**
    * CONTINUOUS REACTION: When pointer enters while a button is pressed
    * (i.e., user is sliding/dragging across multiple boxes), trigger a wobble.
-   * This is the key fix — onPointerEnter fires even during a drag.
    */
   const handlePointerEnter = useCallback((e: React.PointerEvent) => {
     isHoveredRef.current = true;
 
-    // Check if any pointer button is pressed (buttons > 0 means dragging)
     const isDragging = e.buttons > 0;
 
     if (isDragging) {
-      // Sliding across — give a strong impulse like a tap
-      sxRef.current.velocity += (Math.random() - 0.3) * 5;
-      syRef.current.velocity += (Math.random() - 0.7) * 5;
-      rotRef.current.velocity += (Math.random() - 0.5) * 20;
-      sxRef.current.target = tapSquash * 0.3;
-      syRef.current.target = -tapSquash * 0.25;
-      // Auto-release after a short moment
+      // Sliding across — strong impulse like a tap
+      sxRef.current.velocity += (Math.random() - 0.3) * 6;
+      syRef.current.velocity += (Math.random() - 0.7) * 6;
+      rotRef.current.velocity += (Math.random() - 0.5) * 24;
+      sxRef.current.target = tapSquash * 0.35;
+      syRef.current.target = -tapSquash * 0.3;
       setTimeout(() => {
         sxRef.current.target = 0;
         syRef.current.target = 0;
         rotRef.current.target = 0;
       }, 80);
     } else {
-      // Normal hover entry — gentle wobble
-      sxRef.current.velocity += 1.8;
-      syRef.current.velocity -= 1.2;
-      rotRef.current.velocity += (Math.random() - 0.5) * 8;
+      // Normal hover entry — enhanced wobble with rotation
+      sxRef.current.velocity += 2.2;
+      syRef.current.velocity -= 1.6;
+      rotRef.current.velocity += (Math.random() - 0.5) * 10;
     }
     startLoop();
   }, [startLoop, tapSquash]);
@@ -219,19 +230,19 @@ export function JellyWrapper({
     sxRef.current.target = 0;
     syRef.current.target = 0;
     rotRef.current.target = 0;
+    // Add a small exit wobble for satisfying feel
+    sxRef.current.velocity -= 0.8;
+    syRef.current.velocity += 0.5;
     startLoop();
   }, [startLoop]);
 
-  // Also handle touch-based sliding via onPointerMove
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    // Only react if pointer is pressed and moving (touch drag)
     if (e.buttons > 0 && !isPressedRef.current) {
-      // Pointer entered while pressed but we missed the enter event
       isPressedRef.current = true;
       pressStartRef.current = performance.now();
-      sxRef.current.velocity += 3;
-      syRef.current.velocity -= 3;
-      rotRef.current.velocity += (Math.random() - 0.5) * 12;
+      sxRef.current.velocity += 3.5;
+      syRef.current.velocity -= 3.5;
+      rotRef.current.velocity += (Math.random() - 0.5) * 14;
       startLoop();
     }
   }, [startLoop]);
@@ -251,10 +262,16 @@ export function JellyWrapper({
   const entranceVariants: Variants = noEntrance
     ? {}
     : {
-        hidden: { opacity: 0, scale: 0.85, y: 20 },
+        hidden: { opacity: 0, scale: 0.82, y: 24, rotate: -1.5 },
         visible: {
-          opacity: 1, scale: 1, y: 0,
-          transition: { ...ENTRANCE_SPRING, opacity: { duration: 0.3 } },
+          opacity: 1, scale: 1, y: 0, rotate: 0,
+          transition: {
+            type: 'spring',
+            stiffness: ENTRANCE_SPRING.stiffness,
+            damping: ENTRANCE_SPRING.damping,
+            mass: ENTRANCE_SPRING.mass,
+            opacity: { duration: 0.3 },
+          },
         },
       };
 
@@ -268,20 +285,20 @@ export function JellyWrapper({
         initial={noEntrance ? undefined : 'hidden'}
         whileInView={noEntrance ? undefined : 'visible'}
         viewport={noEntrance ? undefined : { once: true, margin: '-50px' }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+        whileTap={{ scale: 0.96 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 18 }}
       >
         {children}
       </MotionTag>
     );
   }
 
-  /* ── FULL PATH: desktop with fine pointer ── */
+  /* ── FULL PATH: desktop with fine pointer — GPU-composited ── */
   return (
     <MotionTag
       ref={elRef}
       className={className}
-      style={{ ...style, willChange: 'transform', touchAction: 'manipulation' }}
+      style={{ ...style, ...GPU_STYLE, touchAction: 'manipulation' }}
       variants={noEntrance ? undefined : entranceVariants}
       initial={noEntrance ? undefined : 'hidden'}
       whileInView={noEntrance ? undefined : 'visible'}
@@ -324,9 +341,11 @@ export function JellyText({ children, className = '', as = 'span' }: JellyTextPr
   return (
     <MotionTag
       className={className}
+      style={GPU_STYLE}
       whileHover={fineHover ? {
-        scaleX: [1, 1.02, 0.98, 1.01, 1],
-        scaleY: [1, 0.98, 1.02, 0.99, 1],
+        scaleX: [1, 1.03, 0.97, 1.015, 1],
+        scaleY: [1, 0.97, 1.03, 0.985, 1],
+        rotate: [0, -0.5, 0.5, -0.2, 0],
         transition: { duration: 0.5, ease: 'easeInOut' },
       } : undefined}
     >
@@ -340,12 +359,13 @@ export function JellyText({ children, className = '', as = 'span' }: JellyTextPr
  *
  * FULL PATH: Continuous RAF spring loop, hold-duration squash, release force wobble.
  * LIGHTER PATH: Simple whileTap scale, no continuous spring simulation.
+ * GPU-composited for buttery 60fps.
  */
 interface JellyButtonProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   href?: string;
   target?: string;
   rel?: string;
@@ -365,13 +385,14 @@ export function JellyButton({
   const { jellyMode } = useJellyMode();
   const fineHover = useFineHover();
   const elRef = useRef<HTMLElement>(null);
-  const sxRef = useRef(new Spring(800, 8, 0.3));
-  const syRef = useRef(new Spring(800, 8, 0.3));
-  const rotRef = useRef(new Spring(600, 10, 0.3));
+  const sxRef = useRef(new Spring(750, 7, 0.28));
+  const syRef = useRef(new Spring(750, 7, 0.28));
+  const rotRef = useRef(new Spring(550, 9, 0.28));
   const rafRef = useRef(0);
   const lastTRef = useRef(0);
   const pressStartRef = useRef(0);
   const isPressedRef = useRef(false);
+  const isHoveredRef = useRef(false);
 
   const tick = useCallback(() => {
     const now = performance.now();
@@ -384,9 +405,9 @@ export function JellyButton({
 
     if (isPressedRef.current) {
       const holdTime = (now - pressStartRef.current) * 0.001;
-      const holdFactor = Math.min(holdTime / 1.0, 1);
-      sx.target = 0.08 + holdFactor * 0.15;
-      sy.target = -(0.06 + holdFactor * 0.12);
+      const holdFactor = Math.min(holdTime / 0.8, 1);
+      sx.target = 0.10 + holdFactor * 0.18;
+      sy.target = -(0.08 + holdFactor * 0.14);
     }
 
     sx.update(dt);
@@ -395,14 +416,15 @@ export function JellyButton({
 
     const el = elRef.current;
     if (el) {
-      el.style.transform = `scale(${1 + sx.value}, ${1 + sy.value}) rotate(${rot.value}deg)`;
+      const baseScale = isHoveredRef.current && !isPressedRef.current ? 1.06 : 1;
+      el.style.transform = `translateZ(0) scale(${baseScale + sx.value}, ${baseScale + sy.value}) rotate(${rot.value}deg)`;
     }
 
     if (!sx.atRest() || !sy.atRest() || !rot.atRest() || isPressedRef.current) {
       rafRef.current = requestAnimationFrame(tick);
     } else {
       rafRef.current = 0;
-      if (el) el.style.transform = '';
+      if (el) el.style.transform = 'translateZ(0)';
     }
   }, []);
 
@@ -416,9 +438,9 @@ export function JellyButton({
   const handlePointerDown = useCallback(() => {
     isPressedRef.current = true;
     pressStartRef.current = performance.now();
-    sxRef.current.velocity += 2;
-    syRef.current.velocity -= 2;
-    rotRef.current.velocity += (Math.random() - 0.5) * 12;
+    sxRef.current.velocity += 2.5;
+    syRef.current.velocity -= 2.5;
+    rotRef.current.velocity += (Math.random() - 0.5) * 14;
     startLoop();
   }, [startLoop]);
 
@@ -426,13 +448,34 @@ export function JellyButton({
     if (!isPressedRef.current) return;
     isPressedRef.current = false;
     const holdTime = (performance.now() - pressStartRef.current) * 0.001;
-    const force = 3 + Math.min(holdTime / 1.0, 1) * 6;
+    const force = 4 + Math.min(holdTime / 0.8, 1) * 8;
     sxRef.current.target = 0;
     syRef.current.target = 0;
     rotRef.current.target = 0;
     sxRef.current.velocity -= force;
     syRef.current.velocity += force * 0.8;
-    rotRef.current.velocity += (Math.random() - 0.5) * force * 3;
+    rotRef.current.velocity += (Math.random() - 0.5) * force * 3.5;
+    startLoop();
+  }, [startLoop]);
+
+  const handlePointerEnter = useCallback(() => {
+    isHoveredRef.current = true;
+    // Hover entry wobble
+    sxRef.current.velocity += 1.8;
+    syRef.current.velocity -= 1.2;
+    rotRef.current.velocity += (Math.random() - 0.5) * 8;
+    startLoop();
+  }, [startLoop]);
+
+  const handlePointerLeave = useCallback(() => {
+    isHoveredRef.current = false;
+    isPressedRef.current = false;
+    sxRef.current.target = 0;
+    syRef.current.target = 0;
+    rotRef.current.target = 0;
+    // Exit wobble
+    sxRef.current.velocity -= 0.6;
+    syRef.current.velocity += 0.4;
     startLoop();
   }, [startLoop]);
 
@@ -468,35 +511,26 @@ export function JellyButton({
         {...props}
         className={className}
         style={style}
-        whileTap={{ scale: 0.95 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+        whileTap={{ scale: 0.94 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 18 }}
       >
         {children}
       </Tag>
     );
   }
 
-  /* ── FULL PATH: desktop with fine pointer ── */
+  /* ── FULL PATH: desktop with fine pointer — GPU-composited ── */
   return (
     <Tag
       {...props}
       ref={elRef as any}
       className={className}
-      style={{ ...style, willChange: 'transform' }}
+      style={{ ...style, ...GPU_STYLE }}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
-      onMouseLeave={() => {
-        isPressedRef.current = false;
-        sxRef.current.target = 0;
-        syRef.current.target = 0;
-        rotRef.current.target = 0;
-        startLoop();
-      }}
-      whileHover={{
-        scale: 1.05,
-        transition: { type: 'spring', stiffness: 400, damping: 15 },
-      }}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
     >
       {children}
     </Tag>

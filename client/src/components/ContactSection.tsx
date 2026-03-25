@@ -8,6 +8,7 @@ import { useJellyMode } from '../contexts/JellyModeContext';
 import { useFineHover } from '../hooks/useFineHover';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { JellyWrapper, JellyButton } from './JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { Mail, Linkedin, Phone, ArrowUpRight, MapPin, Youtube } from 'lucide-react';
@@ -113,7 +114,7 @@ export function ContactSection() {
             </p>
           </motion.div>
 
-          {/* Primary CTA — subtle hover */}
+          {/* Primary CTA — JellyButton */}
           <motion.div
             initial={{ opacity: 0, y: 30, scaleX: 0.95, scaleY: 1.05, rotate: -1 }}
             whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
@@ -121,50 +122,46 @@ export function ContactSection() {
             transition={{ type: 'spring' as const, stiffness: 130, damping: 10, mass: 1 }}
             className="flex justify-center mb-14"
           >
-            <motion.a
+            <JellyButton
               href="mailto:lukhihardik11@gmail.com"
-              whileHover={{ scale: hoverScale, y: hoverY }}
-              whileTap={{ scale: tapScale }}
-              transition={btnSpring}
               className="jelly-btn jelly-btn-teal px-8 py-4 text-sm no-underline"
             >
               <Mail size={16} />
               Say Hello
               <ArrowUpRight size={14} />
-            </motion.a>
+            </JellyButton>
           </motion.div>
 
-          {/* Contact cards — subtle hover */}
+          {/* Contact cards — JellyWrapper hover */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-12">
             {contactLinks.map((link, i) => {
               const Icon = link.icon;
               return (
-                <motion.a
+                <a
                   key={link.label}
                   href={link.href}
                   target={link.href.startsWith('http') ? '_blank' : undefined}
                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  initial={{ opacity: 0, y: 35, scaleX: 0.96, scaleY: 1.04, rotate: i % 2 === 0 ? -1 : 1 }}
-                  whileInView={{ opacity: 1, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ type: 'spring' as const, stiffness: 140, damping: 10, mass: 1, delay: i * 0.08 }}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="jelly-card p-3 sm:p-5 text-center group no-underline"
+                  className="no-underline"
                 >
-                  <div
-                    className={`jelly-icon-box w-10 h-10 mx-auto mb-3 ${
-                      i === 2 ? 'jelly-icon-box-amber' : i === 3 ? 'jelly-icon-box-amber' : 'jelly-icon-box-teal'
-                    }`}
+                  <JellyWrapper
+                    intensity="medium"
+                    className="jelly-card gel-fill p-3 sm:p-5 text-center group h-full"
                   >
-                    <Icon size={16} />
-                  </div>
-                  <div className="text-xs font-semibold text-foreground mb-0.5">{link.label}</div>
-                  <div className="text-[10px] sm:text-[11px] text-muted-foreground font-mono flex items-center justify-center gap-1 w-full">
-                    <span className="sm:truncate leading-tight" style={{ wordBreak: 'break-word' }}>{smartBreak(link.value)}</span>
-                    <ArrowUpRight size={9} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                  </div>
-                </motion.a>
+                    <div
+                      className={`jelly-icon-box w-10 h-10 mx-auto mb-3 ${
+                        i === 2 ? 'jelly-icon-box-amber' : i === 3 ? 'jelly-icon-box-amber' : 'jelly-icon-box-teal'
+                      }`}
+                    >
+                      <Icon size={16} />
+                    </div>
+                    <div className="text-xs font-semibold text-foreground mb-0.5">{link.label}</div>
+                    <div className="text-[10px] sm:text-[11px] text-muted-foreground font-mono flex items-center justify-center gap-1 w-full">
+                      <span className="sm:truncate leading-tight" style={{ wordBreak: 'break-word' }}>{smartBreak(link.value)}</span>
+                      <ArrowUpRight size={9} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    </div>
+                  </JellyWrapper>
+                </a>
               );
             })}
           </div>
@@ -177,10 +174,10 @@ export function ContactSection() {
             transition={{ type: 'spring' as const, stiffness: 150, damping: 10, delay: 0.3 }}
             className="text-center"
           >
-            <div className="glass-pill jelly-interactive inline-flex items-center gap-2 px-4 py-2">
+            <JellyWrapper as="div" intensity="soft" noEntrance hoverScale={1.05} className="glass-pill jelly-interactive inline-flex items-center gap-2 px-4 py-2">
               <MapPin size={12} style={{ color: 'oklch(0.55 0.18 230 / 60%)' }} />
               <span className="text-[11px] text-muted-foreground/50">Ridgefield Park, NJ</span>
-            </div>
+            </JellyWrapper>
           </motion.div>
         </div>
       </div>
@@ -206,19 +203,24 @@ export function Footer() {
             {contactLinks.map((link) => {
               const Icon = link.icon;
               return (
-                <motion.a
+                <JellyWrapper
                   key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  whileHover={{ y: -2, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={btnSpringOff}
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground/30 hover:text-foreground/60 transition-colors duration-200 no-underline jelly-social-icon"
-                  aria-label={link.label}
+                  as="span"
+                  intensity="bouncy"
+                  noEntrance
+                  hoverScale={1.12}
+                  className="inline-block"
                 >
-                  <Icon size={13} />
-                </motion.a>
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground/30 hover:text-foreground/60 transition-colors duration-200 no-underline jelly-social-icon"
+                    aria-label={link.label}
+                  >
+                    <Icon size={13} />
+                  </a>
+                </JellyWrapper>
               );
             })}
           </div>

@@ -14,6 +14,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import ProjectExplodedView from "@/components/ProjectExplodedView";
 import { getFrameUrls } from "@/data/frameUrlsIndex";
 import type { ProjectLabel } from "@/data/projects";
+import { JellyWrapper, JellyButton } from "@/components/JellyWrapper";
 
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/c/HardikLukhi";
 
@@ -260,9 +261,10 @@ export default function OctolapsePage() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
           >
             {highlights.map((h, i) => (
-              <div
+              <JellyWrapper
                 key={i}
-                className="jelly-card p-4 text-center"
+                intensity="medium"
+                className="jelly-card gel-fill p-4 text-center"
               >
                 <div className="text-xl md:text-2xl font-bold font-mono text-purple-400">
                   {h.value}
@@ -271,7 +273,7 @@ export default function OctolapsePage() {
                 <div className="text-[10px] text-muted-foreground/50 mt-0.5">
                   {h.desc}
                 </div>
-              </div>
+              </JellyWrapper>
             ))}
           </motion.div>
 
@@ -290,13 +292,10 @@ export default function OctolapsePage() {
               {techStack.map((tech, i) => {
                 const Icon = tech.icon;
                 return (
-                  <motion.div
+                  <JellyWrapper
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="jelly-card p-5"
+                    intensity="medium"
+                    className="jelly-card gel-fill p-5"
                   >
                     <div className="flex items-start gap-4">
                       <div
@@ -313,7 +312,7 @@ export default function OctolapsePage() {
                         </p>
                       </div>
                     </div>
-                  </motion.div>
+                  </JellyWrapper>
                 );
               })}
             </div>
@@ -361,9 +360,11 @@ export default function OctolapsePage() {
                   desc: "Octolapse automatically compiles all captured frames into a smooth timelapse video showing the object materializing layer by layer.",
                 },
               ].map((item, i) => (
-                <div
+                <JellyWrapper
                   key={i}
-                  className="jelly-card flex items-start gap-4 p-4"
+                  intensity="soft"
+                  noEntrance
+                  className="jelly-card gel-fill flex items-start gap-4 p-4"
                 >
                   <span className="text-lg font-bold font-mono text-purple-400/60 shrink-0 w-8">
                     {item.step}
@@ -374,18 +375,15 @@ export default function OctolapsePage() {
                       {item.desc}
                     </p>
                   </div>
-                </div>
+                </JellyWrapper>
               ))}
             </div>
           </motion.div>
 
           {/* YouTube CTA — uses jelly-card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="jelly-card p-8 text-center mb-16"
+          <JellyWrapper
+            intensity="medium"
+            className="jelly-card gel-fill p-8 text-center mb-16"
           >
             <Youtube size={40} className="mx-auto mb-4 text-red-500" />
             <h3 className="text-lg font-semibold mb-2">
@@ -395,7 +393,7 @@ export default function OctolapsePage() {
               Check out the results on my YouTube channel — smooth, cinematic 3D
               printing timelapses captured with this DIY setup.
             </p>
-            <a
+            <JellyButton
               href={YOUTUBE_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -404,8 +402,8 @@ export default function OctolapsePage() {
               <Youtube size={16} />
               Visit YouTube Channel
               <ExternalLink size={14} />
-            </a>
-          </motion.div>
+            </JellyButton>
+          </JellyWrapper>
 
           {/* Tags — uses glass-pill */}
           <motion.div
@@ -433,12 +431,16 @@ export default function OctolapsePage() {
                 "SSH",
                 "Networking",
               ].map((tag) => (
-                <span
+                <JellyWrapper
                   key={tag}
+                  as="span"
+                  intensity="soft"
+                  noEntrance
+                  hoverScale={1.08}
                   className="glass-pill px-3 py-1.5 text-xs font-mono cursor-default text-purple-400/80"
                 >
                   {tag}
-                </span>
+                </JellyWrapper>
               ))}
             </div>
           </motion.div>
@@ -451,13 +453,13 @@ export default function OctolapsePage() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="pt-8 jelly-divider"
           >
-            <Link
+            <JellyButton
               href="/"
               className="jelly-btn jelly-btn-ghost inline-flex items-center gap-2 px-5 py-2.5 text-sm no-underline mt-8"
             >
               <ArrowLeft size={14} />
               Back to all projects
-            </Link>
+            </JellyButton>
           </motion.div>
         </div>
       </section>

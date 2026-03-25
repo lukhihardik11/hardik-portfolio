@@ -8,6 +8,7 @@ import { useRef, useEffect } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useFineHover } from '../hooks/useFineHover';
+import { JellyWrapper } from '@/components/JellyWrapper';
 
 gsap.registerPlugin(ScrollTrigger);
 import { Link } from "wouter";
@@ -181,11 +182,11 @@ function ProjectCard({
       href={href}
       className="no-underline block h-full"
     >
-      <motion.div
-        whileHover={{ y: -5, scale: 1.01 }}
-        whileTap={{ scale: 0.99 }}
-        transition={btnSpring}
-        className="jelly-card overflow-hidden group relative cursor-pointer h-full flex flex-col"
+      <JellyWrapper
+        intensity="bouncy"
+        noEntrance
+        hoverScale={1.02}
+        className="jelly-card gel-fill overflow-hidden group relative cursor-pointer h-full flex flex-col"
       >
         <div className="jelly-caustic jelly-caustic-amber -bottom-4 left-1/4 right-1/4 h-10" />
 
@@ -291,7 +292,7 @@ function ProjectCard({
             <ExploreButton color={project.accentColor} />
           </div>
         </div>
-      </motion.div>
+      </JellyWrapper>
     </Link>
   );
 }

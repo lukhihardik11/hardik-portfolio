@@ -14,6 +14,7 @@ import React, { useRef, useEffect, Suspense, lazy, useCallback, useMemo } from '
 import { useJellyMode } from '../contexts/JellyModeContext';
 import { useSplineGating } from '../hooks/useSplineGating';
 import { useFineHover } from '../hooks/useFineHover';
+import { JellyWrapper, JellyButton } from './JellyWrapper';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -331,7 +332,7 @@ export function HeroSection() {
           <motion.div variants={stagger} initial="hidden" animate="visible" className="xl:col-span-3 flex flex-col gap-5 sm:gap-6 md:gap-7 xl:gap-8">
             {/* Status pill */}
             <motion.div variants={jellyChild}>
-              <div className="glass-pill jelly-interactive inline-flex items-center gap-2.5 px-4 py-2">
+              <JellyWrapper as="div" intensity="soft" noEntrance hoverScale={1.05} className="glass-pill jelly-interactive inline-flex items-center gap-2.5 px-4 py-2">
                 <span
                   className="w-2.5 h-2.5 rounded-full animate-jelly-pulse"
                   style={{
@@ -342,7 +343,7 @@ export function HeroSection() {
                 <span className="text-[11px] font-medium text-muted-foreground tracking-wide">
                   Open to opportunities
                 </span>
-              </div>
+              </JellyWrapper>
             </motion.div>
 
             {/* Name */}
@@ -374,54 +375,45 @@ export function HeroSection() {
               </p>
             </motion.div>
 
-            {/* CTA buttons — grid layout to prevent orphaned buttons */}
+            {/* CTA buttons — JellyButton with spring physics */}
             <motion.div variants={jellyChild} className="pt-1">
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <motion.a
+                <JellyButton
                   href="#contact"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  whileHover={{ scale: hoverScale, y: hoverY }}
-                  whileTap={{ scale: tapScale }}
-                  transition={btnSpring}
                   className="jelly-btn jelly-btn-teal no-underline text-center justify-center"
                 >
                   Say Hello
-                </motion.a>
+                </JellyButton>
                 <div className="flex items-center gap-3">
-                  <motion.a
+                  <JellyButton
                     href="#projects"
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent) => {
                       e.preventDefault();
                       document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    whileHover={{ scale: hoverScale, y: hoverY }}
-                    whileTap={{ scale: tapScale }}
-                    transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >
                     <Download size={13} />
                     View Work
-                  </motion.a>
-                  <motion.a
+                  </JellyButton>
+                  <JellyButton
                     href="/assets/resume/Hardik_Lukhi_Resume_Visual.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: hoverScale, y: hoverY }}
-                    whileTap={{ scale: tapScale }}
-                    transition={btnSpring}
                     className="jelly-btn jelly-btn-ghost no-underline flex-1 sm:flex-none text-center"
                   >
                     <Download size={13} />
                     Resume
-                  </motion.a>
+                  </JellyButton>
                 </div>
               </div>
             </motion.div>
 
-            {/* Company pills — no hover animation, just static */}
+            {/* Company pills — jelly hover wobble */}
             <motion.div variants={jellyChild} className="flex items-center gap-2 sm:gap-2.5 pt-1 flex-wrap">
               {[
                 { name: 'Meta', active: true },
@@ -429,14 +421,18 @@ export function HeroSection() {
                 { name: 'Abbott', active: false },
                 { name: 'Terumo', active: false },
               ].map((c) => (
-                <span
+                <JellyWrapper
                   key={c.name}
+                  as="span"
+                  intensity="soft"
+                  noEntrance
+                  hoverScale={1.06}
                   className={`text-[10px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl cursor-default ${
                     c.active ? 'jelly-badge-teal' : 'glass-pill text-foreground/80'
                   }`}
                 >
                   {c.name}
-                </span>
+                </JellyWrapper>
               ))}
             </motion.div>
           </motion.div>
