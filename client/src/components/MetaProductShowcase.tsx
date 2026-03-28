@@ -4,206 +4,206 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Frame sequences extracted from AI-generated rotating product videos
+// Frame sequences extracted from AI-generated rotating product videos (v2 - reference-based)
 const GEN3_FRAMES: string[] = [
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-000_e6d0c782.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-001_d55e7d6c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-002_a49a0a23.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-003_a3131ed0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-004_0d882fe5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-005_756cf9b0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-006_c0190d79.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-007_1d8b4651.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-008_56294905.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-009_4864315f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-010_068bea0e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-011_4f841d82.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-012_6c1e7c1a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-013_43f46406.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-014_724cc1fb.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-015_301d3de2.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-016_fe1468ab.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-017_cb6d69d9.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-018_bffa5ed9.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-019_ca72e69a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-020_1e93d776.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-021_20935075.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-022_e353a48b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-023_d4ec2028.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-024_44bf8dde.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-025_29d442b8.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-026_2c6dfcde.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-027_8c819e90.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-028_eb9d11e1.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-029_c83f1665.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-030_5544ecf0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-031_edbe5ebd.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-032_b4ae6bab.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-033_02daf81f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-034_2597f771.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-035_e52200f9.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-036_fff08a79.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-037_fd7f6693.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-038_03a0f8af.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-039_2d6fe64b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-040_9450eb05.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-041_7512f7f4.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-042_b3ec3091.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-043_978e9bd7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-044_247dcd6d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-045_7f6eaa9a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-046_d79a689c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-047_defcaf6c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-048_7ab386d4.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-049_828bfff7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-050_3bc9795f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-051_148f4e2f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-052_6aecddc0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-053_7f7bf8b0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-054_0d477197.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-055_be8c9cb4.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-056_55216003.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-057_3b4c0f60.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-058_bacceced.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-059_2d63d837.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-060_f9d5b2c0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-061_22903b66.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-062_d3c81741.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-063_0d81b9ab.jpg"
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_000_f386d01a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_001_7152f8b6.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_002_b811c2cd.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_003_0a7d2f5d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_004_ec984785.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_005_c574fdf3.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_006_a9dad5df.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_007_be54c699.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_008_4487ca3c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_009_ba2e0d8d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_010_ad94b22d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_011_9561cd6b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_012_eaa91200.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_013_0c04b381.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_014_096ddc45.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_015_18c026d2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_016_4a40fd1d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_017_49faebbc.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_018_8b9deace.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_019_66e92525.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_020_7a721f80.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_021_f8c1f71f.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_022_ba0f7c61.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_023_e3c67823.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_024_64d2e378.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_025_b934dba2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_026_64a63a6d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_027_dbcc81f0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_028_40b4a47b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_029_b2b85c87.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_030_acb604c2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_031_dc080d05.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_032_01f52ded.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_033_07f59e60.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_034_550af127.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_035_4ba03e95.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_036_1eda036b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_037_eb769eb6.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_038_5019a480.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_039_855de552.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_040_fe774111.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_041_88d8cc26.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_042_7bbc112e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_043_2fe20d67.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_044_1819f098.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_045_12cbcd24.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_046_959c0bd7.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_047_f2d30a36.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_048_5935cb69.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_049_7432f95e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_050_c5b05abb.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_051_85b16e0b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_052_0a73e196.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_053_c8d0cc5d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_054_a2547346.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_055_db993166.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_056_0cc5509b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_057_6d333bba.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_058_3c7dfb41.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_059_4aa11a7d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_060_1758d055.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_061_a81e54e2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_062_7a71087c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_063_46364c52.jpg",
 ];
 
 const GEN4_FRAMES: string[] = [
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-000_351310c7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-001_4230a343.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-002_4d604e31.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-003_c0502df7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-004_82054348.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-005_9608205e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-006_49ad4d94.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-007_6fa29da0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-008_a61627e7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-009_9f45731a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-010_f89af72c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-011_d5b419e6.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-012_00e5306c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-013_4ca30ee7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-014_47b686cb.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-015_0549723c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-016_2335956f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-017_f6e968ea.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-018_44d534a5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-019_e3e8a04e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-020_b53b7658.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-021_fbb59698.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-022_746ef318.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-023_2c033121.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-024_d87c3127.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-025_3c8f4db3.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-026_bf359da4.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-027_129f5e90.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-028_fd84995b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-029_7b11d92d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-030_25e7a81e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-031_075c64f1.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-032_37ab4c7e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-033_5d9db7d2.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-034_f4c48032.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-035_e70cf6f6.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-036_32cadb93.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-037_b5db178d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-038_770649f5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-039_c3c77031.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-040_8b6fa707.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-041_2adb233f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-042_c20e403f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-043_881ac3f9.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-044_66998dca.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-045_443bd5a8.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-046_2d45158d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-047_f25c7e4a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-048_78b604a5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-049_af1fb987.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-050_0fcd0c9d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-051_218f5dc5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-052_335d9d10.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-053_1f71e231.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-054_c906d4cc.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-055_1302b283.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-056_63898582.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-057_92612760.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-058_161931f1.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-059_a09a2373.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-060_ce29c10f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-061_e09fc881.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-062_3b2a15d2.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-063_602ae4dc.jpg"
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_000_c318c7d8.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_001_d527dca6.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_002_bf96170a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_003_03564260.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_004_7335fc71.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_005_d7a97829.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_006_e0670241.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_007_2669e613.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_008_efe443ea.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_009_faa71da2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_010_d2142f04.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_011_5039016e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_012_3a76977c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_013_acba4284.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_014_984bd930.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_015_5f45ca42.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_016_7416cb7a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_017_1f686958.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_018_8ad36d59.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_019_ae8b6762.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_020_83aa6730.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_021_6088cdae.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_022_f78db011.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_023_ce0fe430.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_024_030648cd.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_025_38f11d94.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_026_f3dbd631.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_027_23cab658.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_028_72b8bec0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_029_6141eecb.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_030_553c2c80.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_031_791b7922.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_032_dab3ea8c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_033_36e32337.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_034_1b950b3e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_035_139c30e9.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_036_1c5c7ed4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_037_287c7363.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_038_5f97d13f.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_039_0bc1663c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_040_fe4b9b05.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_041_412c9915.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_042_dece15bc.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_043_b17328d1.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_044_bb45e372.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_045_582320e8.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_046_d8627dec.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_047_1bbe231b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_048_ae99411b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_049_fef905ac.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_050_39cbeb1c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_051_b6b84caa.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_052_560dffeb.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_053_e83c5565.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_054_74611c0f.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_055_755915a0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_056_b1dd41f5.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_057_4cc89872.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_058_ad736fd6.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_059_23a3d176.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_060_3f40f0ca.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_061_0176a70b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_062_274cb0eb.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_063_a965cab8.jpg",
 ];
 
 const GEN5_FRAMES: string[] = [
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-000_fc905cc7.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-001_0156767f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-002_4b109df1.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-003_fcd17695.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-004_77ab626a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-005_81562895.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-006_57d196ff.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-007_dec9297a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-008_312bbbf5.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-009_300d2def.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-010_852d1897.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-011_b0a120e0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-012_2fda6d54.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-013_279b1d2b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-014_34342496.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-015_7bcff8d3.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-016_f6b7f79a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-017_11064553.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-018_9011134c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-019_8397546f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-020_c97a7f9f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-021_7775ad59.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-022_c2325bef.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-023_a30f3efb.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-024_69ceac17.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-025_572b7ef9.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-026_14629247.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-027_cc3ec444.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-028_334a039a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-029_528f8519.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-030_73b0004f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-031_3f58083f.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-032_21919c17.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-033_bba267f6.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-034_63cef51b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-035_0424934a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-036_aeee7071.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-037_67608c7d.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-038_5e72febd.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-039_4d403331.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-040_e064809b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-041_7562a3f4.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-042_373c3d78.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-043_738d72da.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-044_265d7340.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-045_4b003ebe.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-046_d8bc0cbc.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-047_4d9ba3dc.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-048_73ff3d91.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-049_a790611b.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-050_71c3067c.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-051_1f1a8404.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-052_5c947aec.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-053_40caeae2.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-054_4b3879f0.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-055_64416871.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-056_f46092ce.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-057_8c9e28af.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-058_8038f91e.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-059_259f4758.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-060_2c978136.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-061_febd47aa.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-062_1763010a.jpg",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/f-063_52f607a9.jpg"
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_000_ec3280f4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_001_4180d790.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_002_12c388a9.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_003_1d81a843.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_004_728a43a1.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_005_893f7f40.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_006_0fd46341.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_007_82a11e93.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_008_1e591459.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_009_598679d4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_010_893c3f5a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_011_f27428a4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_012_0d8f9db0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_013_a2c6a27f.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_014_c92e6c38.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_015_1e1bc5a0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_016_2e88bf8c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_017_7a4d1b1e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_018_e3d1fadc.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_019_f932f654.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_020_86d8acdf.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_021_a522cd18.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_022_656aad34.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_023_6b4a2699.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_024_1014a82a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_025_4058fce5.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_026_b4f75ea1.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_027_26b9e935.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_028_0335fb85.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_029_9fb3d661.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_030_719cc72d.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_031_71a853d8.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_032_459f3b86.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_033_8447e9ec.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_034_7ea0ed3b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_035_0d49ac59.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_036_0dc1bf82.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_037_2dc3b02c.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_038_570b87e7.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_039_25c4ff82.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_040_3721c018.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_041_4263f0c4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_042_7ee57de2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_043_760e115e.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_044_c7d4e8bd.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_045_36b03a1f.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_046_324e61c0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_047_24dec724.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_048_249bf6f4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_049_84af49d4.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_050_b7a1d02a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_051_6cccd9dd.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_052_ca9a23e3.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_053_c28a3e47.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_054_815891f0.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_055_a18779e2.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_056_d99c8162.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_057_23dcd94a.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_058_21ddc3a6.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_059_610ac679.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_060_352acf03.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_061_dd9ed94b.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_062_842a1584.jpg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/frame_063_2d717786.jpg",
 ];
 
 const ALL_FRAME_SETS = [GEN3_FRAMES, GEN4_FRAMES, GEN5_FRAMES];
@@ -219,6 +219,7 @@ interface Generation {
   specs: string[];
   sourceUrl: string;
   sourceLabel: string;
+  refImage: string;
 }
 
 const GENERATIONS: Generation[] = [
@@ -229,6 +230,7 @@ const GENERATIONS: Generation[] = [
     specs: ["Industrial design", "Gold sensor arrays", "Robust housing", "Internal testing"],
     sourceUrl: "https://about.fb.com/news/2021/03/inside-facebook-reality-labs-wrist-based-interaction-for-the-next-computing-platform/",
     sourceLabel: "Meta Blog",
+    refImage: "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/gen3_ctrlkit_5803af12.png",
   },
   {
     id: 4, name: "Orion Companion", year: "2024", era: "AR Orion Demo",
@@ -237,6 +239,7 @@ const GENERATIONS: Generation[] = [
     specs: ["Fabric exterior", "Slim profile", "AR-optimized", "Gold contacts"],
     sourceUrl: "https://about.fb.com/news/2024/09/introducing-orion-our-first-true-augmented-reality-glasses/",
     sourceLabel: "Meta Blog",
+    refImage: "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/gen4_orion_f3e188b9.jpg",
   },
   {
     id: 5, name: "Neural Band", year: "2025", era: "Consumer Launch",
@@ -245,6 +248,7 @@ const GENERATIONS: Generation[] = [
     specs: ["Woven textile", "All-day comfort", "Hidden sensors", "Consumer-ready"],
     sourceUrl: "https://about.fb.com/news/2025/09/meta-ray-ban-display-ai-glasses-emg-wristband/",
     sourceLabel: "Meta Blog",
+    refImage: "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/gen5_official_de0408bd.jpg",
   },
 ];
 
@@ -254,12 +258,14 @@ const EARLIER_GENS = [
     description: "The original research prototype with exposed PCB circuitry and 16 sensor pods arranged in a circular band. Raw engineering \u2014 visible chips, solder points, and gold electrode contacts.",
     sourceUrl: "https://www.theverge.com/2019/9/23/20881032/facebook-ctrl-labs-acquisition-neural-interface-armband-ar-vr-deal",
     sourceLabel: "The Verge",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/gen_lineup_115a7467.png",
   },
   {
     id: 2, name: "Development Kit", year: "2019", era: "Acquired by Meta",
-    description: "A refined enclosed wristband with LED indicators, marking the transition from lab prototype to developer-ready hardware.",
+    description: "A refined enclosed wristband with LED indicators, marking the transition from lab prototype to developer-ready hardware. The CTRL-kit shipped to select developers before Meta\u2019s acquisition.",
     sourceUrl: "https://www.theverge.com/2019/9/23/20881032/facebook-ctrl-labs-acquisition-neural-interface-armband-ar-vr-deal",
     sourceLabel: "The Verge",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663369311609/hgFV94mVzuuSGundqkrv86/gen3_ctrlkit_5803af12.png",
   },
 ];
 
@@ -279,9 +285,11 @@ export default function MetaProductShowcase() {
   const gestureRef = useRef<HTMLDivElement>(null);
   const disclaimerRef = useRef<HTMLDivElement>(null);
   const earlierRef = useRef<HTMLDivElement>(null);
+  const progressDotsRef = useRef<HTMLDivElement>(null);
   const [showEarlier, setShowEarlier] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeGen, setActiveGen] = useState(0);
   const imagesRef = useRef<HTMLImageElement[][]>([[], [], []]);
   const rafRef = useRef<number>(0);
 
@@ -311,7 +319,7 @@ export default function MetaProductShowcase() {
     });
   }, []);
 
-  // Draw a specific frame on the canvas
+  // Draw a specific frame on the canvas - cover-style (fill viewport)
   const drawFrame = useCallback((genIdx: number, frameIdx: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -320,20 +328,33 @@ export default function MetaProductShowcase() {
     const img = imagesRef.current[genIdx]?.[frameIdx];
     if (!img || !img.complete || !img.naturalWidth) return;
 
-    // Set canvas to image dimensions (only if changed)
-    if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
+    // Match canvas to its CSS display size for sharp rendering
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const cw = Math.round(rect.width * dpr);
+    const ch = Math.round(rect.height * dpr);
+    if (canvas.width !== cw || canvas.height !== ch) {
+      canvas.width = cw;
+      canvas.height = ch;
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
+
+    // Cover-style: scale image to fill canvas, crop overflow
+    const iw = img.naturalWidth;
+    const ih = img.naturalHeight;
+    const scale = Math.max(cw / iw, ch / ih);
+    const sw = iw * scale;
+    const sh = ih * scale;
+    const sx = (cw - sw) / 2;
+    const sy = (ch - sh) / 2;
+
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, sx, sy, sw, sh);
   }, []);
 
   // GSAP ScrollTrigger - scroll drives canvas frames
   useEffect(() => {
     if (!isLoaded || !pinRef.current || !canvasRef.current) return;
 
-    // Draw first frame immediately
     drawFrame(0, 0);
 
     const ctx = gsap.context(() => {
@@ -353,9 +374,11 @@ export default function MetaProductShowcase() {
           const genProgress = (p - genIdx * scrollPerGen) / scrollPerGen;
           const frameIdx = Math.min(Math.floor(genProgress * FRAMES_PER_GEN), FRAMES_PER_GEN - 1);
 
-          // Use requestAnimationFrame for smooth canvas updates
           cancelAnimationFrame(rafRef.current);
-          rafRef.current = requestAnimationFrame(() => drawFrame(genIdx, frameIdx));
+          rafRef.current = requestAnimationFrame(() => {
+            drawFrame(genIdx, frameIdx);
+            setActiveGen(genIdx);
+          });
 
           // Update text overlays
           const overlays = textOverlaysRef.current?.children;
@@ -374,6 +397,34 @@ export default function MetaProductShowcase() {
                 el.style.visibility = "hidden";
               }
             }
+          }
+
+          // Update progress dots
+          const dots = progressDotsRef.current?.querySelectorAll(".gen-dot");
+          if (dots) {
+            dots.forEach((dot, i) => {
+              const d = dot as HTMLElement;
+              if (i === genIdx) {
+                d.style.background = "#E8A838";
+                d.style.transform = "scale(1.5)";
+                d.style.boxShadow = "0 0 12px rgba(232,168,56,0.4)";
+              } else if (i < genIdx) {
+                d.style.background = "#2E7EBF";
+                d.style.transform = "scale(1)";
+                d.style.boxShadow = "none";
+              } else {
+                d.style.background = "rgba(255,255,255,0.15)";
+                d.style.transform = "scale(1)";
+                d.style.boxShadow = "none";
+              }
+            });
+          }
+
+          // Update progress line
+          const line = progressDotsRef.current?.querySelector(".progress-line") as HTMLElement;
+          if (line) {
+            const pct = ((genIdx + genProgress) / totalGens) * 100;
+            line.style.width = `${pct}%`;
           }
         },
       });
@@ -459,34 +510,42 @@ export default function MetaProductShowcase() {
       {/* Scroll-Driven Canvas Section */}
       <div ref={pinRef} className="relative w-full h-screen overflow-hidden" style={{ background: "#0a0a0a" }}>
 
-        {/* Generation indicator dots */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
-          {GENERATIONS.map((gen, i) => (
-            <div key={gen.id} className="flex items-center gap-3">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-2 h-2 rounded-full transition-all duration-500" style={{ background: "rgba(232,168,56,0.4)" }} />
-                <span className="text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.3)" }}>{gen.year}</span>
+        {/* Progress indicator with dots and line */}
+        <div ref={progressDotsRef} className="absolute top-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-0">
+          <div className="relative flex items-center" style={{ width: "200px" }}>
+            {/* Background line */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-[1px]" style={{ background: "rgba(255,255,255,0.08)" }} />
+            {/* Active progress line */}
+            <div className="progress-line absolute top-1/2 -translate-y-1/2 left-0 h-[1px] transition-all duration-300" style={{ width: "0%", background: "linear-gradient(90deg, #2E7EBF, #E8A838)" }} />
+            {/* Dots */}
+            {GENERATIONS.map((gen, i) => (
+              <div key={gen.id} className="absolute flex flex-col items-center" style={{ left: `${(i / (GENERATIONS.length - 1)) * 100}%`, transform: "translateX(-50%)" }}>
+                <div className="gen-dot w-2.5 h-2.5 rounded-full transition-all duration-500" style={{ background: i === 0 ? "#E8A838" : "rgba(255,255,255,0.15)", transform: i === 0 ? "scale(1.5)" : "scale(1)", boxShadow: i === 0 ? "0 0 12px rgba(232,168,56,0.4)" : "none" }} />
+                <span className="mt-2 text-[9px] font-mono whitespace-nowrap" style={{ color: "rgba(255,255,255,0.3)" }}>{gen.year}</span>
               </div>
-              {i < GENERATIONS.length - 1 && (
-                <div className="w-8 h-[1px]" style={{ background: "rgba(255,255,255,0.08)" }} />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Canvas - centered, product rotates here */}
+        {/* Canvas - fills viewport for cinematic effect */}
         <canvas
           ref={canvasRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute inset-0 w-full h-full"
           style={{
-            maxWidth: "55vw",
-            maxHeight: "65vh",
-            width: "auto",
-            height: "auto",
-            objectFit: "contain",
+            objectFit: "cover",
             zIndex: 10,
           }}
         />
+
+        {/* Dark vignette overlay for text readability */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to right, transparent 0%, transparent 40%, rgba(10,10,10,0.7) 55%, rgba(10,10,10,0.92) 70%, rgba(10,10,10,0.98) 85%)",
+          zIndex: 15,
+        }} />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, transparent 15%, transparent 85%, rgba(10,10,10,0.6) 100%)",
+          zIndex: 15,
+        }} />
 
         {/* Ambient glow behind canvas */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vh] pointer-events-none"
@@ -502,6 +561,7 @@ export default function MetaProductShowcase() {
                 transform: i === 0 ? "translateY(0)" : "translateY(60px)",
                 transition: "none",
                 pointerEvents: i === 0 ? "auto" : "none",
+                visibility: i === 0 ? "visible" : "hidden",
               }}>
               <div className="ml-auto mr-6 md:mr-12 lg:mr-20 max-w-sm pointer-events-auto">
                 <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-2" style={{ color: "#E8A838" }}>
@@ -573,16 +633,21 @@ export default function MetaProductShowcase() {
         <div ref={earlierRef} className="px-6 py-16 md:px-12 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {EARLIER_GENS.map((gen) => (
-              <div key={gen.id} className="earlier-card group relative p-8 rounded-2xl border transition-all duration-300 hover:border-[#2E7EBF]/30"
+              <div key={gen.id} className="earlier-card group relative overflow-hidden rounded-2xl border transition-all duration-300 hover:border-[#2E7EBF]/30"
                 style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}>
-                <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-1" style={{ color: "#E8A838" }}>Generation {gen.id}</p>
-                <h4 className="text-xl font-bold mb-1" style={{ color: "#f0f0f0" }}>{gen.name}</h4>
-                <p className="text-xs font-mono mb-3" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
-                <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-[10px] font-mono transition-colors hover:text-[#E8A838]" style={{ color: "rgba(255,255,255,0.3)" }}>
-                  Source: {gen.sourceLabel} &#8599;
-                </a>
+                <div className="aspect-video overflow-hidden" style={{ background: "rgba(255,255,255,0.03)" }}>
+                  <img src={gen.image} alt={`Gen ${gen.id} - ${gen.name}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+                <div className="p-8">
+                  <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-1" style={{ color: "#E8A838" }}>Generation {gen.id}</p>
+                  <h4 className="text-xl font-bold mb-1" style={{ color: "#f0f0f0" }}>{gen.name}</h4>
+                  <p className="text-xs font-mono mb-3" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
+                  <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
+                    className="text-[10px] font-mono transition-colors hover:text-[#E8A838]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    Source: {gen.sourceLabel} &#8599;
+                  </a>
+                </div>
               </div>
             ))}
           </div>
