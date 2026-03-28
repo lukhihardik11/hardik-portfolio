@@ -6,11 +6,12 @@ import { AboutSection } from '@/components/AboutSection';
 import { SignalDivider } from '@/components/SignalDivider';
 import { ExperienceSection } from '@/components/ExperienceSection';
 import { PhilosophySection } from '@/components/PhilosophySection';
-import ExplodedView from '@/components/ExplodedView';
+import MetaProductShowcase from '@/components/MetaProductShowcase';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import { SkillsSection } from '@/components/SkillsSection';
 import { EducationSection } from '@/components/EducationSection';
 import { ContactSection, Footer } from '@/components/ContactSection';
+import { SectionZoom } from '@/components/animation/AppleScrollEffects';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -34,15 +35,17 @@ export default function Home() {
       <ScrollProgress />
       <Navbar />
       <HeroSection />
-      <ExplodedView />
-      <AboutSection />
+      <MetaProductShowcase />
+      <SectionZoom><AboutSection /></SectionZoom>
       <SignalDivider />
-      <ExperienceSection />
-      <PhilosophySection />
-      <ProjectsSection />
-      <SkillsSection />
-      <EducationSection />
-      <ContactSection />
+      <SectionZoom><ExperienceSection /></SectionZoom>
+      <SectionZoom><PhilosophySection /></SectionZoom>
+      <SectionZoom><ProjectsSection /></SectionZoom>
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <SkillsSection />
+      </div>
+      <SectionZoom><EducationSection /></SectionZoom>
+      <SectionZoom><ContactSection /></SectionZoom>
       <Footer />
     </div>
   );
