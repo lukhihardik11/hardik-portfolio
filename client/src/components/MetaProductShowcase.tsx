@@ -319,7 +319,7 @@ export default function MetaProductShowcase() {
     });
   }, []);
 
-  // Draw a specific frame on the canvas - cover-style (fill viewport)
+  // Draw a specific frame on the canvas - responsive cover/contain
   const drawFrame = useCallback((genIdx: number, frameIdx: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -338,14 +338,19 @@ export default function MetaProductShowcase() {
       canvas.height = ch;
     }
 
-    // Cover-style: scale image to fill canvas, crop overflow
     const iw = img.naturalWidth;
     const ih = img.naturalHeight;
-    const scale = Math.max(cw / iw, ch / ih);
+    // On mobile (<768px): use contain with slight zoom so product is fully visible
+    // On desktop: use cover for cinematic full-bleed
+    const isMobile = rect.width < 768;
+    const scale = isMobile
+      ? Math.min(cw / iw, ch / ih) * 0.85  // contain + slight zoom out
+      : Math.max(cw / iw, ch / ih);         // cover
     const sw = iw * scale;
     const sh = ih * scale;
     const sx = (cw - sw) / 2;
-    const sy = (ch - sh) / 2;
+    // On mobile, shift image up slightly so product sits in top 60% leaving room for text below
+    const sy = isMobile ? (ch * 0.35 - sh / 2) : (ch - sh) / 2;
 
     ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, sx, sy, sw, sh);
@@ -488,23 +493,26 @@ export default function MetaProductShowcase() {
         </div>
       )}
 
-      {/* Hero Header */}
-      <div className="relative px-6 pt-24 pb-8 md:px-12 md:pt-32 md:pb-12 max-w-7xl mx-auto">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at center, rgba(46,126,191,0.06) 0%, transparent 70%)" }} />
-        <p className="text-xs font-mono tracking-[0.35em] uppercase mb-4" style={{ color: "rgba(232,168,56,0.7)" }}>Product Evolution</p>
-        <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]"
-          style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-          Meta Neural Band
-        </h2>
-        <p className="mt-4 md:mt-6 text-base md:text-xl max-w-2xl leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
-          A decade of innovation &mdash; from exposed circuit boards to an invisible wristband that reads your intentions. Powered by surface electromyography (sEMG).
-        </p>
-        <a href="https://www.meta.com/emerging-tech/emg-wearable-technology/" target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 mt-6 text-sm font-medium transition-colors duration-200 hover:text-[#E8A838]" style={{ color: "#2E7EBF" }}>
-          Learn more about EMG technology
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </a>
+      {/* Hero Header — aligned with portfolio section pattern */}
+      <div className="relative py-8 sm:py-12 md:py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute w-[400px] h-[400px] -top-20 right-0 opacity-20"
+            style={{ background: "radial-gradient(ellipse, oklch(0.55 0.18 230 / 12%) 0%, transparent 70%)", borderRadius: "40% 60% 70% 30% / 50% 40% 60% 50%" }} />
+        </div>
+        <div className="container relative z-10">
+          <div className="mb-8 sm:mb-10 md:mb-14 lg:mb-16">
+            <p className="jelly-section-label">Product Evolution</p>
+            <h2 className="jelly-section-title max-w-xl">Meta Neural Band</h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-3 sm:mt-4 max-w-lg xl:max-w-xl leading-relaxed">
+              A decade of innovation &mdash; from exposed circuit boards to an invisible wristband that reads your intentions. Powered by surface electromyography (sEMG).
+            </p>
+            <a href="https://www.meta.com/emerging-tech/emg-wearable-technology/" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-4 text-sm font-medium text-primary transition-colors duration-200 hover:text-accent">
+              Learn more about EMG technology
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Scroll-Driven Canvas Section */}
@@ -537,13 +545,20 @@ export default function MetaProductShowcase() {
           }}
         />
 
-        {/* Dark vignette overlay for text readability */}
-        <div className="absolute inset-0 pointer-events-none" style={{
+        {/* Dark vignette overlay for text readability - responsive */}
+        {/* Desktop: right-side gradient for text panel */}
+        <div className="absolute inset-0 pointer-events-none hidden md:block" style={{
           background: "linear-gradient(to right, transparent 0%, transparent 40%, rgba(10,10,10,0.7) 55%, rgba(10,10,10,0.92) 70%, rgba(10,10,10,0.98) 85%)",
           zIndex: 15,
         }} />
+        {/* Mobile: bottom gradient for text card */}
+        <div className="absolute inset-0 pointer-events-none md:hidden" style={{
+          background: "linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(10,10,10,0.6) 60%, rgba(10,10,10,0.9) 80%)",
+          zIndex: 15,
+        }} />
+        {/* Both: subtle top/bottom edge vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, transparent 15%, transparent 85%, rgba(10,10,10,0.6) 100%)",
+          background: "linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, transparent 12%, transparent 88%, rgba(10,10,10,0.5) 100%)",
           zIndex: 15,
         }} />
 
@@ -551,11 +566,11 @@ export default function MetaProductShowcase() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vh] pointer-events-none"
           style={{ background: "radial-gradient(ellipse at center, rgba(46,126,191,0.06) 0%, transparent 60%)", zIndex: 5 }} />
 
-        {/* Text overlays - right side */}
+        {/* Text overlays - right side on desktop, bottom on mobile */}
         <div ref={textOverlaysRef} className="absolute inset-0 z-20 pointer-events-none">
           {GENERATIONS.map((gen, i) => (
             <div key={gen.id}
-              className="absolute inset-0 flex items-center"
+              className="absolute inset-0 flex items-end md:items-center"
               style={{
                 opacity: i === 0 ? 1 : 0,
                 transform: i === 0 ? "translateY(0)" : "translateY(60px)",
@@ -563,27 +578,30 @@ export default function MetaProductShowcase() {
                 pointerEvents: i === 0 ? "auto" : "none",
                 visibility: i === 0 ? "visible" : "hidden",
               }}>
-              <div className="ml-auto mr-6 md:mr-12 lg:mr-20 max-w-sm pointer-events-auto">
-                <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-2" style={{ color: "#E8A838" }}>
-                  Generation {gen.id}
-                </p>
-                <h3 className="text-2xl md:text-4xl font-bold tracking-tight mb-1" style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-                  {gen.name}
-                </h3>
-                <p className="text-sm font-medium mb-1" style={{ color: "#E8A838" }}>{gen.tagline}</p>
-                <p className="text-[10px] font-mono mb-4" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {gen.specs.map((s) => (
-                    <span key={s} className="px-2.5 py-0.5 text-[10px] font-mono rounded-full border"
-                      style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.45)" }}>{s}</span>
-                  ))}
+              {/* Mobile: bottom-aligned card with frosted glass bg */}
+              <div className="w-full md:w-auto md:ml-auto px-5 pb-16 md:pb-0 md:mr-12 lg:mr-20 md:max-w-sm pointer-events-auto">
+                <div className="md:bg-transparent bg-gradient-to-t from-[rgba(10,10,10,0.95)] via-[rgba(10,10,10,0.8)] to-transparent md:from-transparent md:via-transparent pt-8 md:pt-0 -mx-5 px-5 md:mx-0 md:px-0">
+                  <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-2" style={{ color: "#E8A838" }}>
+                    Generation {gen.id}
+                  </p>
+                  <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight mb-1" style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+                    {gen.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm font-medium mb-1" style={{ color: "#E8A838" }}>{gen.tagline}</p>
+                  <p className="text-[10px] font-mono mb-3 md:mb-4" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
+                  <p className="text-xs sm:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-3 md:line-clamp-none" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
+                  <div className="flex flex-wrap gap-1 md:gap-1.5 mb-3 md:mb-4">
+                    {gen.specs.map((s) => (
+                      <span key={s} className="px-2 md:px-2.5 py-0.5 text-[9px] md:text-[10px] font-mono rounded-full border"
+                        style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.45)" }}>{s}</span>
+                    ))}
+                  </div>
+                  <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
+                    className="text-[10px] font-mono transition-colors hover:text-[#E8A838]"
+                    style={{ color: "rgba(255,255,255,0.3)" }}>
+                    Source: {gen.sourceLabel} &#8599;
+                  </a>
                 </div>
-                <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-[10px] font-mono transition-colors hover:text-[#E8A838]"
-                  style={{ color: "rgba(255,255,255,0.3)" }}>
-                  Source: {gen.sourceLabel} &#8599;
-                </a>
               </div>
             </div>
           ))}
@@ -596,55 +614,57 @@ export default function MetaProductShowcase() {
         </div>
       </div>
 
-      {/* Gesture Control */}
-      <div ref={gestureRef} className="px-6 py-24 md:px-12 md:py-32 max-w-5xl mx-auto">
-        <h3 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 text-center"
-          style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>Gesture Control</h3>
-        <p className="text-sm text-center mb-12 max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.4)" }}>
-          Navigate AR interfaces with natural hand movements detected by sEMG sensors.
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {GESTURES.map((g) => (
-            <div key={g.gesture} className="group relative p-4 rounded-xl border text-center transition-all duration-300 hover:border-[#2E7EBF]/40 hover:bg-[#2E7EBF]/5"
-              style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}>
-              <p className="text-sm font-medium mb-1" style={{ color: "rgba(255,255,255,0.75)" }}>{g.gesture}</p>
-              <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{g.action}</p>
-            </div>
-          ))}
+      {/* Gesture Control — aligned with portfolio card grid pattern */}
+      <div ref={gestureRef} className="py-8 sm:py-12 md:py-16 lg:py-24 overflow-hidden">
+        <div className="container">
+          <div className="mb-8 sm:mb-10 md:mb-14 text-center">
+            <p className="jelly-section-label">Interaction</p>
+            <h3 className="jelly-section-title">Gesture Control</h3>
+            <p className="text-sm sm:text-base text-muted-foreground mt-3 sm:mt-4 max-w-xl mx-auto leading-relaxed">
+              Navigate AR interfaces with natural hand movements detected by sEMG sensors.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+            {GESTURES.map((g) => (
+              <div key={g.gesture} className="group relative p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 hover:border-primary/30 hover:bg-primary/5"
+                style={{ borderColor: "var(--border)", background: "var(--card)" }}>
+                <p className="text-xs sm:text-sm font-semibold text-foreground mb-1">{g.gesture}</p>
+                <p className="text-[11px] text-muted-foreground">{g.action}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Earlier Prototypes Toggle */}
-      <div className="px-6 pb-8 md:px-12 max-w-5xl mx-auto text-center">
+      {/* Earlier Prototypes Toggle — portfolio button style */}
+      <div className="container pb-8 text-center">
         <button onClick={handleToggle}
-          className="group inline-flex items-center gap-3 px-8 py-3 rounded-full border text-sm font-mono tracking-wide transition-all duration-300 hover:border-[#E8A838]/50 hover:bg-[#E8A838]/5"
-          style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.55)" }}>
+          className="group inline-flex items-center gap-3 px-8 py-3 rounded-full border text-sm font-mono tracking-wide transition-all duration-300 hover:border-accent/50 hover:bg-accent/5 border-border text-muted-foreground">
           {showEarlier ? "Hide Earlier Prototypes" : "Reveal Earlier Prototypes (Gen 1 & 2)"}
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={`transition-transform duration-300 ${showEarlier ? "rotate-180" : ""}`}>
             <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <p className="mt-3 text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
+        <p className="mt-3 text-xs text-muted-foreground/50">
           2 additional generations not shown above &mdash; all information is publicly available.
         </p>
       </div>
 
       {showEarlier && (
-        <div ref={earlierRef} className="px-6 py-16 md:px-12 max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div ref={earlierRef} className="container py-8 sm:py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
             {EARLIER_GENS.map((gen) => (
-              <div key={gen.id} className="earlier-card group relative overflow-hidden rounded-2xl border transition-all duration-300 hover:border-[#2E7EBF]/30"
-                style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}>
-                <div className="aspect-video overflow-hidden" style={{ background: "rgba(255,255,255,0.03)" }}>
+              <div key={gen.id} className="earlier-card group relative overflow-hidden rounded-xl border transition-all duration-300 hover:border-primary/30 bg-card">
+                <div className="aspect-video overflow-hidden bg-muted/30">
                   <img src={gen.image} alt={`Gen ${gen.id} - ${gen.name}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <div className="p-8">
-                  <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-1" style={{ color: "#E8A838" }}>Generation {gen.id}</p>
-                  <h4 className="text-xl font-bold mb-1" style={{ color: "#f0f0f0" }}>{gen.name}</h4>
-                  <p className="text-xs font-mono mb-3" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
+                <div className="p-4 sm:p-6 md:p-8">
+                  <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-1 text-accent">Generation {gen.id}</p>
+                  <h4 className="text-lg sm:text-xl font-bold mb-1 text-foreground">{gen.name}</h4>
+                  <p className="text-xs font-mono mb-3 text-primary">{gen.era} &mdash; {gen.year}</p>
+                  <p className="text-xs sm:text-sm leading-relaxed mb-4 text-muted-foreground">{gen.description}</p>
                   <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
-                    className="text-[10px] font-mono transition-colors hover:text-[#E8A838]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    className="text-[10px] font-mono text-muted-foreground/50 transition-colors hover:text-accent">
                     Source: {gen.sourceLabel} &#8599;
                   </a>
                 </div>
@@ -653,18 +673,16 @@ export default function MetaProductShowcase() {
           </div>
         </div>
       )}
-
-      {/* Disclaimer */}
-      <div ref={disclaimerRef} className="px-6 py-16 md:px-12 max-w-4xl mx-auto text-center">
-        <div className="p-6 rounded-xl border" style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.015)" }}>
-          <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>
+      {/* Disclaimer — portfolio card style */}
+      <div ref={disclaimerRef} className="container py-8 sm:py-12 md:py-16 text-center max-w-4xl mx-auto">
+        <div className="p-4 sm:p-6 rounded-xl border border-border bg-card">          <p className="text-xs leading-relaxed text-muted-foreground/60">
             All product information shown is from publicly available sources including
-            {" "}<a href="https://about.fb.com/news/2021/03/inside-facebook-reality-labs-wrist-based-interaction-for-the-next-computing-platform/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#2E7EBF]">Meta Reality Labs Blog</a>,
-            {" "}<a href="https://www.theverge.com/2019/9/23/20881032/facebook-ctrl-labs-acquisition-neural-interface-armband-ar-vr-deal" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#2E7EBF]">The Verge</a>,
-            {" "}<a href="https://about.fb.com/news/2024/09/introducing-orion-our-first-true-augmented-reality-glasses/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#2E7EBF]">Meta Connect 2024</a>, and
-            {" "}<a href="https://www.meta.com/emerging-tech/emg-wearable-technology/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#2E7EBF]">Meta Emerging Tech</a>.
+            {" "}<a href="https://about.fb.com/news/2021/03/inside-facebook-reality-labs-wrist-based-interaction-for-the-next-computing-platform/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Meta Reality Labs Blog</a>,
+            {" "}<a href="https://www.theverge.com/2019/9/23/20881032/facebook-ctrl-labs-acquisition-neural-interface-armband-ar-vr-deal" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">The Verge</a>,
+            {" "}<a href="https://about.fb.com/news/2024/09/introducing-orion-our-first-true-augmented-reality-glasses/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Meta Connect 2024</a>, and
+            {" "}<a href="https://www.meta.com/emerging-tech/emg-wearable-technology/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Meta Emerging Tech</a>.
             {" "}No proprietary or confidential information is disclosed. Product evolution timeline based on the
-            {" "}<a href="https://colfuse.ai" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#2E7EBF]">Colfuse</a> public presentation deck.
+            {" "}<a href="https://colfuse.ai" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Colfuse</a> public presentation deck.
           </p>
         </div>
       </div>
