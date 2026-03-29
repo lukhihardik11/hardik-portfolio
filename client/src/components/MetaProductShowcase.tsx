@@ -319,7 +319,7 @@ export default function MetaProductShowcase() {
     });
   }, []);
 
-  // Draw a specific frame on the canvas - responsive cover/contain
+  // Draw a specific frame on the canvas - COVER mode on ALL viewports for full immersive experience
   const drawFrame = useCallback((genIdx: number, frameIdx: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -340,17 +340,12 @@ export default function MetaProductShowcase() {
 
     const iw = img.naturalWidth;
     const ih = img.naturalHeight;
-    // On mobile (<768px): use contain with slight zoom so product is fully visible
-    // On desktop: use cover for cinematic full-bleed
-    const isMobile = rect.width < 768;
-    const scale = isMobile
-      ? Math.min(cw / iw, ch / ih) * 0.85  // contain + slight zoom out
-      : Math.max(cw / iw, ch / ih);         // cover
+    // Cover mode on ALL viewports — product fills the entire screen for immersive feel
+    const scale = Math.max(cw / iw, ch / ih);
     const sw = iw * scale;
     const sh = ih * scale;
     const sx = (cw - sw) / 2;
-    // On mobile, shift image up slightly so product sits in top 60% leaving room for text below
-    const sy = isMobile ? (ch * 0.35 - sh / 2) : (ch - sh) / 2;
+    const sy = (ch - sh) / 2;
 
     ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, sx, sy, sw, sh);
@@ -545,20 +540,19 @@ export default function MetaProductShowcase() {
           }}
         />
 
-        {/* Dark vignette overlay for text readability - responsive */}
-        {/* Desktop: right-side gradient for text panel */}
-        <div className="absolute inset-0 pointer-events-none hidden md:block" style={{
-          background: "linear-gradient(to right, transparent 0%, transparent 40%, rgba(10,10,10,0.7) 55%, rgba(10,10,10,0.92) 70%, rgba(10,10,10,0.98) 85%)",
-          zIndex: 15,
-        }} />
-        {/* Mobile: bottom gradient for text card */}
-        <div className="absolute inset-0 pointer-events-none md:hidden" style={{
-          background: "linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(10,10,10,0.6) 60%, rgba(10,10,10,0.9) 80%)",
-          zIndex: 15,
-        }} />
-        {/* Both: subtle top/bottom edge vignette */}
+        {/* Full-screen cinematic vignette — same on all viewports */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, transparent 12%, transparent 88%, rgba(10,10,10,0.5) 100%)",
+          background: "radial-gradient(ellipse 80% 70% at 35% 50%, transparent 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.85) 100%)",
+          zIndex: 15,
+        }} />
+        {/* Bottom gradient for text readability on all devices */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, transparent 15%, transparent 50%, rgba(10,10,10,0.5) 70%, rgba(10,10,10,0.92) 90%)",
+          zIndex: 15,
+        }} />
+        {/* Top edge for progress dots readability */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, transparent 10%)",
           zIndex: 15,
         }} />
 
@@ -566,39 +560,45 @@ export default function MetaProductShowcase() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vh] pointer-events-none"
           style={{ background: "radial-gradient(ellipse at center, rgba(46,126,191,0.06) 0%, transparent 60%)", zIndex: 5 }} />
 
-        {/* Text overlays - right side on desktop, bottom on mobile */}
+        {/* Text overlays — bottom-left floating glass card on ALL viewports */}
         <div ref={textOverlaysRef} className="absolute inset-0 z-20 pointer-events-none">
           {GENERATIONS.map((gen, i) => (
             <div key={gen.id}
-              className="absolute inset-0 flex items-end md:items-center"
+              className="absolute inset-0 flex items-end justify-start"
               style={{
                 opacity: i === 0 ? 1 : 0,
-                transform: i === 0 ? "translateY(0)" : "translateY(60px)",
+                transform: i === 0 ? "translateY(0)" : "translateY(40px)",
                 transition: "none",
                 pointerEvents: i === 0 ? "auto" : "none",
                 visibility: i === 0 ? "visible" : "hidden",
               }}>
-              {/* Mobile: bottom-aligned card with frosted glass bg */}
-              <div className="w-full md:w-auto md:ml-auto px-5 pb-16 md:pb-0 md:mr-12 lg:mr-20 md:max-w-sm pointer-events-auto">
-                <div className="md:bg-transparent bg-gradient-to-t from-[rgba(10,10,10,0.95)] via-[rgba(10,10,10,0.8)] to-transparent md:from-transparent md:via-transparent pt-8 md:pt-0 -mx-5 px-5 md:mx-0 md:px-0">
-                  <p className="text-[10px] font-mono tracking-[0.3em] uppercase mb-2" style={{ color: "#E8A838" }}>
+              <div className="pointer-events-auto w-full max-w-[90vw] sm:max-w-md md:max-w-lg mx-4 sm:mx-6 md:mx-10 lg:mx-16 mb-16 sm:mb-20 md:mb-24">
+                {/* Frosted glass card */}
+                <div className="rounded-2xl p-4 sm:p-5 md:p-6" style={{
+                  background: "rgba(10,10,10,0.55)",
+                  backdropFilter: "blur(20px) saturate(1.2)",
+                  WebkitBackdropFilter: "blur(20px) saturate(1.2)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)",
+                }}>
+                  <p className="text-[10px] sm:text-[11px] font-mono tracking-[0.3em] uppercase mb-1.5" style={{ color: "#E8A838" }}>
                     Generation {gen.id}
                   </p>
-                  <h3 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight mb-1" style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+                  <h3 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-1" style={{ color: "#f0f0f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
                     {gen.name}
                   </h3>
-                  <p className="text-xs sm:text-sm font-medium mb-1" style={{ color: "#E8A838" }}>{gen.tagline}</p>
-                  <p className="text-[10px] font-mono mb-3 md:mb-4" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
-                  <p className="text-xs sm:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-3 md:line-clamp-none" style={{ color: "rgba(255,255,255,0.5)" }}>{gen.description}</p>
-                  <div className="flex flex-wrap gap-1 md:gap-1.5 mb-3 md:mb-4">
+                  <p className="text-xs sm:text-sm font-medium mb-0.5" style={{ color: "#E8A838" }}>{gen.tagline}</p>
+                  <p className="text-[10px] font-mono mb-2 sm:mb-3" style={{ color: "#2E7EBF" }}>{gen.era} &mdash; {gen.year}</p>
+                  <p className="text-[11px] sm:text-xs md:text-sm leading-relaxed mb-3 line-clamp-3 sm:line-clamp-none" style={{ color: "rgba(255,255,255,0.55)" }}>{gen.description}</p>
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3">
                     {gen.specs.map((s) => (
-                      <span key={s} className="px-2 md:px-2.5 py-0.5 text-[9px] md:text-[10px] font-mono rounded-full border"
-                        style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.45)" }}>{s}</span>
+                      <span key={s} className="px-2 sm:px-2.5 py-0.5 text-[9px] sm:text-[10px] font-mono rounded-full"
+                        style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)" }}>{s}</span>
                     ))}
                   </div>
                   <a href={gen.sourceUrl} target="_blank" rel="noopener noreferrer"
-                    className="text-[10px] font-mono transition-colors hover:text-[#E8A838]"
-                    style={{ color: "rgba(255,255,255,0.3)" }}>
+                    className="inline-flex items-center gap-1 text-[10px] font-mono transition-colors hover:text-[#E8A838]"
+                    style={{ color: "rgba(255,255,255,0.35)" }}>
                     Source: {gen.sourceLabel} &#8599;
                   </a>
                 </div>
@@ -607,10 +607,10 @@ export default function MetaProductShowcase() {
           ))}
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 animate-bounce">
-          <span className="text-[10px] font-mono tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.25)" }}>Scroll to explore</span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M8 13L3 8M8 13L13 8" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        {/* Scroll hint — bottom-right to avoid overlap with glass card */}
+        <div className="absolute bottom-6 right-6 sm:right-8 md:right-12 z-30 flex flex-col items-center gap-1.5 animate-bounce">
+          <span className="text-[9px] font-mono tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>Scroll</span>
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M8 13L3 8M8 13L13 8" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
       </div>
 
